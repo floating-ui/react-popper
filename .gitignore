@@ -1,0 +1,21 @@
+# Mac OSX Files
+.DS_Store
+.Trashes
+.Spotlight-V100
+.AppleDouble
+.LSOverride
+
+# NPM
+node_modules
+npm-debug.log
+dist
+lib
+
+# General Files
+.sass-cache
+.hg
+.idea
+.svn
+.cache
+.project
+.tmp

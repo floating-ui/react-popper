@@ -1,0 +1,63 @@
+{
+  "name": "react-popper",
+  "version": "0.0.1",
+  "description": "React wrapper around PopperJS.",
+  "main": "lib/react-popper.js",
+  "files": [
+    "dist",
+    "lib"
+  ],
+  "scripts": {
+    "build": "npm run build:lib && NODE_ENV=production webpack --config webpack.prod.config.js",
+    "build:lib": "babel src --out-dir lib --stage 0",
+    "dev": "webpack-dev-server --devtool eval --hot --progress --colors",
+    "prebuild": "rm -rf dist lib && mkdir dist lib",
+    "prepublish": "npm run build",
+    "postbuild": "NODE_ENV=production TARGET=minify webpack --config webpack.prod.config.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/souporserious/react-popper"
+  },
+  "keywords": [
+    "react",
+    "react-popper",
+    "popperjs",
+    "component",
+    "drop",
+    "tooltip",
+    "popover"
+  ],
+  "author": "Travis Arnold <travis@souporserious.com> (http://souporserious.com)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/souporserious/react-popper/issues"
+  },
+  "homepage": "https://github.com/souporserious/react-popper",
+  "peerDependencies": {
+    "react": "0.14.x || ^15.0.0",
+    "react-dom": "0.14.x || ^15.0.0"
+  },
+  "dependencies": {
+    "popper.js": "^1.0.0-alpha.3"
+  },
+  "devDependencies": {
+    "babel": "^5.8.23",
+    "babel-core": "^5.6.15",
+    "babel-loader": "^5.2.2",
+    "babel-plugin-object-assign": "^1.2.0",
+    "css-loader": "^0.15.1",
+    "http-server": "^0.8.0",
+    "lodash": "^3.10.0",
+    "node-libs-browser": "^0.5.2",
+    "node-sass": "^3.2.0",
+    "react": "^15.2.1",
+    "react-aria": "^0.3.0",
+    "react-dom": "15.2.1",
+    "sass-loader": "^1.0.2",
+    "style-loader": "^0.12.3",
+    "webpack": "^1.9.12",
+    "webpack-dev-server": "^1.9.0"
+  }
+}
