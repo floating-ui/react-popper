@@ -32,7 +32,7 @@ var config = {
     publicPath: 'dist/',
     filename: 'react-popper.js',
     sourceMapFilename: 'react-popper.sourcemap.js',
-    library: 'ReactPopper',
+    library: 'PopperComponent',
     libraryTarget: 'umd'
   },
   module: {
@@ -55,7 +55,7 @@ if (TARGET === 'minify') {
       warnings: false
     },
     mangle: {
-      except: ['React', 'ReactDOM', 'Popper']
+      except: ['React', 'ReactDOM', 'Popper', 'PopperComponent']
     }
   }));
 }

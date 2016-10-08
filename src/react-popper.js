@@ -1,1 +1,1 @@
-export default from './Popper'
+export default from './PopperComponent'

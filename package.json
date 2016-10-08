@@ -40,7 +40,8 @@
     "react-dom": "0.14.x || ^15.0.0"
   },
   "dependencies": {
-    "popper.js": "^1.0.0-alpha.3"
+    "popper.js": "^1.0.0-alpha.3",
+    "react-addons-shallow-compare": "^15.3.2"
   },
   "devDependencies": {
     "babel": "^5.8.23",

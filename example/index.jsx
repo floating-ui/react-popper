@@ -4,15 +4,44 @@ import Popper from '../src/react-popper'
 
 import './main.scss'
 
+const placements = ['top', 'right', 'bottom', 'left']
+
+const Popover = props => <div {...props}/>
+
+// class Popover extends Component {
+//   render() {
+//     return <div {...this.props}/>
+//   }
+// }
+
 class App extends Component {
+  state = {
+    placement: 'bottom'
+  }
+
   render() {
+    const { placement } = this.state
     return (
       <div
         style={{
           padding: 100
         }}
       >
-        <Popper>
+        <select
+          value={placement}
+          onChange={e =>
+            this.setState({ placement: e.target.value })
+          }
+        >
+          {placements.map(placement =>
+            <option key={placement} value={placement}>
+              {placement}
+            </option>
+          )}
+        </select>
+        <Popper
+          placement={placement}
+        >
           <div
             style={{
               width: 120,
@@ -22,7 +51,7 @@ class App extends Component {
           >
             Box
           </div>
-          <div
+          <Popover
             style={{
               width: 60,
               height: 60,
@@ -30,7 +59,7 @@ class App extends Component {
             }}
           >
             Content
-          </div>
+          </Popover>
         </Popper>
       </div>
     )
