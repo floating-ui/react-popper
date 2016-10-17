@@ -1,1 +1,2 @@
-export default from './PopperComponent'
+export PopperManager from './PopperManager'
+export PopperArrow from './PopperArrow'

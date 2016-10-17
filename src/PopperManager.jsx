@@ -3,10 +3,18 @@ import ReactDOM from 'react-dom'
 import Popper from 'popper.js'
 
 class PopperComponent extends Component {
+  static childContextTypes = {
+    popperManager: PropTypes.object.isRequired
+  }
+
   static defaultProps = {
-    popperTag: 'div',
-    renderPopperTo: null,
-    arrow: true,
+    popperProps: {
+      tag: 'div',
+      renderTo: null,
+      id: '',
+      className: 'popper',
+      style: {}
+    },
     placement: 'bottom',
     gpuAcceleration: true,
     boundariesElement: 'viewport',
@@ -19,10 +27,18 @@ class PopperComponent extends Component {
   _arrowNode = null
   _popper = false
 
+  getChildContext() {
+    return {
+      popperManager: {
+        addArrow: this._addArrowNode
+      }
+    }
+  }
+
   componentDidMount() {
     this._referenceNode = ReactDOM.findDOMNode(this)
     this._createPopperNode()
-    this._renderPopper()
+    this._renderPopper({ popperProps: {} })
   }
 
   componentDidUpdate(lastProps) {
@@ -34,17 +50,21 @@ class PopperComponent extends Component {
   }
 
   get _popperParentNode() {
-    const { renderPopperTo } = this.props
-    if (typeof renderPopperTo === 'string') {
-      return document.querySelector(renderPopperTo)
+    const { popperProps: { renderTo } } = this.props
+    if (typeof renderTo === 'string') {
+      return document.querySelector(renderTo)
     } else {
-      return renderPopperTo || document.body
+      return renderTo || document.body
     }
+  }
+
+  _addArrowNode = (node) => {
+    this._arrowNode = node
   }
 
   _createPopperNode() {
     // create a node that we can stick our popper Component in
-    this._popperNode = document.createElement(this.props.popperTag)
+    this._popperNode = document.createElement(this.props.popperProps.tag)
 
     // append that node to the parent node
     this._popperParentNode.appendChild(this._popperNode)
@@ -67,7 +87,7 @@ class PopperComponent extends Component {
     this._popper = null
   }
 
-  _renderPopper(lastProps = {}) {
+  _renderPopper(lastProps) {
     const popperChild = Children.toArray(this.props.children)[1]
 
     // if no popper child provided, bail out
@@ -88,13 +108,13 @@ class PopperComponent extends Component {
   }
 
   _updatePopperNode(lastProps) {
-    const { id, className, style } = this.props
+    const { popperProps: { id, className, style } } = this.props
 
-    if (lastProps.id !== id) {
+    if (lastProps.popperProps.id !== id) {
       this._popperNode.id = id
     }
 
-    if (lastProps.className !== className) {
+    if (lastProps.popperProps.className !== className) {
       this._popperNode.className = className
     }
 
@@ -116,7 +136,7 @@ class PopperComponent extends Component {
 
     // TODO: check if props changed here, no need to update if nothing has changed
 
-    // destroy any prior popper instance
+    // destroy any prior popper instance before creating another
     if (this._popper) {
       this._popper.destroy()
     }
@@ -129,7 +149,10 @@ class PopperComponent extends Component {
         gpuAcceleration,
         boundariesElement,
         boundariesPadding,
-        modifiers
+        modifiers: {
+          ...modifiers,
+          arrow: { element: this._arrowNode }
+        },
       }
     )
   }
