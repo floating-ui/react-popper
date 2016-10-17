@@ -1,5 +1,6 @@
 var path = require('path');
 var webpack = require('webpack');
+var banner = require('./webpack.banner');
 var TARGET = process.env.TARGET || null;
 
 const externals = {
@@ -37,10 +38,12 @@ var config = {
   },
   module: {
     loaders: [
-    { test: /\.(js|jsx)/, loader: 'babel?stage=0' }
+      { test: /\.(js|jsx)/, loader: 'babel-loader' },
     ]
   },
-  plugins: [],
+  plugins: [
+    new webpack.BannerPlugin(banner)
+  ],
   resolve: {
     extensions: ['', '.js', '.jsx']
   },

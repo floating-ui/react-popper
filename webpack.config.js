@@ -11,8 +11,8 @@ module.exports = {
   },
   module: {
     loaders: [
-    { test: /\.(js|jsx)/, exclude: /node_modules/, loader: 'babel?stage=0' },
-    { test: /\.scss$/, loader: 'style!css!sass?sourceMap' }
+      { test: /\.(js|jsx)/, loader: 'babel-loader' },
+      { test: /\.scss$/, loader: 'style!css!postcss!sass?sourceMap' }
     ]
   },
   resolve: {
