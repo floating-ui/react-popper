@@ -4,7 +4,8 @@ import Popper from 'popper.js'
 
 class PopperComponent extends Component {
   static childContextTypes = {
-    popperManager: PropTypes.object.isRequired
+    popperManager: PropTypes.object.isRequired,
+    placement: PropTypes.oneOf(Popper.placements),
   }
 
   static defaultProps = {
@@ -16,10 +17,7 @@ class PopperComponent extends Component {
       style: {}
     },
     placement: 'bottom',
-    gpuAcceleration: true,
-    boundariesElement: 'viewport',
-    boundariesPadding: 5,
-    modifiers: {}
+    modifiers: {},
   }
 
   _referenceNode = null
@@ -128,10 +126,7 @@ class PopperComponent extends Component {
   _updatePopper(lastProps) {
     const {
       placement,
-      gpuAcceleration,
-      boundariesElement,
-      boundariesPadding,
-      modifiers
+      modifiers,
     } = this.props
 
     // TODO: check if props changed here, no need to update if nothing has changed
@@ -146,9 +141,6 @@ class PopperComponent extends Component {
       this._popperNode,
       {
         placement,
-        gpuAcceleration,
-        boundariesElement,
-        boundariesPadding,
         modifiers: {
           ...modifiers,
           arrow: { element: this._arrowNode }
