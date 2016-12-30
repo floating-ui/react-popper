@@ -1,10 +1,9 @@
 import React, { Component, PropTypes, Children, createElement } from 'react'
 import ReactDOM, { findDOMNode } from 'react-dom'
 import { PopperManager, PopperArrow } from '../src/react-popper'
+import { placements } from 'popper.js'
 
 import './main.scss'
-
-const placements = ['top', 'right', 'bottom', 'left']
 
 class App extends Component {
   state = {
@@ -16,7 +15,7 @@ class App extends Component {
     return (
       <div
         style={{
-          padding: 100
+          padding: 200
         }}
       >
         <select
