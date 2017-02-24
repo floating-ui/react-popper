@@ -1,8 +1,12 @@
 import { PropTypes, createElement } from 'react'
 
-const Arrow = ({ tag, ...restProps }, context) => (
+const Arrow = ({ tag, style, ...restProps }, context) => (
   createElement(tag, {
     ref: c => context.popperManager.addArrowNode(c),
+    style: {
+      ...context.popperManager.getArrowStyle(),
+      ...style
+    },
     ...restProps
   })
 )

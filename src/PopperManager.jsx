@@ -47,8 +47,12 @@ class PopperComponent extends Component {
     this._updatePopper()
   }
 
-  componentDidUpdate() {
-    this._updatePopper()
+  componentDidUpdate(lastProps) {
+    if (lastProps.placement !== this.props.placement ||
+        lastProps.eventsEnabled !== this.props.eventsEnabled
+    ) {
+      this._updatePopper()
+    }
   }
 
   componentWillUnmount() {
@@ -72,8 +76,7 @@ class PopperComponent extends Component {
     order: 900,
     function: (data) => {
       if ((this.state.data && !isEqual(data.offsets, this.state.data.offsets)) || !this.state.data) {
-        console.log('data', data)
-        // this.setState({ data })
+        this.setState({ data })
       }
     }
   }
@@ -85,8 +88,6 @@ class PopperComponent extends Component {
     } = this.props
 
     if (!this._targetNode || !this._popperNode) return;
-
-    // TODO: check if props changed here, no need to update if nothing has changede
 
     // destroy any prior popper instance before creating another
     this._destroyPopper()
