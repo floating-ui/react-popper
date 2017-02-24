@@ -1,6 +1,6 @@
 import React, { Component, PropTypes, Children, createElement } from 'react'
 import ReactDOM, { findDOMNode } from 'react-dom'
-import { PopperManager, PopperArrow } from '../src/react-popper'
+import { PopperManager, Target, Popper, Arrow } from '../src/react-popper'
 import { placements } from 'popper.js'
 
 import './main.scss'
@@ -31,15 +31,13 @@ class App extends Component {
           )}
         </select>
         <PopperManager placement={placement}>
-          {/* Reference */}
-          <div style={{ width: 120, height: 120, background: 'red' }}>
+          <Target style={{ width: 120, height: 120, background: 'red' }}>
             Box
-          </div>
-          {/* Popper */}
-          <div>
+          </Target>
+          <Popper>
             Content
-            <PopperArrow className="popper__arrow"/>
-          </div>
+            <Arrow/>
+          </Popper>
         </PopperManager>
       </div>
     )

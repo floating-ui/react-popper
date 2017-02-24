@@ -1,156 +1,188 @@
-import React, { Component, Children, PropTypes } from 'react'
+import React, { Component, PropTypes, createElement } from 'react'
 import ReactDOM from 'react-dom'
 import Popper from 'popper.js'
+import isEqual from 'lodash.isequal'
+
+const noop = () => null
 
 class PopperComponent extends Component {
   static childContextTypes = {
-    popperManager: PropTypes.object.isRequired,
-    placement: PropTypes.oneOf(Popper.placements),
+    popperManager: PropTypes.object.isRequired
+  }
+
+  static propTypes = {
+    tag:           PropTypes.any,
+    placement:     PropTypes.oneOf(Popper.placements),
+    eventsEnabled: PropTypes.bool,
+    modifiers:     PropTypes.object,
+    onCreate:      PropTypes.func,
+    onUpdate:      PropTypes.func,
   }
 
   static defaultProps = {
-    popperProps: {
-      tag: 'div',
-      renderTo: null,
-      id: '',
-      className: 'popper',
-      style: {}
-    },
-    placement: 'bottom',
-    modifiers: {},
+    tag:           'div',
+    placement:     'bottom',
+    eventsEnabled: true,
+    modifiers:     {},
+    onCreate:      noop,
+    onUpdate:      noop,
   }
 
-  _referenceNode = null
-  _popperNode = null
-  _arrowNode = null
-  _popper = false
+  state = {}
 
   getChildContext() {
     return {
       popperManager: {
-        addArrow: this._addArrowNode
+        addTargetNode:      this._addTargetNode,
+        addPopperNode:      this._addPopperNode,
+        addArrowNode:       this._addArrowNode,
+        getPopperStyle:     this._getPopperStyle,
+        getPopperPlacement: this._getPopperPlacement,
+        getArrowStyle:      this._getArrowStyle,
       }
     }
   }
 
   componentDidMount() {
-    this._referenceNode = ReactDOM.findDOMNode(this)
-    this._createPopperNode()
-    this._renderPopper({ popperProps: {} })
+    this._updatePopper()
   }
 
-  componentDidUpdate(lastProps) {
-    this._renderPopper(lastProps)
+  componentDidUpdate() {
+    this._updatePopper()
   }
 
   componentWillUnmount() {
-    this._destroy()
+    this._destroyPopper()
   }
 
-  get _popperParentNode() {
-    const { popperProps: { renderTo } } = this.props
-    if (typeof renderTo === 'string') {
-      return document.querySelector(renderTo)
-    } else {
-      return renderTo || document.body
-    }
+  _addTargetNode = (node) => {
+    this._targetNode = node
+  }
+
+  _addPopperNode = (node) => {
+    this._popperNode = node
   }
 
   _addArrowNode = (node) => {
     this._arrowNode = node
   }
 
-  _createPopperNode() {
-    // create a node that we can stick our popper Component in
-    this._popperNode = document.createElement(this.props.popperProps.tag)
-
-    // append that node to the parent node
-    this._popperParentNode.appendChild(this._popperNode)
-  }
-
-  _destroy() {
-    if (this._popperParentNode) {
-      // unmount component
-      ReactDOM.unmountComponentAtNode(this._popperParentNode)
-
-      // clean up DOM
-      this._popperParentNode.parentNode.removeChild(this._popperNode)
-    }
-
-    if (this._popper) {
-      this._popper.destroy()
-    }
-
-    this._popperNode = null
-    this._popper = null
-  }
-
-  _renderPopper(lastProps) {
-    const popperChild = Children.toArray(this.props.children)[1]
-
-    // if no popper child provided, bail out
-    if (!popperChild) {
-      // destroy Popper element if it has been created
-      this._destroy()
-      return
-    }
-
-    // render element component into the DOM
-    ReactDOM.unstable_renderSubtreeIntoContainer(
-      this, popperChild, this._popperNode, () => {
-        // don't update Popper until the subtree has finished rendering
-        this._updatePopperNode(lastProps)
-        this._updatePopper(lastProps)
+  _updateStateModifier = {
+    enabled: true,
+    order: 900,
+    function: (data) => {
+      if ((this.state.data && !isEqual(data.offsets, this.state.data.offsets)) || !this.state.data) {
+        console.log('data', data)
+        // this.setState({ data })
       }
-    )
-  }
-
-  _updatePopperNode(lastProps) {
-    const { popperProps: { id, className, style } } = this.props
-
-    if (lastProps.popperProps.id !== id) {
-      this._popperNode.id = id
-    }
-
-    if (lastProps.popperProps.className !== className) {
-      this._popperNode.className = className
-    }
-
-    if (style) {
-      Object.keys(style).forEach(key => {
-        this._popperNode.style[key] = style[key]
-      })
     }
   }
 
-  _updatePopper(lastProps) {
+  _updatePopper() {
     const {
       placement,
       modifiers,
     } = this.props
 
-    // TODO: check if props changed here, no need to update if nothing has changed
+    if (!this._targetNode || !this._popperNode) return;
+
+    // TODO: check if props changed here, no need to update if nothing has changede
 
     // destroy any prior popper instance before creating another
-    if (this._popper) {
-      this._popper.destroy()
+    this._destroyPopper()
+    this._createPopper()
+  }
+
+  _createPopper() {
+    const { placement, eventsEnabled, onCreate, onUpdate } = this.props
+    const modifiers = {
+      ...this.props.modifiers,
+      applyStyle:  { enabled: false },
+      updateState: this._updateStateModifier,
+    }
+
+    if (this._arrowNode) {
+      modifiers.arrow = {
+        element: this._arrowNode
+      }
     }
 
     this._popper = new Popper(
-      this._referenceNode,
+      this._targetNode,
       this._popperNode,
       {
         placement,
-        modifiers: {
-          ...modifiers,
-          arrow: { element: this._arrowNode }
-        },
+        eventsEnabled,
+        modifiers,
+        onCreate,
+        onUpdate
       }
     )
   }
 
+  _destroyPopper() {
+    if (this._popper) {
+      this._popper.destroy()
+    }
+  }
+
+  _getPopperStyle = () => {
+    // If Popper isn't instantiated, hide the popperElement
+    // to avoid flash of unstyled content
+    if (!this._popper || !this.state.data) {
+      return {
+        position:      'absolute',
+        pointerEvents: 'none',
+        opacity:       0,
+      }
+    }
+
+    const {
+      top,
+      left,
+      position,
+    } = this.state.data.offsets.popper
+
+    return {
+      position,
+      top:        0,
+      left:       0,
+      transform:  `translate3d(${left}px, ${top}px, 0px)`,
+      willChange: 'transform',
+    }
+  }
+
+  _getPopperPlacement = () => {
+    return !!this.state.data ? this.state.data.placement : undefined
+  }
+
+  _getArrowStyle = () => {
+    if (!this.state.data || !this.state.data.offsets.arrow) {
+      return {
+        top:  0,
+        left: 0,
+      }
+    } else {
+      const { top, left } = this.state.data.offsets.arrow
+      return {
+        top:  +top,
+        left: +left,
+      }
+    }
+  }
+
   render() {
-    return Children.toArray(this.props.children)[0]
+    const {
+      tag,
+      placement,
+      eventsEnabled,
+      modifiers,
+      onCreate,
+      onUpdate,
+      ...restProps
+    } = this.props
+
+    return createElement(tag, restProps)
   }
 }
 
