@@ -5,6 +5,24 @@
 
 React wrapper around [PopperJS](https://github.com/FezVrasta/popper.js/).
 
+## Usage
+
+```js
+import { PopperManager, Target, Popper, Arrow } from 'react-popper'
+
+const PopperExample = () => (
+  <PopperManager placement="bottom">
+    <Target style={{ width: 120, height: 120, background: '#b4da55' }}>
+      Target Box
+    </Target>
+    <Popper className="popper">
+      Popper Content
+      <Arrow className="popper__arrow"/>
+    </Popper>
+  </PopperManager>
+)
+```
+
 ## Install
 
 `npm install react-popper --save`
