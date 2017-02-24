@@ -1,18 +1,22 @@
-import React, { Component, Children, PropTypes } from 'react'
-import ReactDOM, { findDOMNode } from 'react-dom'
+import { PropTypes, createElement } from 'react'
 
-class PopperArrow extends Component {
-  static contextTypes = {
-    popperManager: PropTypes.object.isRequired
-  }
+const PopperArrow = ({ tag = 'span', ...restProps }, context) => (
+  createElement(tag, {
+    ref: c => context.popperManager.addArrow(c),
+    ...restProps
+  })
+)
 
-  componentDidMount() {
-    this.context.popperManager.addArrow(findDOMNode(this))
-  }
+PopperArrow.contextTypes = {
+  popperManager: PropTypes.object.isRequired
+}
 
-  render() {
-    return <span {...this.props}/>
-  }
+PopperArrow.propTypes = {
+  tag: PropTypes.string
+}
+
+PopperArrow.defaultProps = {
+  tag: 'span'
 }
 
 export default PopperArrow
