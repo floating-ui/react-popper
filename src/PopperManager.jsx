@@ -72,8 +72,8 @@ class PopperComponent extends Component {
   }
 
   _updateStateModifier = {
-    enabled: true,
-    order: 900,
+    enabled:  true,
+    order:    900,
     function: (data) => {
       if ((this.state.data && !isEqual(data.offsets, this.state.data.offsets)) || !this.state.data) {
         this.setState({ data })
@@ -159,15 +159,13 @@ class PopperComponent extends Component {
 
   _getArrowStyle = () => {
     if (!this.state.data || !this.state.data.offsets.arrow) {
-      return {
-        top:  0,
-        left: 0,
-      }
+      return {}
     } else {
       const { top, left } = this.state.data.offsets.arrow
-      return {
-        top:  +top,
-        left: +left,
+      if (!left) {
+        return { top: +top }
+      } else {
+        return { left: +left }
       }
     }
   }
