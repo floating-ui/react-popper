@@ -30,12 +30,20 @@ class App extends Component {
             </option>
           )}
         </select>
-        <PopperManager placement={placement}>
+        <PopperManager>
           <Target style={{ width: 120, height: 120, background: 'red' }}>
             Box
           </Target>
-          <Popper>
-            Content
+          <Popper placement="left">
+            Content Left
+            <Arrow/>
+          </Popper>
+          <Popper placement="right">
+            Content Right
+            <Arrow/>
+          </Popper>
+          <Popper placement={placement}>
+            Dynamic Content
             <Arrow/>
           </Popper>
         </PopperManager>

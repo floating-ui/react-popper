@@ -1,10 +1,10 @@
 import { PropTypes, createElement } from 'react'
 
-const Arrow = ({ tag, style, ...restProps }, context) => (
-  createElement(tag, {
-    ref: c => context.popperManager.addArrowNode(c),
+const Arrow = ({ component, style, ...restProps }, context) => (
+  createElement(component, {
+    ref: c => context.popper.setArrowNode(c),
     style: {
-      ...context.popperManager.getArrowStyle(),
+      ...context.popper.getArrowStyle(),
       ...style
     },
     ...restProps
@@ -12,15 +12,15 @@ const Arrow = ({ tag, style, ...restProps }, context) => (
 )
 
 Arrow.contextTypes = {
-  popperManager: PropTypes.object.isRequired
+  popper: PropTypes.object.isRequired
 }
 
 Arrow.propTypes = {
-  tag: PropTypes.string
+  component: PropTypes.any
 }
 
 Arrow.defaultProps = {
-  tag:       'span',
+  component: 'span',
   className: 'popper__arrow'
 }
 
