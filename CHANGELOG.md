@@ -1,4 +1,7 @@
 ## CHANGELOG
+### 0.2.2
+Bundle popper.js with dist build
+
 ### 0.2.1
 Remove React ARIA from demos for now
 
