@@ -15,12 +15,6 @@ const externals = {
     commonjs2: 'react-dom',
     commonjs: 'react-dom',
     amd: 'react-dom'
-  },
-  'popper.js': {
-    root: 'Popper',
-    commonjs2: 'Popper',
-    commonjs: 'Popper',
-    amd: 'Popper'
   }
 };
 
