@@ -1,4 +1,9 @@
 ## CHANGELOG
+### 0.3.0
+Renamed `PopperManager` -> `Manager`
+
+Added `getRef` prop to `Target`, `Popper`, and `Arrow` components
+
 ### 0.2.2
 Bundle popper.js with dist build
 
