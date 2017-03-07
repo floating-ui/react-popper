@@ -36,29 +36,30 @@ const PopperExample = () => (
 )
 ```
 
-## `PopperManager` component
+## `Common Props`
+
+`Target`, `Popper`, and `Arrow` all share the following props
+
+#### `component`: PropTypes.any
+
+The component that gets rendered.
+
+#### `getRef`: PropTypes.func
+
+Obtain the component from a ref callback.
+
+
+## `Manager`
 
 This is a special component that provides the `Target` component to the `Popper` component. Pass any props as you normally would here.
 
-#### `component`: PropTypes.any
-
-The component that gets rendered.
-
-## `Target` component
+## `Target`
 
 This is just a simple functional component that subscribes to `PopperManager`, so `Popper` can make use of it. Again, pass any props as you normally would here.
 
-#### `component`: PropTypes.any
-
-The component that gets rendered.
-
-## `Popper` component
+## `Popper`
 
 Your popper that gets attached to the `Target` component.
-
-#### `component`: PropTypes.any
-
-The component that gets rendered.
 
 #### `placement`: PropTypes.oneOf(Popper.placements)
 #### `eventsEnabled`: PropTypes.bool
@@ -66,13 +67,9 @@ The component that gets rendered.
 
 Passes respective options to a new [Popper instance](https://github.com/FezVrasta/popper.js/blob/master/docs/_includes/popper-documentation.md#new-popperreference-popper-options). As for `onCreate` and `onUpdate`, these callbacks were intentionally left out in favor of using the [component lifecycle methods](https://facebook.github.io/react/docs/react-component.html#the-component-lifecycle). If you have a good use case for these please feel free to file and issue and I will consider adding them in.
 
-## `Arrow` component
+## `Arrow`
 
 Another functional component that subscribes to the `Popper` component as an [arrow modifier](https://github.com/FezVrasta/popper.js/blob/master/docs/_includes/popper-documentation.md#Modifiers.arrow). Must be a child of `Popper`.
-
-#### `component`: PropTypes.any
-
-The component that gets rendered.
 
 ## Running Locally
 

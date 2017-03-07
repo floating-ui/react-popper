@@ -17,7 +17,8 @@ class Popper extends Component {
     component:     PropTypes.any,
     placement:     PropTypes.oneOf(PopperJS.placements),
     eventsEnabled: PropTypes.bool,
-    modifiers:     PropTypes.object
+    modifiers:     PropTypes.object,
+    getRef:        PropTypes.func
   }
 
   static defaultProps = {
@@ -25,7 +26,8 @@ class Popper extends Component {
     placement:     'bottom',
     eventsEnabled: true,
     modifiers:     {},
-    className:     'popper'
+    className:     'popper',
+    getRef:        noop
   }
 
   state = {}
@@ -171,12 +173,16 @@ class Popper extends Component {
       eventsEnabled,
       modifiers,
       style,
+      getRef,
       ...restProps
     } = this.props
 
     return (
       createElement(component, {
-        ref: c => this._popperNode = c,
+        ref: c => {
+          this._popperNode = c
+          getRef(c)
+        },
         style: {
           ...this._getPopperStyle(),
           ...style

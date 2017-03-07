@@ -1,9 +1,12 @@
 import { PropTypes, createElement } from 'react'
 
-const Target = ({ component, ...restProps }, context) => (
+const Target = ({ component, getRef, ...restProps }, context) => (
   createElement(component, {
-    ref: c => context.popperManager.setTargetNode(c),
-    ...restProps
+    ...restProps,
+    ref: c => {
+      context.popperManager.setTargetNode(c)
+      getRef(c)
+    }
   })
 )
 
@@ -12,11 +15,13 @@ Target.contextTypes = {
 }
 
 Target.propTypes = {
-  component: PropTypes.any
+  component: PropTypes.any,
+  getRef:    PropTypes.func
 }
 
 Target.defaultProps = {
-  component: 'div'
+  component: 'div',
+  getRef:    () => null
 }
 
 export default Target
