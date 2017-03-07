@@ -1,6 +1,6 @@
 import React, { Component, PropTypes, Children, createElement } from 'react'
 import ReactDOM, { findDOMNode } from 'react-dom'
-import { PopperManager, Target, Popper, Arrow } from '../src/react-popper'
+import { Manager, Target, Popper, Arrow } from '../src/react-popper'
 import { placements } from 'popper.js'
 
 import './main.scss'
@@ -30,7 +30,7 @@ class App extends Component {
             </option>
           )}
         </select>
-        <PopperManager>
+        <Manager>
           <Target style={{ width: 120, height: 120, background: 'red' }}>
             Box
           </Target>
@@ -46,7 +46,7 @@ class App extends Component {
             Dynamic Content
             <Arrow/>
           </Popper>
-        </PopperManager>
+        </Manager>
       </div>
     )
   }

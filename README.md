@@ -17,10 +17,10 @@ React wrapper around [PopperJS](https://github.com/FezVrasta/popper.js/).
 ## Usage
 
 ```js
-import { PopperManager, Target, Popper, Arrow } from 'react-popper'
+import { Manager, Target, Popper, Arrow } from 'react-popper'
 
 const PopperExample = () => (
-  <PopperManager>
+  <Manager>
     <Target style={{ width: 120, height: 120, background: '#b4da55' }}>
       Target Box
     </Target>
@@ -32,7 +32,7 @@ const PopperExample = () => (
       Right Content
       <Arrow className="popper__arrow"/>
     </Popper>
-  </PopperManager>
+  </Manager>
 )
 ```
 

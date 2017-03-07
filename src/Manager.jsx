@@ -1,7 +1,7 @@
 import React, { Component, PropTypes, createElement } from 'react'
 import ReactDOM from 'react-dom'
 
-class PopperManager extends Component {
+class Manager extends Component {
   static childContextTypes = {
     popperManager: PropTypes.object.isRequired
   }
@@ -37,4 +37,4 @@ class PopperManager extends Component {
   }
 }
 
-export default PopperManager
+export default Manager
