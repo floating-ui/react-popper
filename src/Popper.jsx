@@ -139,6 +139,7 @@ class Popper extends Component {
       left,
       position,
     } = this.state.data.offsets.popper
+    const styles = this.state.data.styles
 
     return {
       position,
@@ -146,6 +147,7 @@ class Popper extends Component {
       left:       0,
       transform:  `translate3d(${left}px, ${top}px, 0px)`,
       willChange: 'transform',
+      ...styles,
     }
   }
 

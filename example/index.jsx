@@ -42,6 +42,21 @@ class App extends Component {
             Content Right
             <Arrow/>
           </Popper>
+          <Popper placement="top" modifiers={ {
+                          customStyle: {
+                            enabled: true,
+                            'function': function(data) {
+                              data.styles = {
+                                ...data.styles,
+                                background: 'red',
+                              };
+                              return data
+                            }.bind(this)
+                          },
+                        } }>
+            Custom Style
+            <Arrow/>
+          </Popper>
           <Popper placement={placement}>
             Dynamic Content
             <Arrow/>
