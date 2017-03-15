@@ -58,6 +58,8 @@
     "postcss-loader": "^0.13.0",
     "react": "15.3.2",
     "react-dom": "15.3.2",
+    "react-measure": "^1.4.6",
+    "react-travel": "^1.3.0",
     "sass-loader": "^4.0.2",
     "style-loader": "^0.13.1",
     "webpack": "^1.13.2",

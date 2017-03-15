@@ -2,15 +2,9 @@ import React, { Component, PropTypes, Children, createElement } from 'react'
 import ReactDOM, { findDOMNode } from 'react-dom'
 import { Manager, Target, Popper, Arrow } from '../src/react-popper'
 import { placements } from 'popper.js'
+import Portal from 'react-travel'
 
 import './main.scss'
-
-
-const Div = props => {
-  console.log(props)
-  return <div {...props} />;
-}
-
 
 class App extends Component {
   state = {
@@ -38,10 +32,7 @@ class App extends Component {
           )}
         </select>
         <Manager>
-          <Target
-            component={Div}
-            style={{ width: 120, height: 120, background: 'red' }}
-          >
+          <Target style={{ width: 120, height: 120, background: 'red' }}>
             Box
           </Target>
           <Popper placement="left">
@@ -52,10 +43,12 @@ class App extends Component {
             Content Right
             <Arrow/>
           </Popper>
-          <Popper placement={placement}>
-            Dynamic Content
-            <Arrow/>
-          </Popper>
+          <Portal>
+            <Popper placement={placement}>
+              Dynamic Content in a Portal!
+              <Arrow/>
+            </Popper>
+          </Portal>
         </Manager>
       </div>
     )
