@@ -44,10 +44,6 @@ const PopperExample = () => (
 
 The component that gets rendered.
 
-#### `getRef`: PropTypes.func
-
-Obtain the component from a ref callback.
-
 
 ## `Manager`
 

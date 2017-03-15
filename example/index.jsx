@@ -5,6 +5,13 @@ import { placements } from 'popper.js'
 
 import './main.scss'
 
+
+const Div = props => {
+  console.log(props)
+  return <div {...props} />;
+}
+
+
 class App extends Component {
   state = {
     placement: 'bottom'
@@ -31,7 +38,10 @@ class App extends Component {
           )}
         </select>
         <Manager>
-          <Target style={{ width: 120, height: 120, background: 'red' }}>
+          <Target
+            component={Div}
+            style={{ width: 120, height: 120, background: 'red' }}
+          >
             Box
           </Target>
           <Popper placement="left">

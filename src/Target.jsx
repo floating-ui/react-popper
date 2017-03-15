@@ -1,27 +1,27 @@
-import { PropTypes, createElement } from 'react'
+import React, { Component, PropTypes, createElement } from 'react'
+import { findDOMNode } from 'react-dom'
 
-const Target = ({ component, getRef, ...restProps }, context) => (
-  createElement(component, {
-    ...restProps,
-    ref: c => {
-      context.popperManager.setTargetNode(c)
-      getRef(c)
-    }
-  })
-)
+class Target extends Component {
+  static contextTypes = {
+    popperManager: PropTypes.object.isRequired
+  }
 
-Target.contextTypes = {
-  popperManager: PropTypes.object.isRequired
-}
+  static propTypes = {
+    component: PropTypes.any
+  }
 
-Target.propTypes = {
-  component: PropTypes.any,
-  getRef:    PropTypes.func
-}
+  static defaultProps = {
+    component: 'div'
+  }
 
-Target.defaultProps = {
-  component: 'div',
-  getRef:    () => null
+  componentDidMount() {
+    this.context.popperManager.setTargetNode(findDOMNode(this))
+  }
+
+  render() {
+    const { component, ...restProps } = this.props
+    return createElement(component, restProps)
+  }
 }
 
 export default Target
