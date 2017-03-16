@@ -1,4 +1,7 @@
 ## CHANGELOG
+### 0.4.2
+Move back to `translate3d` and round values since half pixel placement was the culprit for causing blurry text
+
 ### 0.4.1
 Don't use `translate3d` since it causes blurry text on lower res displays
 
