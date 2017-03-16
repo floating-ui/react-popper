@@ -1,4 +1,5 @@
 import React, { Component, PropTypes, createElement } from 'react'
+import ReactDOM, { findDOMNode } from 'react-dom'
 import PopperJS from 'popper.js'
 import isEqual from 'lodash.isequal'
 
@@ -17,8 +18,7 @@ class Popper extends Component {
     component:     PropTypes.any,
     placement:     PropTypes.oneOf(PopperJS.placements),
     eventsEnabled: PropTypes.bool,
-    modifiers:     PropTypes.object,
-    getRef:        PropTypes.func
+    modifiers:     PropTypes.object
   }
 
   static defaultProps = {
@@ -26,8 +26,7 @@ class Popper extends Component {
     placement:     'bottom',
     eventsEnabled: true,
     modifiers:     {},
-    className:     'popper',
-    getRef:        noop
+    className:     'popper'
   }
 
   state = {}
@@ -76,14 +75,6 @@ class Popper extends Component {
   }
 
   _updatePopper() {
-    const {
-      placement,
-      modifiers,
-    } = this.props
-
-    if (!this._getTargetNode() || !this._popperNode) return;
-
-    // destroy any prior popper instance before creating another
     this._destroyPopper()
     this._createPopper()
   }
@@ -104,7 +95,7 @@ class Popper extends Component {
 
     this._popper = new PopperJS(
       this._getTargetNode(),
-      this._popperNode,
+      findDOMNode(this),
       {
         placement,
         eventsEnabled,
@@ -175,16 +166,11 @@ class Popper extends Component {
       eventsEnabled,
       modifiers,
       style,
-      getRef,
       ...restProps
     } = this.props
 
     return (
       createElement(component, {
-        ref: c => {
-          this._popperNode = c
-          getRef(c)
-        },
         style: {
           ...this._getPopperStyle(),
           ...style

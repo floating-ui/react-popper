@@ -2,8 +2,22 @@ import React, { Component, PropTypes, Children, createElement } from 'react'
 import ReactDOM, { findDOMNode } from 'react-dom'
 import { Manager, Target, Popper, Arrow } from '../src/react-popper'
 import { placements } from 'popper.js'
+import Portal from 'react-travel'
 
 import './main.scss'
+
+const modifiers = {
+  customStyle: {
+    enabled: true,
+    'function': data => {
+      data.styles = {
+        ...data.styles,
+        background: 'red',
+      }
+      return data
+    }
+  }
+}
 
 class App extends Component {
   state = {
@@ -42,25 +56,12 @@ class App extends Component {
             Content Right
             <Arrow/>
           </Popper>
-          <Popper placement="top" modifiers={ {
-                          customStyle: {
-                            enabled: true,
-                            'function': function(data) {
-                              data.styles = {
-                                ...data.styles,
-                                background: 'red',
-                              };
-                              return data
-                            }.bind(this)
-                          },
-                        } }>
-            Custom Style
-            <Arrow/>
-          </Popper>
-          <Popper placement={placement}>
-            Dynamic Content
-            <Arrow/>
-          </Popper>
+          <Portal>
+            <Popper placement={placement} modifiers={modifiers}>
+              Dynamic Content in a Portal!
+              <Arrow/>
+            </Popper>
+          </Portal>
         </Manager>
       </div>
     )

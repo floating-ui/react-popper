@@ -1,32 +1,34 @@
-import { PropTypes, createElement } from 'react'
+import React, { Component, PropTypes, createElement } from 'react'
+import { findDOMNode } from 'react-dom'
 
-const Arrow = ({ component, style, getRef, ...restProps }, context) => (
-  createElement(component, {
-    ...restProps,
-    ref: c => {
-      context.popper.setArrowNode(c)
-      getRef(c)
-    },
-    style: {
-      ...context.popper.getArrowStyle(),
-      ...style
-    }
-  })
-)
+class Arrow extends Component {
+  static contextTypes = {
+    popper: PropTypes.object.isRequired
+  }
 
-Arrow.contextTypes = {
-  popper: PropTypes.object.isRequired
-}
+  static propTypes = {
+    component: PropTypes.any
+  }
 
-Arrow.propTypes = {
-  component: PropTypes.any,
-  getRef:    PropTypes.func
-}
+  static defaultProps = {
+    component: 'span',
+    className: 'popper__arrow'
+  }
 
-Arrow.defaultProps = {
-  component: 'span',
-  className: 'popper__arrow',
-  getRef:    () => null
+  componentDidMount() {
+    this.context.popper.setArrowNode(findDOMNode(this))
+  }
+
+  render() {
+    const { component, style, ...restProps } = this.props
+    return createElement(component, {
+      style: {
+        ...this.context.popper.getArrowStyle(),
+        ...style
+      },
+      ...restProps
+    })
+  }
 }
 
 export default Arrow

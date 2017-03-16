@@ -1,4 +1,7 @@
 ## CHANGELOG
+### 0.4.0
+Remove `getRef` function since it seems to be causing problems.
+
 ### 0.3.0
 Renamed `PopperManager` -> `Manager`
 
