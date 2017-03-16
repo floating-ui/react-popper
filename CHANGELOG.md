@@ -2,6 +2,10 @@
 ### 0.4.0
 Remove `getRef` function since it seems to be causing problems.
 
+Move functional components to classes so we can get nodes more reliably.
+
+Spread modifier styles inside `_getPopperStyle` [#6](https://github.com/souporserious/react-popper/pull/6)
+
 ### 0.3.0
 Renamed `PopperManager` -> `Manager`
 
