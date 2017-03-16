@@ -6,6 +6,19 @@ import Portal from 'react-travel'
 
 import './main.scss'
 
+const modifiers = {
+  customStyle: {
+    enabled: true,
+    'function': data => {
+      data.styles = {
+        ...data.styles,
+        background: 'red',
+      }
+      return data
+    }
+  }
+}
+
 class App extends Component {
   state = {
     placement: 'bottom'
@@ -44,7 +57,7 @@ class App extends Component {
             <Arrow/>
           </Popper>
           <Portal>
-            <Popper placement={placement}>
+            <Popper placement={placement} modifiers={modifiers}>
               Dynamic Content in a Portal!
               <Arrow/>
             </Popper>

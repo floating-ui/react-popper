@@ -68,7 +68,9 @@ class Popper extends Component {
     enabled:  true,
     order:    900,
     function: (data) => {
-      if ((this.state.data && !isEqual(data.offsets, this.state.data.offsets)) || !this.state.data) {
+      if (this.state.data && !isEqual(data.offsets, this.state.data.offsets) ||
+          !this.state.data
+      ) {
         this.setState({ data })
       }
     }
@@ -115,9 +117,11 @@ class Popper extends Component {
   }
 
   _getPopperStyle = () => {
+    const { data } = this.state
+
     // If Popper isn't instantiated, hide the popperElement
     // to avoid flash of unstyled content
-    if (!this._popper || !this.state.data) {
+    if (!this._popper || !data) {
       return {
         position:      'absolute',
         pointerEvents: 'none',
@@ -129,7 +133,7 @@ class Popper extends Component {
       top,
       left,
       position,
-    } = this.state.data.offsets.popper
+    } = data.offsets.popper
 
     return {
       position,
@@ -137,6 +141,7 @@ class Popper extends Component {
       left:       0,
       transform:  `translate3d(${left}px, ${top}px, 0px)`,
       willChange: 'transform',
+      ...data.styles
     }
   }
 
