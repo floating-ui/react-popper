@@ -51,7 +51,7 @@ This is a special component that provides the `Target` component to the `Popper`
 
 ## `Target`
 
-This is just a simple functional component that subscribes to `PopperManager`, so `Popper` can make use of it. Again, pass any props as you normally would here.
+This is just a simple component that subscribes to `PopperManager`, so `Popper` can make use of it. Again, pass any props as you normally would here.
 
 ## `Popper`
 
@@ -65,7 +65,7 @@ Passes respective options to a new [Popper instance](https://github.com/FezVrast
 
 ## `Arrow`
 
-Another functional component that subscribes to the `Popper` component as an [arrow modifier](https://github.com/FezVrasta/popper.js/blob/master/docs/_includes/popper-documentation.md#Modifiers.arrow). Must be a child of `Popper`.
+Another component that subscribes to the `Popper` component as an [arrow modifier](https://github.com/FezVrasta/popper.js/blob/master/docs/_includes/popper-documentation.md#Modifiers.arrow). Must be a child of `Popper`.
 
 ## Running Locally
 
