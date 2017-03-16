@@ -1,4 +1,7 @@
 ## CHANGELOG
+### 0.4.1
+Don't use `translate3d` since it causes blurry text on lower res displays
+
 ### 0.4.0
 Remove `getRef` function since it seems to be causing problems.
 
