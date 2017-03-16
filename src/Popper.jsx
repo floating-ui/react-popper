@@ -139,8 +139,7 @@ class Popper extends Component {
       position,
       top:        0,
       left:       0,
-      transform:  `translate3d(${left}px, ${top}px, 0px)`,
-      willChange: 'transform',
+      transform:  `translate(${left}px, ${top}px)`,
       ...data.styles
     }
   }
