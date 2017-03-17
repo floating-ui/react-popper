@@ -162,26 +162,35 @@ class Popper extends Component {
     }
   }
 
-  render() {
+  _getProps() {
     const {
       component,
       placement,
       eventsEnabled,
       modifiers,
       style,
+      children,
       ...restProps
     } = this.props
 
-    return (
-      createElement(component, {
-        style: {
-          ...this._getPopperStyle(),
-          ...style
-        },
-        'data-placement': this._getPopperPlacement(),
-        ...restProps
-      })
-    )
+    return {
+      style: {
+        ...this._getPopperStyle(),
+        ...style
+      },
+      'data-placement': this._getPopperPlacement(),
+      ...restProps
+    }
+  }
+
+  render() {
+    const { component, children } = this.props
+    const props = this._getProps()
+    if (typeof children === 'function') {
+      return children(props)
+    } else {
+      return createElement(component, props, children)
+    }
   }
 }
 

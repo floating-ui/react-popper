@@ -19,8 +19,12 @@ class Target extends Component {
   }
 
   render() {
-    const { component, ...restProps } = this.props
-    return createElement(component, restProps)
+    const { component, children, ...restProps } = this.props
+    if (component) {
+      return createElement(component, restProps, children)
+    } else {
+      return children
+    }
   }
 }
 
