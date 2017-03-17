@@ -1,4 +1,7 @@
 ## CHANGELOG
+### 0.4.3
+Allow passing children through to components
+
 ### 0.4.2
 Move back to `translate3d` and round values since half pixel placement was the culprit for causing blurry text
 
