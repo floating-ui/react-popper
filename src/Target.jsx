@@ -1,4 +1,5 @@
-import React, { Component, PropTypes, createElement } from 'react'
+import React, { Component, createElement } from 'react'
+import PropTypes from 'prop-types'
 import { findDOMNode } from 'react-dom'
 
 class Target extends Component {

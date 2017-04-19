@@ -1,4 +1,5 @@
-import React, { Component, PropTypes, createElement } from 'react'
+import React, { Component, createElement } from 'react'
+import PropTypes from 'prop-types'
 import ReactDOM, { findDOMNode } from 'react-dom'
 import PopperJS from 'popper.js'
 import isEqual from 'lodash.isequal'

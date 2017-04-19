@@ -1,4 +1,5 @@
-import React, { Component, PropTypes, Children, createElement } from 'react'
+import React, { Component, Children, createElement } from 'react'
+import PropTypes from 'prop-types'
 import ReactDOM, { findDOMNode } from 'react-dom'
 import { Manager, Target, Popper, Arrow } from '../src/react-popper'
 import { placements } from 'popper.js'
