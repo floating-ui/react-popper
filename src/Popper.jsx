@@ -73,6 +73,7 @@ class Popper extends Component {
       ) {
         this.setState({ data })
       }
+      return data;
     }
   }
 
