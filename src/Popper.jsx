@@ -8,26 +8,26 @@ const noop = () => null
 
 class Popper extends Component {
   static contextTypes = {
-    popperManager: PropTypes.object.isRequired
+    popperManager: PropTypes.object.isRequired,
   }
 
   static childContextTypes = {
-    popper: PropTypes.object.isRequired
+    popper: PropTypes.object.isRequired,
   }
 
   static propTypes = {
-    component:     PropTypes.any,
-    placement:     PropTypes.oneOf(PopperJS.placements),
+    component: PropTypes.any,
+    placement: PropTypes.oneOf(PopperJS.placements),
     eventsEnabled: PropTypes.bool,
-    modifiers:     PropTypes.object
+    modifiers: PropTypes.object,
   }
 
   static defaultProps = {
-    component:     'div',
-    placement:     'bottom',
+    component: 'div',
+    placement: 'bottom',
     eventsEnabled: true,
-    modifiers:     {},
-    className:     'popper'
+    modifiers: {},
+    className: 'popper',
   }
 
   state = {}
@@ -35,9 +35,9 @@ class Popper extends Component {
   getChildContext() {
     return {
       popper: {
-        setArrowNode:  this._setArrowNode,
-        getArrowStyle: this._getArrowStyle
-      }
+        setArrowNode: this._setArrowNode,
+        getArrowStyle: this._getArrowStyle,
+      },
     }
   }
 
@@ -46,8 +46,9 @@ class Popper extends Component {
   }
 
   componentDidUpdate(lastProps) {
-    if (lastProps.placement !== this.props.placement ||
-        lastProps.eventsEnabled !== this.props.eventsEnabled
+    if (
+      lastProps.placement !== this.props.placement ||
+      lastProps.eventsEnabled !== this.props.eventsEnabled
     ) {
       this._updatePopper()
     }
@@ -57,7 +58,7 @@ class Popper extends Component {
     this._destroyPopper()
   }
 
-  _setArrowNode = (node) => {
+  _setArrowNode = node => {
     this._arrowNode = node
   }
 
@@ -66,16 +67,17 @@ class Popper extends Component {
   }
 
   _updateStateModifier = {
-    enabled:  true,
-    order:    900,
-    function: (data) => {
-      if (this.state.data && !isEqual(data.offsets, this.state.data.offsets) ||
-          !this.state.data
+    enabled: true,
+    order: 900,
+    function: data => {
+      if (
+        (this.state.data && !isEqual(data.offsets, this.state.data.offsets)) ||
+        !this.state.data
       ) {
         this.setState({ data })
       }
-      return data;
-    }
+      return data
+    },
   }
 
   _updatePopper() {
@@ -87,25 +89,21 @@ class Popper extends Component {
     const { placement, eventsEnabled } = this.props
     const modifiers = {
       ...this.props.modifiers,
-      applyStyle:  { enabled: false },
+      applyStyle: { enabled: false },
       updateState: this._updateStateModifier,
     }
 
     if (this._arrowNode) {
       modifiers.arrow = {
-        element: this._arrowNode
+        element: this._arrowNode,
       }
     }
 
-    this._popper = new PopperJS(
-      this._getTargetNode(),
-      findDOMNode(this),
-      {
-        placement,
-        eventsEnabled,
-        modifiers
-      }
-    )
+    this._popper = new PopperJS(this._getTargetNode(), findDOMNode(this), {
+      placement,
+      eventsEnabled,
+      modifiers,
+    })
 
     // schedule an update to make sure everything gets positioned correct
     // after being instantiated
@@ -125,25 +123,21 @@ class Popper extends Component {
     // to avoid flash of unstyled content
     if (!this._popper || !data) {
       return {
-        position:      'absolute',
+        position: 'absolute',
         pointerEvents: 'none',
-        opacity:       0,
+        opacity: 0,
       }
     }
 
-    const {
-      top,
-      left,
-      position,
-    } = data.offsets.popper
+    const { top, left, position } = data.offsets.popper
 
     return {
       position,
-      top:        0,
-      left:       0,
-      transform:  `translate3d(${Math.round(left)}px, ${Math.round(top)}px, 0px)`,
+      top: 0,
+      left: 0,
+      transform: `translate3d(${Math.round(left)}px, ${Math.round(top)}px, 0px)`,
       willChange: 'transform',
-      ...data.styles
+      ...data.styles,
     }
   }
 
@@ -178,10 +172,10 @@ class Popper extends Component {
     return {
       style: {
         ...this._getPopperStyle(),
-        ...style
+        ...style,
       },
       'data-placement': this._getPopperPlacement(),
-      ...restProps
+      ...restProps,
     }
   }
 

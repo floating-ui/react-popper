@@ -4,16 +4,16 @@ import { findDOMNode } from 'react-dom'
 
 class Arrow extends Component {
   static contextTypes = {
-    popper: PropTypes.object.isRequired
+    popper: PropTypes.object.isRequired,
   }
 
   static propTypes = {
-    component: PropTypes.any
+    component: PropTypes.any,
   }
 
   static defaultProps = {
     component: 'span',
-    className: 'popper__arrow'
+    className: 'popper__arrow',
   }
 
   componentDidMount() {
@@ -25,9 +25,9 @@ class Arrow extends Component {
     return createElement(component, {
       style: {
         ...this.context.popper.getArrowStyle(),
-        ...style
+        ...style,
       },
-      ...restProps
+      ...restProps,
     })
   }
 }

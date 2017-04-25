@@ -4,27 +4,27 @@ import ReactDOM from 'react-dom'
 
 class Manager extends Component {
   static childContextTypes = {
-    popperManager: PropTypes.object.isRequired
+    popperManager: PropTypes.object.isRequired,
   }
 
   static propTypes = {
-    component: PropTypes.any
+    component: PropTypes.any,
   }
 
   static defaultProps = {
-    component: 'div'
+    component: 'div',
   }
 
   getChildContext() {
     return {
       popperManager: {
         setTargetNode: this._setTargetNode,
-        getTargetNode: this._getTargetNode
-      }
+        getTargetNode: this._getTargetNode,
+      },
     }
   }
 
-  _setTargetNode = (node) => {
+  _setTargetNode = node => {
     this._targetNode = node
   }
 

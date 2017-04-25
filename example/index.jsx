@@ -10,19 +10,19 @@ import './main.scss'
 const modifiers = {
   customStyle: {
     enabled: true,
-    'function': data => {
+    function: data => {
       data.styles = {
         ...data.styles,
         background: 'red',
       }
       return data
-    }
-  }
+    },
+  },
 }
 
 class App extends Component {
   state = {
-    placement: 'bottom'
+    placement: 'bottom',
   }
 
   render() {
@@ -30,20 +30,18 @@ class App extends Component {
     return (
       <div
         style={{
-          padding: 200
+          padding: 200,
         }}
       >
         <select
           value={placement}
-          onChange={e =>
-            this.setState({ placement: e.target.value })
-          }
+          onChange={e => this.setState({ placement: e.target.value })}
         >
-          {placements.map(placement =>
+          {placements.map(placement => (
             <option key={placement} value={placement}>
               {placement}
             </option>
-          )}
+          ))}
         </select>
         <Manager>
           <Target style={{ width: 120, height: 120, background: 'red' }}>
@@ -51,16 +49,16 @@ class App extends Component {
           </Target>
           <Popper placement="left">
             Content Left
-            <Arrow/>
+            <Arrow />
           </Popper>
           <Popper placement="right">
             Content Right
-            <Arrow/>
+            <Arrow />
           </Popper>
           <Portal>
             <Popper placement={placement} modifiers={modifiers}>
               Dynamic Content in a Portal!
-              <Arrow/>
+              <Arrow />
             </Popper>
           </Portal>
         </Manager>
@@ -69,4 +67,4 @@ class App extends Component {
   }
 }
 
-ReactDOM.render(<App/>, document.getElementById('app'))
+ReactDOM.render(<App />, document.getElementById('app'))
