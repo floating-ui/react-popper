@@ -1,5 +1,9 @@
 ## CHANGELOG
 ### 0.5.0
+Use `prop-types` package instead of React PropTypes [#9](https://github.com/souporserious/react-popper/pull/9)
+
+Make updateState modifier return data object [#11](https://github.com/souporserious/react-popper/pull/11)
+
 Removed `findDOMNode` 🎉
 
 Moved back to `tag` instead of `component`. Use a child function now for custom components and pass down the provided ref to the proper component.
