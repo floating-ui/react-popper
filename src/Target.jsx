@@ -1,32 +1,38 @@
 import React, { Component, createElement } from 'react'
 import PropTypes from 'prop-types'
-import { findDOMNode } from 'react-dom'
 
-class Target extends Component {
-  static contextTypes = {
-    popperManager: PropTypes.object.isRequired,
+const Target = (props, context) => {
+  const { tag = 'div', innerRef, children, ...restProps } = props
+  const { popperManager } = context
+  const targetRef = node => popperManager.setTargetNode(node)
+
+  if (typeof children === 'function') {
+    return children({ targetRef })
   }
 
-  static propTypes = {
-    component: PropTypes.any,
-  }
+  return createElement(
+    tag,
+    {
+      ref: node => {
+        targetRef(node)
+        if (typeof innerRef === 'function') {
+          innerRef(node)
+        }
+      },
+      ...restProps,
+    },
+    children
+  )
+}
 
-  static defaultProps = {
-    component: 'div',
-  }
+Target.contextTypes = {
+  popperManager: PropTypes.object.isRequired,
+}
 
-  componentDidMount() {
-    this.context.popperManager.setTargetNode(findDOMNode(this))
-  }
-
-  render() {
-    const { component, children, ...restProps } = this.props
-    if (component) {
-      return createElement(component, restProps, children)
-    } else {
-      return children
-    }
-  }
+Target.propTypes = {
+  tag: PropTypes.string,
+  innerRef: PropTypes.func,
+  children: PropTypes.oneOfType([PropTypes.func, PropTypes.node]),
 }
 
 export default Target

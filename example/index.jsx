@@ -47,18 +47,30 @@ class App extends Component {
           <Target style={{ width: 120, height: 120, background: 'red' }}>
             Box
           </Target>
-          <Popper placement="left">
+          <Popper className="popper" placement="left">
             Content Left
-            <Arrow />
+            <Arrow>
+              {({ arrowRef, arrowStyle }) => (
+                <span
+                  ref={arrowRef}
+                  className="popper__arrow"
+                  style={arrowStyle}
+                />
+              )}
+            </Arrow>
           </Popper>
-          <Popper placement="right">
+          <Popper className="popper" placement="right">
             Content Right
-            <Arrow />
+            <Arrow className="popper__arrow" />
           </Popper>
           <Portal>
-            <Popper placement={placement} modifiers={modifiers}>
+            <Popper
+              className="popper"
+              placement={placement}
+              modifiers={modifiers}
+            >
               Dynamic Content in a Portal!
-              <Arrow />
+              <Arrow className="popper__arrow" />
             </Popper>
           </Portal>
         </Manager>

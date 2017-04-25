@@ -1,6 +1,5 @@
 import React, { Component, createElement } from 'react'
 import PropTypes from 'prop-types'
-import ReactDOM, { findDOMNode } from 'react-dom'
 import PopperJS from 'popper.js'
 import isEqual from 'lodash.isequal'
 
@@ -16,18 +15,17 @@ class Popper extends Component {
   }
 
   static propTypes = {
-    component: PropTypes.any,
+    tag: PropTypes.string,
     placement: PropTypes.oneOf(PopperJS.placements),
     eventsEnabled: PropTypes.bool,
     modifiers: PropTypes.object,
   }
 
   static defaultProps = {
-    component: 'div',
+    tag: 'div',
     placement: 'bottom',
     eventsEnabled: true,
     modifiers: {},
-    className: 'popper',
   }
 
   state = {}
@@ -82,7 +80,9 @@ class Popper extends Component {
 
   _updatePopper() {
     this._destroyPopper()
-    this._createPopper()
+    if (this._node) {
+      this._createPopper()
+    }
   }
 
   _createPopper() {
@@ -99,7 +99,7 @@ class Popper extends Component {
       }
     }
 
-    this._popper = new PopperJS(this._getTargetNode(), findDOMNode(this), {
+    this._popper = new PopperJS(this._getTargetNode(), this._node, {
       placement,
       eventsEnabled,
       modifiers,
@@ -158,9 +158,10 @@ class Popper extends Component {
     }
   }
 
-  _getProps() {
+  render() {
     const {
-      component,
+      tag,
+      innerRef,
       placement,
       eventsEnabled,
       modifiers,
@@ -169,24 +170,34 @@ class Popper extends Component {
       ...restProps
     } = this.props
 
-    return {
-      style: {
-        ...this._getPopperStyle(),
-        ...style,
-      },
-      'data-placement': this._getPopperPlacement(),
-      ...restProps,
+    const popperRef = node => {
+      this._node = node
     }
-  }
+    const popperStyle = {
+      ...this._getPopperStyle(),
+      ...style,
+    }
+    const popperPlacement = this._getPopperPlacement()
 
-  render() {
-    const { component, children } = this.props
-    const props = this._getProps()
     if (typeof children === 'function') {
-      return children(props)
-    } else {
-      return createElement(component, props, children)
+      return children({ popperRef, popperStyle, popperPlacement })
     }
+
+    return createElement(
+      tag,
+      {
+        ref: node => {
+          popperRef(node)
+          if (typeof innerRef === 'function') {
+            innerRef(node)
+          }
+        },
+        style: popperStyle,
+        'data-placement': popperPlacement,
+        ...restProps,
+      },
+      children
+    )
   }
 }
 

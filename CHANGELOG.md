@@ -1,4 +1,11 @@
 ## CHANGELOG
+### 0.5.0
+Removed `findDOMNode` 🎉
+
+Moved back to `tag` instead of `component`. Use a child function now for custom components and pass down the provided ref to the proper component.
+
+Removed default classNames for `popper` and `popper__arrow` so we can be unopinionated about styling.
+
 ### 0.4.3
 Allow passing children through to components
 

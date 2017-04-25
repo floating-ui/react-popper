@@ -1,6 +1,5 @@
 import React, { Component, createElement } from 'react'
 import PropTypes from 'prop-types'
-import ReactDOM from 'react-dom'
 
 class Manager extends Component {
   static childContextTypes = {
@@ -8,11 +7,11 @@ class Manager extends Component {
   }
 
   static propTypes = {
-    component: PropTypes.any,
+    tag: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   }
 
   static defaultProps = {
-    component: 'div',
+    tag: 'div',
   }
 
   getChildContext() {
@@ -33,9 +32,9 @@ class Manager extends Component {
   }
 
   render() {
-    const { component, children, ...restProps } = this.props
-    if (component) {
-      return createElement(component, restProps, children)
+    const { tag, children, ...restProps } = this.props
+    if (tag !== false) {
+      return createElement(tag, restProps, children)
     } else {
       return children
     }
