@@ -32,7 +32,7 @@ Target.contextTypes = {
 Target.propTypes = {
   tag: PropTypes.string,
   innerRef: PropTypes.func,
-  children: PropTypes.oneOfType([PropTypes.func, PropTypes.node]),
+  children: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
 }
 
 export default Target

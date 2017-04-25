@@ -37,7 +37,7 @@ Arrow.contextTypes = {
 Arrow.propTypes = {
   tag: PropTypes.string,
   innerRef: PropTypes.func,
-  children: PropTypes.oneOfType([PropTypes.func, PropTypes.node]),
+  children: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
 }
 
 export default Arrow

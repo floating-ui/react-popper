@@ -16,9 +16,11 @@ class Popper extends Component {
 
   static propTypes = {
     tag: PropTypes.string,
+    innerRef: PropTypes.func,
     placement: PropTypes.oneOf(PopperJS.placements),
     eventsEnabled: PropTypes.bool,
     modifiers: PropTypes.object,
+    children: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
   }
 
   static defaultProps = {

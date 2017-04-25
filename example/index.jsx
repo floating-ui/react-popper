@@ -47,17 +47,26 @@ class App extends Component {
           <Target style={{ width: 120, height: 120, background: 'red' }}>
             Box
           </Target>
-          <Popper className="popper" placement="left">
-            Content Left
-            <Arrow>
-              {({ arrowRef, arrowStyle }) => (
-                <span
-                  ref={arrowRef}
-                  className="popper__arrow"
-                  style={arrowStyle}
-                />
-              )}
-            </Arrow>
+          <Popper placement="left">
+            {({ popperRef, popperStyle, popperPlacement }) => (
+              <div
+                ref={popperRef}
+                className="popper"
+                style={popperStyle}
+                data-placement={popperPlacement}
+              >
+                Content Left
+                <Arrow>
+                  {({ arrowRef, arrowStyle }) => (
+                    <span
+                      ref={arrowRef}
+                      className="popper__arrow"
+                      style={arrowStyle}
+                    />
+                  )}
+                </Arrow>
+              </div>
+            )}
           </Popper>
           <Popper className="popper" placement="right">
             Content Right
