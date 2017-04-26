@@ -7,7 +7,8 @@ const Target = (props, context) => {
   const targetRef = node => popperManager.setTargetNode(node)
 
   if (typeof children === 'function') {
-    return children({ targetRef })
+    const targetProps = { ref: targetRef }
+    return children({ targetProps, restProps })
   }
 
   return createElement(

@@ -167,36 +167,38 @@ class Popper extends Component {
       placement,
       eventsEnabled,
       modifiers,
-      style,
       children,
       ...restProps
     } = this.props
 
-    const popperRef = node => {
-      this._node = node
-    }
-    const popperStyle = {
-      ...this._getPopperStyle(),
-      ...style,
-    }
+    const popperRef = node => (this._node = node)
+    const popperStyle = this._getPopperStyle()
     const popperPlacement = this._getPopperPlacement()
 
     if (typeof children === 'function') {
-      return children({ popperRef, popperStyle, popperPlacement })
+      const popperProps = {
+        ref: popperRef,
+        style: popperStyle,
+        ['data-placement']: popperPlacement,
+      }
+      return children({ popperProps, restProps })
     }
 
     return createElement(
       tag,
       {
+        ...restProps,
         ref: node => {
           popperRef(node)
           if (typeof innerRef === 'function') {
             innerRef(node)
           }
         },
-        style: popperStyle,
+        style: {
+          ...restProps.style,
+          ...popperStyle,
+        },
         'data-placement': popperPlacement,
-        ...restProps,
       },
       children
     )
