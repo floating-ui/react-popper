@@ -46,27 +46,24 @@ import { Manager, Target, Popper, Arrow } from 'react-popper'
 const PopperExample = () => (
   <Manager>
     <Target>
-      {({ targetRef }) => (
-        <div ref={targetRef}>
+      {({ targetProps }) => (
+        <div {...targetProps}>
           Target Box
         </div>
       )}
     </Target>
     <Popper placement="left">
-      {({ popperRef, popperStyle, popperPlacement }) => (
+      {({ popperProps, restProps }) => (
         <div
-          ref={popperRef}
           className="popper"
-          style={popperStyle}
-          data-placement={popperPlacement}
+          {...popperProps}
         >
           Popper Content
           <Arrow>
-            {({ arrowRef, arrowStyle }) => (
+            {({ arrowProps, restProps }) => (
               <span
-                ref={arrowRef}
                 className="popper__arrow"
-                style={arrowStyle}
+                {...arrowProps}
               />
             )}
           </Arrow>
@@ -110,7 +107,10 @@ A `Target`'s child may be one of the following:
 
   ```js
   {
-    targetRef, // a function that accepts the target component as an argument
+    targetProps: {
+      ref // a function that accepts the target component as an argument
+    },
+    restProps // any other props that came through the Target component
   }
   ```
 
@@ -136,9 +136,12 @@ A `Popper`'s child may be one of the following:
 
   ```js
   {
-    popperRef, // a function that accepts the popper component as an argument
-    popperStyle, // the styles to apply to the popper element
-    popperPlacement // the placement of the Popper, pass to data-placement
+    popperProps: {
+      ref, // a function that accepts the popper component as an argument
+      style, // the styles to apply to the popper element
+      ['data-placement'] // the placement of the Popper
+    },
+    restProps // any other props that came through the Popper component
   }
   ```
 
@@ -155,8 +158,11 @@ An `Arrow`'s child may be one of the following:
 
   ```js
   {
-    arrowRef, // a function that accepts the arrow component as an argument
-    arrowStyle // the styles to apply to the arrow element
+    arrowProps: {
+      ref, // a function that accepts the arrow component as an argument
+      style // the styles to apply to the arrow element
+    },
+    restProps // any other props that came through the Arrow component
   }
   ```
 

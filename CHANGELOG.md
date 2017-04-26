@@ -1,4 +1,7 @@
 ## CHANGELOG
+### 0.6.0
+Make sure to pass props from above down to child function, fixes issue [#13](https://github.com/souporserious/react-popper/issues/13)
+
 ### 0.5.0
 Use `prop-types` package instead of React PropTypes [#9](https://github.com/souporserious/react-popper/pull/9)
 
