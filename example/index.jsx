@@ -1,6 +1,9 @@
 import React, { Component, Children, createElement } from 'react'
+import ReactDOM from 'react-dom'
 import PropTypes from 'prop-types'
-import ReactDOM, { findDOMNode } from 'react-dom'
+import glamorous, { Div } from 'glamorous'
+import { VelocityTransitionGroup } from 'velocity-react'
+import Transition from 'react-motion-ui-pack'
 import { Manager, Target, Popper, Arrow } from '../src/react-popper'
 import { placements } from 'popper.js'
 import Portal from 'react-travel'
@@ -20,7 +23,7 @@ const modifiers = {
   },
 }
 
-class App extends Component {
+class MultipleExample extends Component {
   state = {
     placement: 'bottom',
   }
@@ -28,11 +31,7 @@ class App extends Component {
   render() {
     const { placement } = this.state
     return (
-      <div
-        style={{
-          padding: 200,
-        }}
-      >
+      <div>
         <select
           value={placement}
           onChange={e => this.setState({ placement: e.target.value })}
@@ -48,21 +47,12 @@ class App extends Component {
             Box
           </Target>
           <Popper placement="left">
-            {({ popperRef, popperStyle, popperPlacement }) => (
-              <div
-                ref={popperRef}
-                className="popper"
-                style={popperStyle}
-                data-placement={popperPlacement}
-              >
+            {({ popperProps }) => (
+              <div {...popperProps} className="popper">
                 Content Left
                 <Arrow>
-                  {({ arrowRef, arrowStyle }) => (
-                    <span
-                      ref={arrowRef}
-                      className="popper__arrow"
-                      style={arrowStyle}
-                    />
+                  {({ arrowProps }) => (
+                    <span {...arrowProps} className="popper__arrow" />
                   )}
                 </Arrow>
               </div>
@@ -87,5 +77,77 @@ class App extends Component {
     )
   }
 }
+
+const StyledTarget = glamorous(Target)({
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  width: 200,
+  height: 200,
+  fontSize: 56,
+  lineHeight: '70px',
+  backgroundColor: 'rebeccapurple',
+  color: 'rgba(255, 255, 255, 0.5)',
+  userSelect: 'none',
+})
+
+const StyledPopper = glamorous(Popper)({
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  width: 200,
+  height: 100,
+  fontSize: 16,
+  backgroundColor: '#ff9121',
+  color: 'rgba(255, 255, 255, 0.8)',
+})
+
+class AnimatedExample extends Component {
+  state = {
+    isOpen: false,
+  }
+  render() {
+    return (
+      <Manager>
+        <StyledTarget
+          onClick={() => this.setState(state => ({ isOpen: !state.isOpen }))}
+        >
+          Click to {this.state.isOpen ? 'hide' : 'show'} popper
+        </StyledTarget>
+        <Transition
+          component={false}
+          enter={{ opacity: 1, scale: 1 }}
+          leave={{ opacity: 0, scale: 0.9 }}
+        >
+          {this.state.isOpen &&
+            <StyledPopper key="popper">
+              {({ popperProps, restProps }) => (
+                <div {...popperProps}>
+                  <div {...restProps}>
+                    Animated Popper 🎉
+                  </div>
+                </div>
+              )}
+            </StyledPopper>}
+        </Transition>
+      </Manager>
+    )
+  }
+}
+
+const App = () => (
+  <Div
+    css={{
+      padding: 200,
+    }}
+  >
+    <Div css={{ marginBottom: 200 }}>
+      <MultipleExample />
+    </Div>
+    <Div css={{ marginBottom: 200 }}>
+      <AnimatedExample />
+    </Div>
+  </Div>
+)
 
 ReactDOM.render(<App />, document.getElementById('app'))
