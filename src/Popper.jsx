@@ -52,6 +52,10 @@ class Popper extends Component {
     ) {
       this._updatePopper()
     }
+
+    if (lastProps.children !== this.props.children) {
+      this._popper.scheduleUpdate()
+    }
   }
 
   componentWillUnmount() {
