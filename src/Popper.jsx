@@ -73,7 +73,7 @@ class Popper extends Component {
   _updateStateModifier = {
     enabled: true,
     order: 900,
-    function: data => {
+    fn: data => {
       if (
         (this.state.data && !isEqual(data.offsets, this.state.data.offsets)) ||
         !this.state.data
