@@ -13,7 +13,7 @@ import './main.scss'
 const modifiers = {
   customStyle: {
     enabled: true,
-    function: data => {
+    fn: data => {
       data.styles = {
         ...data.styles,
         background: 'red',
@@ -134,7 +134,6 @@ class AnimatedExample extends Component {
     )
   }
 }
-
 const App = () => (
   <Div
     css={{
@@ -149,5 +148,4 @@ const App = () => (
     </Div>
   </Div>
 )
-
 ReactDOM.render(<App />, document.getElementById('app'))
