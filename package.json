@@ -40,7 +40,8 @@
   },
   "dependencies": {
     "lodash.isequal": "^4.5.0",
-    "popper.js": "^1.0.6"
+    "popper.js": "1.9.2",
+    "prop-types": "^15.5.8"
   },
   "devDependencies": {
     "babel-cli": "^6.16.0",
@@ -58,7 +59,6 @@
     "node-libs-browser": "^1.0.0",
     "node-sass": "^3.2.0",
     "postcss-loader": "^0.13.0",
-    "prop-types": "^15.5.8",
     "react": "15.3.2",
     "react-dom": "15.3.2",
     "react-measure": "^1.4.6",
