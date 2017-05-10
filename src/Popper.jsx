@@ -185,7 +185,7 @@ class Popper extends Component {
         style: popperStyle,
         ['data-placement']: popperPlacement,
       }
-      return children({ popperProps, restProps })
+      return children({ popperProps, restProps, popper: this._popper })
     }
 
     return createElement(
