@@ -40,7 +40,7 @@
   },
   "dependencies": {
     "lodash.isequal": "^4.5.0",
-    "popper.js": "1.9.2",
+    "popper.js": "^1.9.4",
     "prop-types": "^15.5.8"
   },
   "devDependencies": {
