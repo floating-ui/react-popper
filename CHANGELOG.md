@@ -2,7 +2,7 @@
 ### 0.6.1
 Pass down `scheduleUpdate` to `Popper` child function to allow programatic updates
 
-Upgrade to Popper.js 1.9.2
+Upgrade to Popper.js 1.9.4
 
 Fix `modifier.function` is deprecated, use `modifier.fn` [#22](https://github.com/souporserious/react-popper/pull/22)
 
