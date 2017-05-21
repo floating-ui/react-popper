@@ -1,4 +1,7 @@
 ## CHANGELOG
+### 0.6.2
+Replace `lodash.isequal` with `is-equal-shallow`
+
 ### 0.6.1
 Pass down `scheduleUpdate` to `Popper` child function to allow programatic updates
 

@@ -1,7 +1,7 @@
 import React, { Component, createElement } from 'react'
 import PropTypes from 'prop-types'
 import PopperJS from 'popper.js'
-import isEqual from 'lodash.isequal'
+import isEqual from 'is-equal-shallow'
 
 const noop = () => null
 
