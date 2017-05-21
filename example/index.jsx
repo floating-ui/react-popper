@@ -1,5 +1,5 @@
 import React, { Component, Children, createElement } from 'react'
-import ReactDOM from 'react-dom'
+import ReactDOM, { findDOMNode } from 'react-dom'
 import PropTypes from 'prop-types'
 import glamorous, { Div } from 'glamorous'
 import { VelocityTransitionGroup } from 'velocity-react'
@@ -7,6 +7,7 @@ import Transition from 'react-motion-ui-pack'
 import { Manager, Target, Popper, Arrow } from '../src/react-popper'
 import { placements } from 'popper.js'
 import Portal from 'react-travel'
+import outy from 'outy'
 
 import './main.scss'
 
@@ -84,8 +85,9 @@ const StyledTarget = glamorous(Target)({
   justifyContent: 'center',
   width: 200,
   height: 200,
-  fontSize: 56,
-  lineHeight: '70px',
+  padding: 24,
+  fontSize: 32,
+  lineHeight: '1',
   backgroundColor: 'rebeccapurple',
   color: 'rgba(255, 255, 255, 0.5)',
   userSelect: 'none',
@@ -106,13 +108,55 @@ class AnimatedExample extends Component {
   state = {
     isOpen: false,
   }
+
+  componentDidMount() {
+    this._setOusideTap()
+  }
+
+  componentDidUpdate(lastProps, lastState) {
+    if (lastState.isOpen !== this.state.isOpen) {
+      setTimeout(() => this._setOusideTap())
+    }
+  }
+
+  componentWillUnmount() {
+    this.outsideTap.remove()
+  }
+
+  _setOusideTap = () => {
+    const elements = [this.target]
+
+    if (this.popper) {
+      elements.push(this.popper)
+    }
+
+    if (this.outsideTap) {
+      this.outsideTap.remove()
+    }
+
+    this.outsideTap = outy(
+      elements,
+      ['click', 'touchstart'],
+      this._handleOutsideTap
+    )
+  }
+
+  _handleOutsideTap = () => {
+    this.setState({ isOpen: false })
+  }
+
+  _handleTargetClick = () => {
+    this.setState({ isOpen: true })
+  }
+
   render() {
     return (
       <Manager>
         <StyledTarget
-          onClick={() => this.setState(state => ({ isOpen: !state.isOpen }))}
+          ref={c => (this.target = findDOMNode(c))}
+          onClick={this._handleTargetClick}
         >
-          Click to {this.state.isOpen ? 'hide' : 'show'} popper
+          Click {this.state.isOpen ? 'outside to hide' : 'to show'} popper
         </StyledTarget>
         <Transition
           component={false}
@@ -120,7 +164,10 @@ class AnimatedExample extends Component {
           leave={{ opacity: 0, scale: 0.9 }}
         >
           {this.state.isOpen &&
-            <StyledPopper key="popper">
+            <StyledPopper
+              key="popper"
+              ref={c => (this.popper = findDOMNode(c))}
+            >
               {({ popperProps, restProps }) => (
                 <div {...popperProps}>
                   <div {...restProps}>

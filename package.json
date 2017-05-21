@@ -10,7 +10,7 @@
   "scripts": {
     "build:lib": "babel src --out-dir lib",
     "build": "npm run build:lib && NODE_ENV=production webpack --config webpack.prod.config.js",
-    "dev": "webpack-dev-server --devtool eval --hot --progress --colors",
+    "dev": "webpack-dev-server --hot --progress --host 0.0.0.0",
     "postbuild": "NODE_ENV=production TARGET=minify webpack --config webpack.prod.config.js",
     "prebuild": "rm -rf dist && mkdir dist",
     "prepublish": "npm run build"
@@ -58,6 +58,7 @@
     "http-server": "^0.9.0",
     "node-libs-browser": "^1.0.0",
     "node-sass": "^3.2.0",
+    "outy": "^0.1.2",
     "postcss-loader": "^0.13.0",
     "react": "15.3.2",
     "react-dom": "15.3.2",
