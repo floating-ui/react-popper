@@ -1,4 +1,7 @@
 ## CHANGELOG
+### 0.6.3
+Upgrade PopperJS to 1.9.5
+
 ### 0.6.2
 Replace `lodash.isequal` with `is-equal-shallow`
 
