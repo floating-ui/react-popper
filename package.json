@@ -1,6 +1,6 @@
 {
   "name": "react-popper",
-  "version": "0.6.3",
+  "version": "0.6.4",
   "description": "React wrapper around PopperJS.",
   "main": "lib/react-popper.js",
   "files": [
@@ -52,6 +52,7 @@
     "babel-preset-react": "^6.16.0",
     "babel-preset-stage-0": "^6.16.0",
     "chokidar": "^1.6.1",
+    "create-styled-element": "^0.4.0",
     "css-loader": "^0.25.0",
     "glamor": "^2.20.24",
     "glamorous": "^3.11.1",

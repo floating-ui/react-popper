@@ -1329,6 +1329,15 @@ create-react-class@^15.5.2:
     loose-envify "^1.3.1"
     object-assign "^4.1.1"
 
+create-styled-element@^0.4.0:
+  version "0.4.0"
+  resolved "https://registry.yarnpkg.com/create-styled-element/-/create-styled-element-0.4.0.tgz#ab02798e4a677b06b283d495a7a7c142a40d3c32"
+  dependencies:
+    glamor "3.0.0-1"
+    html-tag-names "^1.1.1"
+    object-assign "^4.1.1"
+    svg-tag-names "^1.1.0"
+
 cross-spawn@^3.0.0:
   version "3.0.1"
   resolved "https://registry.yarnpkg.com/cross-spawn/-/cross-spawn-3.0.1.tgz#1256037ecb9f0c5f79e3d6ef135e30770184b982"
@@ -1891,6 +1900,14 @@ getpass@^0.1.1:
   resolved "https://registry.yarnpkg.com/getpass/-/getpass-0.1.7.tgz#5eff8e3e684d569ae4cb2b1282604e8ba62149fa"
   dependencies:
     assert-plus "^1.0.0"
+
+glamor@3.0.0-1:
+  version "3.0.0-1"
+  resolved "https://registry.yarnpkg.com/glamor/-/glamor-3.0.0-1.tgz#60f489e96d96c12620803d3677ac26413cb76a95"
+  dependencies:
+    babel-runtime "^6.18.0"
+    fbjs "^0.8.8"
+    object-assign "^4.1.0"
 
 glamor@^2.20.24:
   version "2.20.25"

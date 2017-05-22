@@ -175,7 +175,12 @@ class Popper extends Component {
       ...restProps
     } = this.props
 
-    const popperRef = node => (this._node = node)
+    const popperRef = node => {
+      this._node = node
+      if (typeof innerRef === 'function') {
+        innerRef(node)
+      }
+    }
     const popperStyle = this._getPopperStyle()
     const popperPlacement = this._getPopperPlacement()
 
@@ -196,12 +201,7 @@ class Popper extends Component {
       tag,
       {
         ...restProps,
-        ref: node => {
-          popperRef(node)
-          if (typeof innerRef === 'function') {
-            innerRef(node)
-          }
-        },
+        ref: popperRef,
         style: {
           ...restProps.style,
           ...popperStyle,
