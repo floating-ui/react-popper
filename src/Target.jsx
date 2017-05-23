@@ -4,7 +4,12 @@ import PropTypes from 'prop-types'
 const Target = (props, context) => {
   const { tag = 'div', innerRef, children, ...restProps } = props
   const { popperManager } = context
-  const targetRef = node => popperManager.setTargetNode(node)
+  const targetRef = node => {
+    popperManager.setTargetNode(node)
+    if (typeof innerRef === 'function') {
+      innerRef(node)
+    }
+  }
 
   if (typeof children === 'function') {
     const targetProps = { ref: targetRef }
@@ -14,12 +19,7 @@ const Target = (props, context) => {
   return createElement(
     tag,
     {
-      ref: node => {
-        targetRef(node)
-        if (typeof innerRef === 'function') {
-          innerRef(node)
-        }
-      },
+      ref: targetRef,
       ...restProps,
     },
     children

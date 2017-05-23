@@ -4,7 +4,12 @@ import PropTypes from 'prop-types'
 const Arrow = (props, context) => {
   const { tag = 'span', innerRef, children, ...restProps } = props
   const { popper } = context
-  const arrowRef = node => popper.setArrowNode(node)
+  const arrowRef = node => {
+    popper.setArrowNode(node)
+    if (typeof innerRef === 'function') {
+      innerRef(node)
+    }
+  }
   const arrowStyle = popper.getArrowStyle()
 
   if (typeof children === 'function') {
@@ -19,12 +24,7 @@ const Arrow = (props, context) => {
     tag,
     {
       ...restProps,
-      ref: node => {
-        arrowRef(node)
-        if (typeof innerRef === 'function') {
-          innerRef(node)
-        }
-      },
+      ref: arrowRef,
       style: {
         ...arrowStyle,
         ...restProps.style,

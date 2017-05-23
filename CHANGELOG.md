@@ -1,4 +1,7 @@
 ## CHANGELOG
+### 0.6.5
+Call `innerRef` in _all_ component child functions
+
 ### 0.6.4
 Call `innerRef` in child function as well
 
