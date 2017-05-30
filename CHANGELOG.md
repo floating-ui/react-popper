@@ -1,4 +1,7 @@
 ## CHANGELOG
+### 0.6.6
+Upgrade PopperJS to 1.9.9
+
 ### 0.6.5
 Call `innerRef` in _all_ component child functions
 
