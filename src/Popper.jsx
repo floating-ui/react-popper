@@ -139,10 +139,6 @@ class Popper extends Component {
 
     return {
       position,
-      top: 0,
-      left: 0,
-      transform: `translate3d(${Math.round(left)}px, ${Math.round(top)}px, 0px)`,
-      willChange: 'transform',
       ...data.styles,
     }
   }
