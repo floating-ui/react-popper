@@ -15,7 +15,7 @@ class Popper extends Component {
   }
 
   static propTypes = {
-    tag: PropTypes.string,
+    component: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
     innerRef: PropTypes.func,
     placement: PropTypes.oneOf(PopperJS.placements),
     eventsEnabled: PropTypes.bool,
@@ -24,7 +24,7 @@ class Popper extends Component {
   }
 
   static defaultProps = {
-    tag: 'div',
+    component: 'div',
     placement: 'bottom',
     eventsEnabled: true,
     modifiers: {},
@@ -162,7 +162,7 @@ class Popper extends Component {
 
   render() {
     const {
-      tag,
+      component,
       innerRef,
       placement,
       eventsEnabled,
@@ -193,19 +193,22 @@ class Popper extends Component {
       })
     }
 
-    return createElement(
-      tag,
-      {
-        ...restProps,
-        ref: popperRef,
-        style: {
-          ...restProps.style,
-          ...popperStyle,
-        },
-        'data-placement': popperPlacement,
+    const componentProps = {
+      ...restProps,
+      style: {
+        ...restProps.style,
+        ...popperStyle,
       },
-      children
-    )
+      'data-placement': popperPlacement,
+    }
+
+    if (typeof component === 'string') {
+      componentProps.ref = popperRef
+    } else {
+      componentProps.innerRef = popperRef
+    }
+
+    return createElement(component, componentProps, children)
   }
 }
 

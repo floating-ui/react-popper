@@ -1,4 +1,9 @@
 ## CHANGELOG
+### 0.7.0
+Change `Target`, `Popper`, and `Arrow` component's `tag` prop to `component` to allow custom components to be passed in.
+
+Upgrade PopperJS 1.10.2
+
 ### 0.6.6
 Upgrade PopperJS to 1.9.9
 

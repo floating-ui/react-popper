@@ -76,11 +76,11 @@ const PopperExample = () => (
 
 ## `Shared Props`
 
-`Manager`, `Target`, `Popper`, and `Arrow` all share the following props
+`Target`, `Popper`, and `Arrow` all share the following props
 
-#### `tag`: PropTypes.string
+#### `component`: PropTypes.oneOfType([PropTypes.node, PropTypes.func])
 
-A valid DOM tag to render. Some components allow rendering just children or a child function making this prop obsolete.
+A valid DOM tag or custom component to render. If using a custom component, an `innerRef` prop will be passed down that **must** be attached to the child component ref.
 
 #### `innerRef`: PropTypes.func
 
@@ -90,7 +90,9 @@ Use this prop to access the internal ref. Does not apply to the `Manager` compon
 
 This is a special component that provides the `Target` component to the `Popper` component. Pass any props as you normally would here.
 
-The `tag` prop can be set to `false` to allow just passing children through. This can be useful when composing other components.
+#### `tag`: PropTypes.oneOfType([PropTypes.string, PropTypes.bool])
+
+A valid DOM tag to render. Allows rendering just children by passing `false`. Once React 16 is out, this prop will most likely go away since we will be able to return an array and all this currently does is subscribe `Target` and `Popper`.
 
 ## `Target`
 
