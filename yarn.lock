@@ -3009,9 +3009,9 @@ pkg-dir@^1.0.0:
   dependencies:
     find-up "^1.0.0"
 
-popper.js@^1.10.1:
-  version "1.10.1"
-  resolved "https://registry.yarnpkg.com/popper.js/-/popper.js-1.10.1.tgz#57f2950589f53ffa5837cd44af149487c17f3835"
+popper.js@^1.10.2:
+  version "1.10.2"
+  resolved "https://registry.yarnpkg.com/popper.js/-/popper.js-1.10.2.tgz#3d2d7788e1d85286051633dac6d23554134e4a04"
 
 portfinder@0.4.x:
   version "0.4.0"
