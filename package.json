@@ -3,9 +3,11 @@
   "version": "0.7.0",
   "description": "React wrapper around PopperJS.",
   "main": "lib/react-popper.js",
+  "types": "react-popper.d.ts",
   "files": [
     "dist",
-    "lib"
+    "lib",
+    "react-popper.d.ts"
   ],
   "scripts": {
     "build:lib": "babel src --out-dir lib",
