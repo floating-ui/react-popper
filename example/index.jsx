@@ -1,4 +1,4 @@
-import React, { Component, Children, createElement } from 'react'
+import React, { Component, PureComponent, Children, createElement } from 'react'
 import ReactDOM, { findDOMNode } from 'react-dom'
 import PropTypes from 'prop-types'
 import { VelocityTransitionGroup } from 'velocity-react'
@@ -112,7 +112,7 @@ class MultipleExample extends Component {
   }
 }
 
-class AnimatedExample extends Component {
+class AnimatedExample extends PureComponent {
   state = {
     isOpen: false,
   }
