@@ -6,6 +6,8 @@ Fix `scheduleUpdate` call if `this._popper` does not exist [#38](https://github.
 
 Add typescript definitions [#40](https://github.com/souporserious/react-popper/pull/40)
 
+Upgrade to Popper.js 1.10.8
+
 ### 0.7.0
 Change `Target`, `Popper`, and `Arrow` component's `tag` prop to `component` to allow custom components to be passed in.
 
