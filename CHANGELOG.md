@@ -1,6 +1,6 @@
 ## CHANGELOG
 ### 0.7.1
-Support `top` and `left` arrow offsets together [#37](https://github.com/souporserious/react-popper/pull/37)
+Support `top` and `left` arrow offsets together, be aware this most likely broke any prior CSS positioning your arrows [#37](https://github.com/souporserious/react-popper/pull/37)
 
 Fix `scheduleUpdate` call if `this._popper` does not exist [#38](https://github.com/souporserious/react-popper/pull/38)
 
