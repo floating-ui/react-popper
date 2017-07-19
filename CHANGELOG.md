@@ -1,4 +1,11 @@
 ## CHANGELOG
+### 0.7.1
+Support `top` and `left` arrow offsets together [#37](https://github.com/souporserious/react-popper/pull/37)
+
+Fix `scheduleUpdate` call if `this._popper` does not exist [#38](https://github.com/souporserious/react-popper/pull/38)
+
+Add typescript definitions [#40](https://github.com/souporserious/react-popper/pull/40)
+
 ### 0.7.0
 Change `Target`, `Popper`, and `Arrow` component's `tag` prop to `component` to allow custom components to be passed in.
 
