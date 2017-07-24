@@ -152,7 +152,7 @@ class Popper extends Component {
       return {}
     } else {
       const { top, left } = this.state.data.offsets.arrow
-      return { top: +top, left: +left }
+      return { top, left }
     }
   }
 

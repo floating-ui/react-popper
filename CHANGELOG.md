@@ -1,4 +1,7 @@
 ## CHANGELOG
+### 0.7.2
+Fix `top` and `left` arrow calculation. Disregard the note below about changing the CSS positioning, this was an error on `react-popper`'s part.
+
 ### 0.7.1
 Support `top` and `left` arrow offsets together, be aware this most likely broke any prior CSS positioning your arrows [#37](https://github.com/souporserious/react-popper/pull/37)
 

@@ -38,10 +38,10 @@ select {
 .popper[data-placement^="top"] .popper__arrow {
   border-width: 5px 5px 0 5px;
   border-color: #222 transparent transparent transparent;
-  top: auto !important;
-  bottom: 0;
+  bottom: -5px;
   left: calc(50% - 5px);
-  margin-bottom: -5px;
+  margin-top: 0;
+  margin-bottom: 0;
 }
 
 .popper[data-placement^="bottom"] {
@@ -51,8 +51,9 @@ select {
 .popper[data-placement^="bottom"] .popper__arrow {
   border-width: 0 5px 5px 5px;
   border-color: transparent transparent #222 transparent;
+  top: -5px;
   left: calc(50% - 5px);
-  margin-top: -5px;
+  margin-top: 0;
   margin-bottom: 0;
 }
 
@@ -63,8 +64,9 @@ select {
 .popper[data-placement^="right"] .popper__arrow {
   border-width: 5px 5px 5px 0;
   border-color: transparent #222 transparent transparent;
+  left: -5px;
   top: calc(50% - 5px);
-  margin-left: -5px;
+  margin-left: 0;
   margin-right: 0;
 }
 
@@ -75,8 +77,8 @@ select {
 .popper[data-placement^="left"] .popper__arrow {
   border-width: 5px 0 5px 5px;
   border-color: transparent transparent transparent #222;
+  right: -5px;
   top: calc(50% - 5px);
-  right: 0;
-  left: auto !important;
-  margin-right: -5px;
+  margin-left: 0;
+  margin-right: 0;
 }
