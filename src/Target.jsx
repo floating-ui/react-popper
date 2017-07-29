@@ -2,7 +2,7 @@ import React, { Component, createElement } from 'react'
 import PropTypes from 'prop-types'
 
 const Target = (props, context) => {
-  const { tag = 'div', innerRef, children, ...restProps } = props
+  const { component = 'div', innerRef, children, ...restProps } = props
   const { popperManager } = context
   const targetRef = node => {
     popperManager.setTargetNode(node)
@@ -16,14 +16,17 @@ const Target = (props, context) => {
     return children({ targetProps, restProps })
   }
 
-  return createElement(
-    tag,
-    {
-      ref: targetRef,
-      ...restProps,
-    },
-    children
-  )
+  const componentProps = {
+    ...restProps,
+  }
+
+  if (typeof component === 'string') {
+    componentProps.ref = targetRef
+  } else {
+    componentProps.innerRef = targetRef
+  }
+
+  return createElement(component, componentProps, children)
 }
 
 Target.contextTypes = {
@@ -31,7 +34,7 @@ Target.contextTypes = {
 }
 
 Target.propTypes = {
-  tag: PropTypes.string,
+  component: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
   innerRef: PropTypes.func,
   children: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
 }

@@ -1,12 +1,10 @@
 {
   "name": "react-popper",
-  "version": "0.6.6",
+  "version": "0.7.2",
   "description": "React wrapper around PopperJS.",
   "main": "lib/react-popper.js",
-  "files": [
-    "dist",
-    "lib"
-  ],
+  "types": "react-popper.d.ts",
+  "files": ["dist", "lib", "react-popper.d.ts"],
   "scripts": {
     "build:lib": "babel src --out-dir lib",
     "build": "npm run build:lib && NODE_ENV=production webpack --config webpack.prod.config.js",

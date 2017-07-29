@@ -76,11 +76,11 @@ const PopperExample = () => (
 
 ## `Shared Props`
 
-`Manager`, `Target`, `Popper`, and `Arrow` all share the following props
+`Target`, `Popper`, and `Arrow` all share the following props
 
-#### `tag`: PropTypes.string
+#### `component`: PropTypes.oneOfType([PropTypes.node, PropTypes.func])
 
-A valid DOM tag to render. Some components allow rendering just children or a child function making this prop obsolete.
+A valid DOM tag or custom component to render. If using a custom component, an `innerRef` prop will be passed down that **must** be attached to the child component ref.
 
 #### `innerRef`: PropTypes.func
 

@@ -1,4 +1,21 @@
 ## CHANGELOG
+### 0.7.2
+Fix `top` and `left` arrow calculation. Disregard the note below about changing the CSS positioning, this was an error on `react-popper`'s part.
+
+### 0.7.1
+Support `top` and `left` arrow offsets together, be aware this most likely broke any prior CSS positioning your arrows [#37](https://github.com/souporserious/react-popper/pull/37)
+
+Fix `scheduleUpdate` call if `this._popper` does not exist [#38](https://github.com/souporserious/react-popper/pull/38)
+
+Add typescript definitions [#40](https://github.com/souporserious/react-popper/pull/40)
+
+Upgrade to Popper.js 1.10.8
+
+### 0.7.0
+Change `Target`, `Popper`, and `Arrow` component's `tag` prop to `component` to allow custom components to be passed in.
+
+Upgrade PopperJS 1.10.2
+
 ### 0.6.6
 Upgrade PopperJS to 1.9.9
 

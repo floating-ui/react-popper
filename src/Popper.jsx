@@ -15,7 +15,7 @@ class Popper extends Component {
   }
 
   static propTypes = {
-    tag: PropTypes.string,
+    component: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
     innerRef: PropTypes.func,
     placement: PropTypes.oneOf(PopperJS.placements),
     eventsEnabled: PropTypes.bool,
@@ -24,7 +24,7 @@ class Popper extends Component {
   }
 
   static defaultProps = {
-    tag: 'div',
+    component: 'div',
     placement: 'bottom',
     eventsEnabled: true,
     modifiers: {},
@@ -53,7 +53,7 @@ class Popper extends Component {
       this._updatePopper()
     }
 
-    if (lastProps.children !== this.props.children) {
+    if (this._popper && lastProps.children !== this.props.children) {
       this._popper.scheduleUpdate()
     }
   }
@@ -139,10 +139,6 @@ class Popper extends Component {
 
     return {
       position,
-      top: 0,
-      left: 0,
-      transform: `translate3d(${Math.round(left)}px, ${Math.round(top)}px, 0px)`,
-      willChange: 'transform',
       ...data.styles,
     }
   }
@@ -156,17 +152,13 @@ class Popper extends Component {
       return {}
     } else {
       const { top, left } = this.state.data.offsets.arrow
-      if (!left) {
-        return { top: +top }
-      } else {
-        return { left: +left }
-      }
+      return { top, left }
     }
   }
 
   render() {
     const {
-      tag,
+      component,
       innerRef,
       placement,
       eventsEnabled,
@@ -197,19 +189,22 @@ class Popper extends Component {
       })
     }
 
-    return createElement(
-      tag,
-      {
-        ...restProps,
-        ref: popperRef,
-        style: {
-          ...restProps.style,
-          ...popperStyle,
-        },
-        'data-placement': popperPlacement,
+    const componentProps = {
+      ...restProps,
+      style: {
+        ...restProps.style,
+        ...popperStyle,
       },
-      children
-    )
+      'data-placement': popperPlacement,
+    }
+
+    if (typeof component === 'string') {
+      componentProps.ref = popperRef
+    } else {
+      componentProps.innerRef = popperRef
+    }
+
+    return createElement(component, componentProps, children)
   }
 }
 
