@@ -88,9 +88,8 @@ Use this prop to access the internal ref. Does not apply to the `Manager` compon
 
 ## `Manager`
 
-This is a special component that provides the `Target` component to the `Popper` component. Pass any props as you normally would here.
-
-The `tag` prop can be set to `false` to allow just passing children through. This can be useful when composing other components.
+This is a special component that provides the `Target` component to the `Popper` component.  
+It will not render any HTML element but simply render anything you pass as children.
 
 ## `Target`
 
