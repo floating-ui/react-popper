@@ -88,11 +88,8 @@ Use this prop to access the internal ref. Does not apply to the `Manager` compon
 
 ## `Manager`
 
-This is a special component that provides the `Target` component to the `Popper` component. Pass any props as you normally would here.
-
-#### `tag`: PropTypes.oneOfType([PropTypes.string, PropTypes.bool])
-
-A valid DOM tag to render. Allows rendering just children by passing `false`. Once React 16 is out, this prop will most likely go away since we will be able to return an array and all this currently does is subscribe `Target` and `Popper`.
+This is a special component that provides the `Target` component to the `Popper` component.  
+It will not render any HTML element but simply render anything you pass as children.
 
 ## `Target`
 

@@ -6,14 +6,6 @@ class Manager extends Component {
     popperManager: PropTypes.object.isRequired,
   }
 
-  static propTypes = {
-    tag: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  }
-
-  static defaultProps = {
-    tag: 'div',
-  }
-
   getChildContext() {
     return {
       popperManager: {
@@ -32,12 +24,7 @@ class Manager extends Component {
   }
 
   render() {
-    const { tag, children, ...restProps } = this.props
-    if (tag !== false) {
-      return createElement(tag, restProps, children)
-    } else {
-      return children
-    }
+    return this.props.children
   }
 }
 
