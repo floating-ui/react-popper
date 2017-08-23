@@ -16,6 +16,7 @@ class Popper extends Component {
 
   static propTypes = {
     component: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
+    componentProps: PropTypes.object,
     innerRef: PropTypes.func,
     placement: PropTypes.oneOf(PopperJS.placements),
     eventsEnabled: PropTypes.bool,
@@ -159,6 +160,7 @@ class Popper extends Component {
   render() {
     const {
       component,
+      componentProps: defaultComponentProps,
       innerRef,
       placement,
       eventsEnabled,
@@ -189,20 +191,18 @@ class Popper extends Component {
       })
     }
 
-    const componentProps = {
-      ...restProps,
+    const baseComponentProps = {
       style: {
         ...restProps.style,
         ...popperStyle,
       },
       'data-placement': popperPlacement,
+      ...defaultComponentProps
     }
 
-    if (typeof component === 'string') {
-      componentProps.ref = popperRef
-    } else {
-      componentProps.innerRef = popperRef
-    }
+    const componentProps = typeof component.type === 'string'
+      ? { ...baseComponentProps, ref: popperRef }
+      : { ...baseComponentProps, ...restProps, innerRef: popperRef }
 
     return createElement(component, componentProps, children)
   }

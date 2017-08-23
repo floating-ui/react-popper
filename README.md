@@ -81,6 +81,17 @@ const PopperExample = () => (
 #### `component`: PropTypes.oneOfType([PropTypes.node, PropTypes.func])
 
 A valid DOM tag or custom component to render. If using a custom component, an `innerRef` prop will be passed down that **must** be attached to the child component ref.
+Defaults to 'div'.
+
+#### `componentProps`: PropTypes.object
+
+Additional props to be passed to the corresponding DOM tag `component` along with `style`, `data-placement`, and `ref || innerRef`.
+
+```js
+<Popper component="a" componentProps={{href: 'google.com'}}>
+  ...
+</Popper>
+```
 
 #### `innerRef`: PropTypes.func
 
