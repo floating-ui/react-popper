@@ -32,14 +32,24 @@ class Popper extends Component {
 
   state = {}
 
+  subscribers = []
+
   getChildContext() {
+    console.log('getChildContext', this)
     return {
       popper: {
+        subscribe: this._subscribe,
+        unsubscribe: this._unsubscribe,
         setArrowNode: this._setArrowNode,
-        getArrowStyle: this._getArrowStyle,
       },
     }
   }
+
+  // Add a subcomponent update fn that needs to get updated when we do
+  _subscribe = fn => this.subscribers.push(fn)
+  // Remove such a fn
+  _unsubscribe = fn =>
+    (this.subscribers = this.subscribers.filter(s => s !== fn))
 
   componentDidMount() {
     this._updatePopper()
@@ -70,18 +80,21 @@ class Popper extends Component {
     return this.context.popperManager.getTargetNode()
   }
 
+  _updateFromData = data => {
+    if (
+      (this.state.data && !isEqual(data.offsets, this.state.data.offsets)) ||
+      !this.state.data
+    ) {
+      this.setState({ data })
+      this.subscribers.forEach(s => s(data))
+    }
+    return data
+  }
+
   _updateStateModifier = {
     enabled: true,
     order: 900,
-    fn: data => {
-      if (
-        (this.state.data && !isEqual(data.offsets, this.state.data.offsets)) ||
-        !this.state.data
-      ) {
-        this.setState({ data })
-      }
-      return data
-    },
+    fn: this._updateFromData,
   }
 
   _updatePopper() {
@@ -145,15 +158,6 @@ class Popper extends Component {
 
   _getPopperPlacement = () => {
     return !!this.state.data ? this.state.data.placement : undefined
-  }
-
-  _getArrowStyle = () => {
-    if (!this.state.data || !this.state.data.offsets.arrow) {
-      return {}
-    } else {
-      const { top, left } = this.state.data.offsets.arrow
-      return { top, left }
-    }
   }
 
   render() {
