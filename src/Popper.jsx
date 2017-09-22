@@ -147,6 +147,10 @@ class Popper extends Component {
     return !!this.state.data ? this.state.data.placement : undefined
   }
 
+  _getPopperHide = () => {
+    return !!this.state.data && this.state.data.hide ? '' : undefined
+  }
+
   _getArrowStyle = () => {
     if (!this.state.data || !this.state.data.offsets.arrow) {
       return {}
@@ -175,12 +179,14 @@ class Popper extends Component {
     }
     const popperStyle = this._getPopperStyle()
     const popperPlacement = this._getPopperPlacement()
+    const popperHide = this._getPopperHide()
 
     if (typeof children === 'function') {
       const popperProps = {
         ref: popperRef,
         style: popperStyle,
         ['data-placement']: popperPlacement,
+        ['data-x-out-of-boundaries']: popperHide,
       }
       return children({
         popperProps,
@@ -196,6 +202,7 @@ class Popper extends Component {
         ...popperStyle,
       },
       'data-placement': popperPlacement,
+      'data-x-out-of-boundaries': popperHide,
     }
 
     if (typeof component === 'string') {
