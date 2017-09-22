@@ -1,7 +1,6 @@
 import React, { Component, createElement } from 'react'
 import PropTypes from 'prop-types'
 import PopperJS from 'popper.js'
-import isEqual from 'is-equal-shallow'
 
 const noop = () => null
 
@@ -70,14 +69,26 @@ class Popper extends Component {
     return this.context.popperManager.getTargetNode()
   }
 
+  _getOffsets = data => {
+    return Object.keys(data.offsets).map(key => data.offsets[key])
+  }
+
+  _isDataDirty = data => {
+    if (this.state.data) {
+      return (
+        JSON.stringify(this._getOffsets(this.state.data)) !==
+        JSON.stringify(this._getOffsets(data))
+      )
+    } else {
+      return true
+    }
+  }
+
   _updateStateModifier = {
     enabled: true,
     order: 900,
     fn: data => {
-      if (
-        (this.state.data && !isEqual(data.offsets, this.state.data.offsets)) ||
-        !this.state.data
-      ) {
+      if (this._isDataDirty(data)) {
         this.setState({ data })
       }
       return data

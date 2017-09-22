@@ -23,7 +23,7 @@ const modifiers = {
   },
 }
 
-const CustomTarget = ({ innerRef, ...props }) =>
+const CustomTarget = ({ innerRef, ...props }) => (
   <button
     ref={innerRef}
     style={{
@@ -41,8 +41,9 @@ const CustomTarget = ({ innerRef, ...props }) =>
     }}
     {...props}
   />
+)
 
-const CustomPopper = ({ innerRef, style, ...props }) =>
+const CustomPopper = ({ innerRef, style, ...props }) => (
   <div
     ref={innerRef}
     style={{
@@ -58,6 +59,7 @@ const CustomPopper = ({ innerRef, style, ...props }) =>
     }}
     {...props}
   />
+)
 
 class MultipleExample extends Component {
   state = {
@@ -66,41 +68,54 @@ class MultipleExample extends Component {
 
   render() {
     const { placement } = this.state
-    return <div>
-        <select value={placement} onChange={e => this.setState({
+    return (
+      <div>
+        <select
+          value={placement}
+          onChange={e =>
+            this.setState({
               placement: e.target.value,
-            })}>
-          {PopperJS.placements.map(placement =>
+            })}
+        >
+          {PopperJS.placements.map(placement => (
             <option key={placement} value={placement}>
               {placement}
             </option>
-          )}
+          ))}
         </select>
         <Manager>
           <Target style={{ width: 120, height: 120, background: 'red' }}>
             Box
           </Target>
           <Popper placement="left">
-            {({ popperProps }) => <div {...popperProps} className="popper">
+            {({ popperProps }) => (
+              <div {...popperProps} className="popper">
                 Content Left
                 <Arrow>
-                  {({ arrowProps }) =>
-                    <span {...arrowProps} className="popper__arrow" />}
+                  {({ arrowProps }) => (
+                    <span {...arrowProps} className="popper__arrow" />
+                  )}
                 </Arrow>
-              </div>}
+              </div>
+            )}
           </Popper>
           <Popper className="popper" placement="right">
             Content Right
             <Arrow className="popper__arrow" />
           </Popper>
           <Portal>
-            <Popper className="popper" placement={placement} modifiers={modifiers}>
+            <Popper
+              className="popper"
+              placement={placement}
+              modifiers={modifiers}
+            >
               Dynamic Content in a Portal!
               <Arrow className="popper__arrow" />
             </Popper>
           </Portal>
         </Manager>
-      </div>;
+      </div>
+    )
   }
 }
 
@@ -164,7 +179,7 @@ class AnimatedExample extends PureComponent {
           enter={{ opacity: 1, scale: 1 }}
           leave={{ opacity: 0, scale: 0.9 }}
         >
-          {this.state.isOpen &&
+          {this.state.isOpen && (
             <Popper
               key="popper"
               component={CustomPopper}
@@ -173,16 +188,15 @@ class AnimatedExample extends PureComponent {
               }}
               placement="bottom"
             >
-              <div>
-                Animated Popper 🎉
-              </div>
-            </Popper>}
+              <div>Animated Popper 🎉</div>
+            </Popper>
+          )}
         </Transition>
       </Manager>
     )
   }
 }
-const App = () =>
+const App = () => (
   <div
     style={{
       padding: 200,
@@ -195,4 +209,5 @@ const App = () =>
       <AnimatedExample />
     </div>
   </div>
+)
 ReactDOM.render(<App />, document.getElementById('app'))
