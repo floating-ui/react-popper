@@ -1,19 +1,17 @@
 {
   "name": "react-popper",
-  "version": "0.7.2",
+  "version": "0.7.3",
   "description": "React wrapper around PopperJS.",
   "main": "lib/react-popper.js",
   "types": "react-popper.d.ts",
-  "files": [
-    "dist",
-    "lib",
-    "react-popper.d.ts"
-  ],
+  "files": ["dist", "lib", "react-popper.d.ts"],
   "scripts": {
     "build:lib": "babel src --out-dir lib",
-    "build": "npm run build:lib && NODE_ENV=production webpack --config webpack.prod.config.js",
+    "build":
+      "npm run build:lib && NODE_ENV=production webpack --config webpack.prod.config.js",
     "dev": "webpack-dev-server --hot --progress --host 0.0.0.0",
-    "postbuild": "NODE_ENV=production TARGET=minify webpack --config webpack.prod.config.js",
+    "postbuild":
+      "NODE_ENV=production TARGET=minify webpack --config webpack.prod.config.js",
     "prebuild": "rm -rf dist && mkdir dist",
     "prepublish": "npm run build"
   },
@@ -30,7 +28,8 @@
     "tooltip",
     "popover"
   ],
-  "author": "Travis Arnold <travis@souporserious.com> (http://souporserious.com)",
+  "author":
+    "Travis Arnold <travis@souporserious.com> (http://souporserious.com)",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/souporserious/react-popper/issues"
