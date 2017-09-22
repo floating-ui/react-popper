@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import { VelocityTransitionGroup } from 'velocity-react'
 import Transition from 'react-motion-ui-pack'
 import { Manager, Target, Popper, Arrow } from '../src/react-popper'
-import { placements } from 'popper.js'
+import PopperJS from 'popper.js'
 import Portal from 'react-travel'
 import outy from 'outy'
 
@@ -66,13 +66,11 @@ class MultipleExample extends Component {
 
   render() {
     const { placement } = this.state
-    return (
-      <div>
-        <select
-          value={placement}
-          onChange={e => this.setState({ placement: e.target.value })}
-        >
-          {placements.map(placement =>
+    return <div>
+        <select value={placement} onChange={e => this.setState({
+              placement: e.target.value,
+            })}>
+          {PopperJS.placements.map(placement =>
             <option key={placement} value={placement}>
               {placement}
             </option>
@@ -83,8 +81,7 @@ class MultipleExample extends Component {
             Box
           </Target>
           <Popper placement="left">
-            {({ popperProps }) =>
-              <div {...popperProps} className="popper">
+            {({ popperProps }) => <div {...popperProps} className="popper">
                 Content Left
                 <Arrow>
                   {({ arrowProps }) =>
@@ -97,18 +94,13 @@ class MultipleExample extends Component {
             <Arrow className="popper__arrow" />
           </Popper>
           <Portal>
-            <Popper
-              className="popper"
-              placement={placement}
-              modifiers={modifiers}
-            >
+            <Popper className="popper" placement={placement} modifiers={modifiers}>
               Dynamic Content in a Portal!
               <Arrow className="popper__arrow" />
             </Popper>
           </Portal>
         </Manager>
-      </div>
-    )
+      </div>;
   }
 }
 

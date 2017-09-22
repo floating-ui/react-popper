@@ -25,9 +25,7 @@ const externals = {
 }
 
 var config = {
-  entry: {
-    index: './src/react-popper.js',
-  },
+  entry: './src/react-popper.js',
   output: {
     path: path.join(__dirname, 'dist'),
     publicPath: 'dist/',
@@ -41,7 +39,7 @@ var config = {
   },
   plugins: [new webpack.BannerPlugin(banner)],
   resolve: {
-    extensions: ['', '.js', '.jsx'],
+    extensions: ['.js', '.jsx'],
   },
   externals: externals,
 }
