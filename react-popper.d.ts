@@ -28,7 +28,9 @@ declare module "react-popper" {
       ref: (ref: HTMLElement) => void;
       style: React.CSSProperties;
       ["data-placement"]: PopperJS.Placement;
-    }
+    },
+    restProps: IRestProps;
+    scheduleUpdate: (() => void) | undefined;
   }
 
   interface IPopperProps extends IComponentProps<IPopperChildrenProps> {
