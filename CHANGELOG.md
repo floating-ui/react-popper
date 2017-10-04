@@ -1,4 +1,11 @@
 ## CHANGELOG
+### 0.7.3
+Upgraded dependencies [#44](https://github.com/souporserious/react-popper/pull/44)
+
+Fix missing data-x-out-of-boundaries attribute [#45](https://github.com/souporserious/react-popper/pull/45)
+
+Update how react-popper.d.ts imports PopperJS [#51](https://github.com/souporserious/react-popper/pull/51)
+
 ### 0.7.2
 Fix `top` and `left` arrow calculation. Disregard the note below about changing the CSS positioning, this was an error on `react-popper`'s part.
 

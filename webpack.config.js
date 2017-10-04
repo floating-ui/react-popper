@@ -1,24 +1,25 @@
 var path = require('path')
-var nodeModulesDir = path.resolve(__dirname, 'node_modules')
+var examplePath = path.resolve(__dirname, 'example')
 
 module.exports = {
-  entry: {
-    index: ['webpack/hot/dev-server', './example/index.jsx'],
-  },
+  entry: path.resolve(examplePath, 'index.jsx'),
   output: {
-    path: './example',
+    path: examplePath,
     filename: 'bundle.js',
   },
   module: {
     loaders: [
       { test: /\.(js|jsx)/, loader: 'babel-loader' },
-      { test: /\.scss$/, loader: 'style!css!postcss!sass?sourceMap' },
+      {
+        test: /\.scss$/,
+        loader: 'style-loader!css-loader!sass-loader?sourceMap',
+      },
     ],
   },
   resolve: {
-    extensions: ['', '.js', '.jsx'],
+    extensions: ['.js', '.jsx'],
   },
   devServer: {
-    contentBase: './example',
+    contentBase: examplePath,
   },
-}
+};
