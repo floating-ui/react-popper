@@ -147,10 +147,10 @@ class Popper extends Component {
     }
 
     const { top, left, position } = data.offsets.popper
-
     return {
       position,
       ...data.styles,
+      ...{width: data.offsets.reference.width}
     }
   }
 
