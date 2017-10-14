@@ -38,7 +38,7 @@
   "homepage": "https://github.com/souporserious/react-popper",
   "peerDependencies": {
     "react": "0.14.x || ^15.0.0 || ^16.0.0",
-    "react-dom": "0.14.x || ^15.0.0 || ^16.0.0colin.dek"
+    "react-dom": "0.14.x || ^15.0.0 || ^16.0.0"
   },
   "dependencies": {
     "popper.js": "^1.12.5",
