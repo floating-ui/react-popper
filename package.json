@@ -4,15 +4,17 @@
   "description": "React wrapper around PopperJS.",
   "main": "lib/react-popper.js",
   "types": "react-popper.d.ts",
-  "files": ["dist", "lib", "react-popper.d.ts"],
+  "files": [
+    "dist",
+    "lib",
+    "react-popper.d.ts"
+  ],
   "scripts": {
     "build:lib": "babel src --out-dir lib",
-    "build":
-      "npm run build:lib && NODE_ENV=production webpack --config webpack.prod.config.js",
+    "build": "npm run build:lib && cross-env NODE_ENV=production webpack --config webpack.prod.config.js",
     "dev": "webpack-dev-server --hot --progress --host 0.0.0.0",
-    "postbuild":
-      "NODE_ENV=production TARGET=minify webpack --config webpack.prod.config.js",
-    "prebuild": "rm -rf dist && mkdir dist",
+    "postbuild": "cross-env NODE_ENV=production && cross-env TARGET=minify webpack --config webpack.prod.config.js",
+    "prebuild": "rimraf dist && mkdir dist",
     "prepublish": "npm run build"
   },
   "repository": {
@@ -28,8 +30,7 @@
     "tooltip",
     "popover"
   ],
-  "author":
-    "Travis Arnold <travis@souporserious.com> (http://souporserious.com)",
+  "author": "Travis Arnold <travis@souporserious.com> (http://souporserious.com)",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/souporserious/react-popper/issues"
@@ -52,8 +53,9 @@
     "babel-preset-react": "^6.16.0",
     "babel-preset-stage-0": "^6.16.0",
     "chokidar": "^1.6.1",
+    "cross-env": "^5.0.5",
     "css-loader": "^0.28.4",
-    "glamor": "3.0.0-1",
+    "glamor": "^2.20.40",
     "html-tag-names": "^1.1.2",
     "http-server": "^0.10.0",
     "node-libs-browser": "^2.0.0",
@@ -66,6 +68,7 @@
     "react-measure": "^2.0.2",
     "react-motion-ui-pack": "^0.10.3",
     "react-travel": "^1.3.0",
+    "rimraf": "^2.6.2",
     "sass-loader": "^6.0.6",
     "style-loader": "^0.18.2",
     "svg-tag-names": "^1.1.1",
