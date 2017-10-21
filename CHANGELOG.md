@@ -1,4 +1,11 @@
 ## CHANGELOG
+### 0.7.4
+Allow React 16 as a peerDependency [#59](https://github.com/souporserious/react-popper/pull/59)
+
+Updates TypeScript definition for IPopperChildrenProps [#61](https://github.com/souporserious/react-popper/pull/61)
+
+Made scripts platform independent [#63](https://github.com/souporserious/react-popper/pull/63)
+
 ### 0.7.3
 Upgraded dependencies [#44](https://github.com/souporserious/react-popper/pull/44)
 
