@@ -149,7 +149,7 @@ A `Popper`'s child may be one of the following:
 
 ## `Arrow`
 
-Another component that subscribes to the `Popper` component as an [arrow modifier](https://github.com/FezVrasta/popper.js/blob/master/docs/_includes/popper-documentation.md#Modifiers.arrow). Must be a child of `Popper`.
+Another component that subscribes to the `Popper` component as an [arrow modifier](https://github.com/FezVrasta/popper.js/blob/master/docs/_includes/popper-documentation.md#modifiers..arrow). Must be a child of `Popper`.
 
 #### `children`: PropTypes.oneOfType([PropTypes.node, PropTypes.func])
 
