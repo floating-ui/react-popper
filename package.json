@@ -1,7 +1,7 @@
 {
   "name": "react-popper",
-  "version": "0.7.4",
-  "description": "React wrapper around PopperJS.",
+  "version": "0.8.0",
+  "description": "React wrapper around Popper.js",
   "main": "lib/react-popper.js",
   "types": "react-popper.d.ts",
   "files": ["dist", "lib", "react-popper.d.ts"],
@@ -40,7 +40,7 @@
     "react-dom": "0.14.x || ^15.0.0 || ^16.0.0"
   },
   "dependencies": {
-    "popper.js": "^1.12.5",
+    "popper.js": "^1.12.7",
     "prop-types": "^15.5.10"
   },
   "devDependencies": {
@@ -48,7 +48,7 @@
     "babel-core": "^6.17.0",
     "babel-loader": "^7.1.1",
     "babel-plugin-external-helpers": "^6.18.0",
-    "babel-preset-es2015": "^6.16.0",
+    "babel-preset-env": "^1.6.1",
     "babel-preset-react": "^6.16.0",
     "babel-preset-stage-0": "^6.16.0",
     "chokidar": "^1.6.1",
