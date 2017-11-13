@@ -11,16 +11,19 @@ const Arrow = (props, context) => {
     }
   }
   const arrowStyle = popper.getArrowStyle()
+  const popperPlacement = popper.getPlacement()
 
   if (typeof children === 'function') {
     const arrowProps = {
       ref: arrowRef,
       style: arrowStyle,
+      ['data-placement']: popperPlacement,
     }
     return children({ arrowProps, restProps })
   }
 
   const componentProps = {
+    ['data-placement']: popperPlacement,
     ...restProps,
     style: {
       ...arrowStyle,
