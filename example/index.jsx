@@ -125,12 +125,12 @@ class AnimatedExample extends PureComponent {
   }
 
   componentDidMount() {
-    this._setOusideTap()
+    this._setOutsideTap()
   }
 
   componentDidUpdate(lastProps, lastState) {
     if (lastState.isOpen !== this.state.isOpen) {
-      setTimeout(() => this._setOusideTap())
+      setTimeout(() => this._setOutsideTap())
     }
   }
 
@@ -138,7 +138,7 @@ class AnimatedExample extends PureComponent {
     this.outsideTap.remove()
   }
 
-  _setOusideTap = () => {
+  _setOutsideTap = () => {
     const elements = [this.target]
 
     if (this.popper) {
