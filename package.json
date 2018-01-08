@@ -1,6 +1,6 @@
 {
   "name": "react-popper",
-  "version": "0.7.4",
+  "version": "0.7.5",
   "description": "React wrapper around PopperJS.",
   "main": "lib/react-popper.js",
   "types": "react-popper.d.ts",

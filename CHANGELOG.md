@@ -1,4 +1,7 @@
 ## CHANGELOG
+### 0.7.5
+Fix PopperJS instantiation [#77](https://github.com/souporserious/react-popper/pull/77)
+
 ### 0.7.4
 Allow React 16 as a peerDependency [#59](https://github.com/souporserious/react-popper/pull/59)
 
