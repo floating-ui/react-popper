@@ -11,7 +11,9 @@ class Manager extends Component {
   }
 
   static defaultProps = {
-    tag: 'div',
+    // Using React 15 or lower? Remember to set this to `div` or
+    // another valid HTML tag!
+    tag: false,
   }
 
   getChildContext() {
