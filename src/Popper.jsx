@@ -34,6 +34,7 @@ class Popper extends Component {
       popper: {
         setArrowNode: this._setArrowNode,
         getArrowStyle: this._getArrowStyle,
+        getPlacement: this._getPopperPlacement,
       },
     }
   }
