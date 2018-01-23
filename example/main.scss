@@ -11,7 +11,7 @@ html {
 }
 
 select {
-  margin-bottom: 3rem;
+  margin-bottom: 5rem;
 }
 
 .popper {
@@ -81,4 +81,8 @@ select {
   top: calc(50% - 5px);
   margin-left: 0;
   margin-right: 0;
+}
+
+.popper[data-x-out-of-boundaries] {
+    display: none;
 }
