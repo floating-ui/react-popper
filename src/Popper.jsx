@@ -46,9 +46,8 @@ class Popper extends Component {
       this._destroyPopper()
       this._createPopper()
     }
-
     if (lastProps.children !== this.props.children) {
-      this._popper.scheduleUpdate()
+      this._scheduleUpdate()
     }
   }
 
@@ -64,26 +63,14 @@ class Popper extends Component {
     return this.context.popperManager.getTargetNode()
   }
 
-  _getOffsets = data => {
-    return Object.keys(data.offsets).map(key => data.offsets[key])
-  }
-
-  _isDataDirty = data => {
-    if (this.state.data) {
-      return (
-        JSON.stringify(this._getOffsets(this.state.data)) !==
-        JSON.stringify(this._getOffsets(data))
-      )
-    } else {
-      return true
-    }
-  }
-
   _updateStateModifier = {
     enabled: true,
     order: 900,
     fn: data => {
-      if (this._isDataDirty(data)) {
+      if (
+        data.placement !== this.state.placement ||
+        data.hide !== this.state.hide
+      ) {
         this.setState({ data })
       }
       return data
@@ -94,51 +81,23 @@ class Popper extends Component {
     const { placement, eventsEnabled } = this.props
     const modifiers = {
       ...this.props.modifiers,
-      applyStyle: { enabled: false },
       updateState: this._updateStateModifier,
     }
-
     if (this._arrowNode) {
       modifiers.arrow = {
         element: this._arrowNode,
       }
     }
-
     this._popper = new PopperJS(this._getTargetNode(), this._node, {
       placement,
       eventsEnabled,
       modifiers,
     })
-
-    // schedule an update to make sure everything gets positioned correctly
-    // after being instantiated
-    this._popper.scheduleUpdate()
   }
 
   _destroyPopper() {
     if (this._popper) {
       this._popper.destroy()
-    }
-  }
-
-  _getPopperStyle = () => {
-    const { data } = this.state
-
-    // If Popper isn't instantiated, hide the popperElement
-    // to avoid flash of unstyled content
-    if (!data) {
-      return {
-        position: 'absolute',
-        pointerEvents: 'none',
-        opacity: 0,
-      }
-    }
-
-    const { top, left, position } = data.offsets.popper
-
-    return {
-      position,
-      ...data.styles,
     }
   }
 
@@ -159,16 +118,20 @@ class Popper extends Component {
     }
   }
 
-  _getPopperRef = (node) => {
+  _getPopperRef = node => {
     this._node = node
     if (node) {
-      this._createPopper();
+      this._createPopper()
     } else {
-      this._destroyPopper();
+      this._destroyPopper()
     }
     if (this.props.innerRef) {
       this.props.innerRef(node)
     }
+  }
+
+  _scheduleUpdate = () => {
+    this._popper && this._popper.scheduleUpdate()
   }
 
   render() {
@@ -181,36 +144,24 @@ class Popper extends Component {
       children,
       ...restProps
     } = this.props
-    const popperStyle = this._getPopperStyle()
     const popperPlacement = this._getPopperPlacement()
     const popperHide = this._getPopperHide()
 
     if (typeof children === 'function') {
       const popperProps = {
         ref: this._getPopperRef,
-        style: popperStyle,
         ['data-placement']: popperPlacement,
         ['data-x-out-of-boundaries']: popperHide,
       }
-
       return children({
         popperProps,
         restProps,
-        scheduleUpdate: () => {
-          // _createPopper will scheduleUpdate,
-          // so calling this before this._popper exists
-          // can be a noop.
-          this._popper && this._popper.scheduleUpdate();
-        },
+        scheduleUpdate: this._scheduleUpdate,
       })
     }
 
     const componentProps = {
       ...restProps,
-      style: {
-        ...restProps.style,
-        ...popperStyle,
-      },
       'data-placement': popperPlacement,
       'data-x-out-of-boundaries': popperHide,
     }

@@ -1,8 +1,20 @@
 import React, { PureComponent } from 'react'
 import ReactDOM, { findDOMNode } from 'react-dom'
-import Transition from 'react-motion-ui-pack'
+import Transition from 'react-transition-group/Transition';
 import { Manager, Target, Popper, Arrow } from '../src/react-popper'
 import outy from 'outy'
+
+const duration = 300
+
+const defaultStyle = {
+  transition: `opacity ${duration}ms ease-in-out`,
+  opacity: 0,
+}
+
+const transitionStyles = {
+  entering: { opacity: 0 },
+  entered:  { opacity: 1 },
+}
 
 const CustomTarget = ({ innerRef, ...props }) => (
   <button
@@ -99,12 +111,8 @@ class AnimatedExample extends PureComponent {
               >
                 Click {this.state.isOpen ? 'outside to hide' : 'to show'} popper
               </Target>
-              <Transition
-                component={false}
-                enter={{ opacity: 1, scale: 1 }}
-                leave={{ opacity: 0, scale: 0.9 }}
-              >
-                {this.state.isOpen && (
+              <Transition in={this.state.isOpen} timeout={duration}>
+                {state => (
                   <Popper
                     key="popper"
                     component={CustomPopper}
@@ -112,6 +120,10 @@ class AnimatedExample extends PureComponent {
                       this.popper = findDOMNode(c)
                     }}
                     placement="bottom"
+                    style={{
+                      ...defaultStyle,
+                      ...transitionStyles[state]
+                    }}
                   >
                     <div>Animated Popper 🎉</div>
                   </Popper>

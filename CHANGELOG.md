@@ -4,6 +4,8 @@ Upgrade PopperJS dependency to `1.12.9`
 
 Fix `Popper` ref getting called too many times [#81](https://github.com/souporserious/react-popper/issues/81)
 
+Let PopperJS style DOM for better performance as described in [vjeux's talk](https://speakerdeck.com/vjeux/react-rally-animated-react-performance-toolbox).
+
 ### 0.7.5
 Fix PopperJS instantiation [#77](https://github.com/souporserious/react-popper/pull/77)
 
