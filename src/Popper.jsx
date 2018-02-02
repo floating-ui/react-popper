@@ -159,6 +159,18 @@ class Popper extends Component {
     }
   }
 
+  _getPopperRef = (node) => {
+    this._node = node
+    if (node) {
+      this._createPopper();
+    } else {
+      this._destroyPopper();
+    }
+    if (this.props.innerRef) {
+      this.props.innerRef(node)
+    }
+  }
+
   render() {
     const {
       component,
@@ -169,25 +181,13 @@ class Popper extends Component {
       children,
       ...restProps
     } = this.props
-
-    const popperRef = node => {
-      this._node = node
-      if(node) {
-        this._createPopper();
-      } else {
-        this._destroyPopper();
-      }
-      if (typeof innerRef === 'function') {
-        innerRef(node)
-      }
-    }
     const popperStyle = this._getPopperStyle()
     const popperPlacement = this._getPopperPlacement()
     const popperHide = this._getPopperHide()
 
     if (typeof children === 'function') {
       const popperProps = {
-        ref: popperRef,
+        ref: this._getPopperRef,
         style: popperStyle,
         ['data-placement']: popperPlacement,
         ['data-x-out-of-boundaries']: popperHide,
@@ -216,9 +216,9 @@ class Popper extends Component {
     }
 
     if (typeof component === 'string') {
-      componentProps.ref = popperRef
+      componentProps.ref = this._getPopperRef
     } else {
-      componentProps.innerRef = popperRef
+      componentProps.innerRef = this._getPopperRef
     }
 
     return createElement(component, componentProps, children)
@@ -226,4 +226,3 @@ class Popper extends Component {
 }
 
 export default Popper
-
