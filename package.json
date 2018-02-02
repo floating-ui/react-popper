@@ -41,7 +41,7 @@
     "react-dom": "0.14.x || ^15.0.0 || ^16.0.0"
   },
   "dependencies": {
-    "popper.js": "^1.12.5",
+    "popper.js": "^1.12.9",
     "prop-types": "^15.5.10"
   },
   "devDependencies": {
