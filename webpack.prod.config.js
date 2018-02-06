@@ -35,7 +35,13 @@ var config = {
     libraryTarget: 'umd',
   },
   module: {
-    loaders: [{ test: /\.(js|jsx)/, loader: 'babel-loader' }],
+    loaders: [
+      {
+        exclude: /node_modules/,
+        test: /\.(js|jsx)/,
+        loader: 'babel-loader',
+      },
+    ],
   },
   plugins: [new webpack.BannerPlugin(banner)],
   resolve: {
@@ -55,7 +61,7 @@ if (TARGET === 'minify') {
       mangle: {
         except: ['React', 'ReactDOM', 'Popper', 'ReactPopper'],
       },
-    })
+    }),
   )
 }
 

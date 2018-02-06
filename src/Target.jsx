@@ -1,4 +1,4 @@
-import React, { Component, createElement } from 'react'
+import { createElement } from 'react'
 import PropTypes from 'prop-types'
 
 const Target = (props, context) => {
