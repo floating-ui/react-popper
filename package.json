@@ -40,7 +40,7 @@
     "postbuild":
       "cross-env NODE_ENV=production && cross-env TARGET=minify webpack --config webpack.prod.config.js",
     "prebuild": "rimraf dist && mkdir dist",
-    "prepublish": "npm run build"
+    "prepare": "npm run build"
   },
   "peerDependencies": {
     "react": "0.14.x || ^15.0.0 || ^16.0.0",
