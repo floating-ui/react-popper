@@ -9,7 +9,11 @@ module.exports = {
   },
   module: {
     loaders: [
-      { test: /\.(js|jsx)/, loader: 'babel-loader' },
+      {
+        exclude: /node_modules/,
+        test: /\.(js|jsx)/,
+        loader: 'babel-loader',
+      },
       {
         test: /\.css$/,
         loader: 'style-loader!css-loader?sourceMap',
@@ -22,4 +26,4 @@ module.exports = {
   devServer: {
     contentBase: examplePath,
   },
-};
+}
