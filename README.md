@@ -1,13 +1,16 @@
 ## React Popper
 
-[![npm version](https://badge.fury.io/js/react-popper.svg)](https://badge.fury.io/js/react-popper)
+[![npm version](https://img.shields.io/npm/v/react-popper.svg)](https://www.npmjs.com/package/react-popper)
+[![npm downloads](https://img.shields.io/npm/dm/react-popper.svg)](https://www.npmjs.com/package/react-popper)
 [![Dependency Status](https://david-dm.org/souporserious/react-popper.svg)](https://david-dm.org/souporserious/react-popper)
+[![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
+[![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg)](https://github.com/prettier/prettier)
 
 React wrapper around [PopperJS](https://github.com/FezVrasta/popper.js/).
 
 ## Install
 
-`npm install react-popper --save`
+`npm install react-popper --save` or `yarn add react-popper`
 
 ```html
 <script src="https://unpkg.com/react-popper/dist/react-popper.js"></script>
@@ -110,9 +113,9 @@ A `Target`'s child may be one of the following:
   ```js
   {
     targetProps: {
-      ref // a function that accepts the target component as an argument
+      ref, // a function that accepts the target component as an argument
     },
-    restProps // any other props that came through the Target component
+    restProps, // any other props that came through the Target component
   }
   ```
 
@@ -141,9 +144,9 @@ A `Popper`'s child may be one of the following:
     popperProps: {
       ref, // a function that accepts the popper component as an argument
       style, // the styles to apply to the popper element
-      ['data-placement'] // the placement of the Popper
+      'data-placement', // the placement of the Popper
     },
-    restProps // any other props that came through the Popper component
+    restProps, // any other props that came through the Popper component
   }
   ```
 
@@ -162,29 +165,30 @@ An `Arrow`'s child may be one of the following:
   {
     arrowProps: {
       ref, // a function that accepts the arrow component as an argument
-      style // the styles to apply to the arrow element
+      style, // the styles to apply to the arrow element
     },
-    restProps // any other props that came through the Arrow component
+    restProps, // any other props that came through the Arrow component
   }
   ```
 
 
 ## Running Locally
 
-clone repo
+#### clone repo
 
 `git clone git@github.com:souporserious/react-popper.git`
 
-move into folder
+#### move into folder
 
 `cd ~/react-popper`
 
-install dependencies
+#### install dependencies
 
-`npm install`
+`npm install` or `yarn`
 
-run dev mode
+#### run dev mode
 
-`npm run dev`
+`npm run dev` or `yarn dev`
 
-open your browser and visit: `http://localhost:8080/`
+#### open your browser and visit:
+`http://localhost:8080/`

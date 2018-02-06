@@ -1,4 +1,4 @@
-import React, { Component, createElement } from 'react'
+import { Component, createElement } from 'react'
 import PropTypes from 'prop-types'
 import PopperJS from 'popper.js'
 
@@ -150,8 +150,8 @@ class Popper extends Component {
     if (typeof children === 'function') {
       const popperProps = {
         ref: this._getPopperRef,
-        ['data-placement']: popperPlacement,
-        ['data-x-out-of-boundaries']: popperHide,
+        'data-placement': popperPlacement,
+        'data-x-out-of-boundaries': popperHide,
       }
       return children({
         popperProps,

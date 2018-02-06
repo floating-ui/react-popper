@@ -11,8 +11,8 @@ module.exports = {
     loaders: [
       { test: /\.(js|jsx)/, loader: 'babel-loader' },
       {
-        test: /\.scss$/,
-        loader: 'style-loader!css-loader!sass-loader?sourceMap',
+        test: /\.css$/,
+        loader: 'style-loader!css-loader?sourceMap',
       },
     ],
   },

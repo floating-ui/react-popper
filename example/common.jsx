@@ -1,7 +1,7 @@
 export const modifiers = {
-    preventOverflow: {
-        enabled: true,
-        escapeWithReference: true,
-        boundariesElement: 'scrollParent'
-    }
+  preventOverflow: {
+    enabled: true,
+    escapeWithReference: true,
+    boundariesElement: 'scrollParent',
+  },
 }

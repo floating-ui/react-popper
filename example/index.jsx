@@ -5,7 +5,7 @@ import MultipleExample from './multiple'
 import AnimatedExample from './animated'
 import ModifiersExample from './modifiers'
 
-import './main.scss'
+import './main.css'
 
 const App = () => (
   <div style={{ padding: 200 }}>

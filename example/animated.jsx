@@ -1,8 +1,9 @@
 import React, { PureComponent } from 'react'
-import ReactDOM, { findDOMNode } from 'react-dom'
-import Transition from 'react-transition-group/Transition';
-import { Manager, Target, Popper, Arrow } from '../src/react-popper'
+import { findDOMNode } from 'react-dom'
+import Transition from 'react-transition-group/Transition'
+import PropTypes from 'prop-types'
 import outy from 'outy'
+import { Manager, Target, Popper } from '../src/react-popper'
 
 const duration = 300
 
@@ -13,7 +14,7 @@ const defaultStyle = {
 
 const transitionStyles = {
   entering: { opacity: 0 },
-  entered:  { opacity: 1 },
+  entered: { opacity: 1 },
 }
 
 const CustomTarget = ({ innerRef, ...props }) => (
@@ -36,6 +37,10 @@ const CustomTarget = ({ innerRef, ...props }) => (
   />
 )
 
+CustomTarget.propTypes = {
+  innerRef: PropTypes.func,
+}
+
 const CustomPopper = ({ innerRef, style, ...props }) => (
   <div
     ref={innerRef}
@@ -53,6 +58,11 @@ const CustomPopper = ({ innerRef, style, ...props }) => (
     {...props}
   />
 )
+
+CustomPopper.propTypes = {
+  innerRef: PropTypes.func,
+  style: PropTypes.object,
+}
 
 class AnimatedExample extends PureComponent {
   state = {
@@ -87,7 +97,7 @@ class AnimatedExample extends PureComponent {
     this.outsideTap = outy(
       elements,
       ['click', 'touchstart'],
-      this._handleOutsideTap
+      this._handleOutsideTap,
     )
   }
 
@@ -101,36 +111,36 @@ class AnimatedExample extends PureComponent {
 
   render() {
     return (
-        <div>
-            <h2>Animated Example</h2>
-            <Manager>
-              <Target
-                innerRef={c => (this.target = findDOMNode(c))}
-                component={CustomTarget}
-                onClick={this._handleTargetClick}
+      <div>
+        <h2>Animated Example</h2>
+        <Manager>
+          <Target
+            innerRef={c => (this.target = findDOMNode(c))}
+            component={CustomTarget}
+            onClick={this._handleTargetClick}
+          >
+            Click {this.state.isOpen ? 'outside to hide' : 'to show'} popper
+          </Target>
+          <Transition in={this.state.isOpen} timeout={duration}>
+            {state => (
+              <Popper
+                key="popper"
+                component={CustomPopper}
+                innerRef={c => {
+                  this.popper = findDOMNode(c)
+                }}
+                placement="bottom"
+                style={{
+                  ...defaultStyle,
+                  ...transitionStyles[state],
+                }}
               >
-                Click {this.state.isOpen ? 'outside to hide' : 'to show'} popper
-              </Target>
-              <Transition in={this.state.isOpen} timeout={duration}>
-                {state => (
-                  <Popper
-                    key="popper"
-                    component={CustomPopper}
-                    innerRef={c => {
-                      this.popper = findDOMNode(c)
-                    }}
-                    placement="bottom"
-                    style={{
-                      ...defaultStyle,
-                      ...transitionStyles[state]
-                    }}
-                  >
-                    <div>Animated Popper 🎉</div>
-                  </Popper>
-                )}
-              </Transition>
-            </Manager>
-        </div>
+                <div>Animated Popper 🎉</div>
+              </Popper>
+            )}
+          </Transition>
+        </Manager>
+      </div>
     )
   }
 }
