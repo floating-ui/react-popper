@@ -1,5 +1,9 @@
 ## CHANGELOG
 
+### 0.8.2
+
+fix es5 build [#90](https://github.com/souporserious/react-popper/pull/90)
+
 ### 0.8.1
 
 Move back to controlling DOM updates through React
