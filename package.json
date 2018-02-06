@@ -25,7 +25,6 @@
     "tooltip",
     "popover"
   ],
-  "browserslist": [">1%", "last 4 versions"],
   "lint-staged": {
     "@(src|example)/**/*.{js,jsx}": ["eslint --fix --max-warnings 5", "git add"]
   },
