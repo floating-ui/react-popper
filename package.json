@@ -43,8 +43,8 @@
   },
   "peerDependencies": {
     "prop-types": "15.x",
-    "react": "0.14.x || ^15.0.0 || ^16.0.0",
-    "react-dom": "0.14.x || ^15.0.0 || ^16.0.0"
+    "react": "0.14.x - 16.x",
+    "react-dom": "0.14.x - 16.x"
   },
   "dependencies": {
     "popper.js": "^1.12.9"
