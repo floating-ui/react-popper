@@ -42,12 +42,12 @@
     "prepare": "npm run build"
   },
   "peerDependencies": {
+    "prop-types": "15.x",
     "react": "0.14.x || ^15.0.0 || ^16.0.0",
     "react-dom": "0.14.x || ^15.0.0 || ^16.0.0"
   },
   "dependencies": {
-    "popper.js": "^1.12.9",
-    "prop-types": "^15.6.0"
+    "popper.js": "^1.12.9"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
@@ -75,6 +75,7 @@
     "lint-staged": "^6.1.0",
     "outy": "^0.1.2",
     "prettier": "^1.10.2",
+    "prop-types": "^15.6.0",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "react-portal": "^4.1.2",
