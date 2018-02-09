@@ -4,6 +4,8 @@ import ReactDOM from 'react-dom'
 import MultipleExample from './multiple'
 import AnimatedExample from './animated'
 import ModifiersExample from './modifiers'
+import OpenableExample from './openable'
+import StandaloneExample from './standalone'
 
 import './main.css'
 
@@ -17,6 +19,12 @@ const App = () => (
     </div>
     <div style={{ marginBottom: 200 }}>
       <ModifiersExample />
+    </div>
+    <div style={{ marginBottom: 200 }}>
+      <OpenableExample />
+    </div>
+    <div style={{ marginBottom: 200 }}>
+      <StandaloneExample />
     </div>
   </div>
 )
