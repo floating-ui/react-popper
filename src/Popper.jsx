@@ -63,6 +63,13 @@ class Popper extends Component {
   _getTargetNode = () => {
     if (this.props.target) {
       return this.props.target
+    } else if (
+      !this.context.popperManager ||
+      !this.context.popperManager.getTargetNode()
+    ) {
+      throw new Error(
+        'Target missing. Popper must be given a target from the Popper Manager, or as a prop.',
+      )
     }
     return this.context.popperManager.getTargetNode()
   }
