@@ -6,6 +6,7 @@ import AnimatedExample from './animated'
 import ModifiersExample from './modifiers'
 import OpenableExample from './openable'
 import StandaloneExample from './standalone'
+import StandaloneObjectExample from './standaloneObject'
 
 import './main.css'
 
@@ -25,6 +26,9 @@ const App = () => (
     </div>
     <div style={{ marginBottom: 200 }}>
       <StandaloneExample />
+    </div>
+    <div style={{ marginBottom: 200 }}>
+      <StandaloneObjectExample />
     </div>
   </div>
 )

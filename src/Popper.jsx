@@ -18,7 +18,14 @@ class Popper extends Component {
     eventsEnabled: PropTypes.bool,
     modifiers: PropTypes.object,
     children: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
-    target: PropTypes.instanceOf(Element),
+    target: PropTypes.oneOfType([
+      PropTypes.instanceOf(Element),
+      PropTypes.shape({
+        getBoundingClientRect: PropTypes.func.isRequired,
+        clientWidth: PropTypes.number.isRequired,
+        clientHeight: PropTypes.number.isRequired,
+      }),
+    ]),
   }
 
   static defaultProps = {
