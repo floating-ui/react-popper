@@ -39,10 +39,13 @@
     "precommit": "lint-staged",
     "format": "npm run lint -- --fix --quiet",
     "lint": "eslint --ext .js,.jsx src/ example/",
-    "build:lib": "babel src --out-dir lib",
-    "build": "npm run build:lib && cross-env NODE_ENV=production webpack --config webpack.prod.config.js",
     "dev": "webpack-dev-server --hot --progress --host 0.0.0.0",
-    "postbuild": "cross-env NODE_ENV=production && cross-env TARGET=minify webpack --config webpack.prod.config.js",
+    "build": "npm run build:lib && npm run build:umd && npm run build:umd-min",
+    "build:lib": "babel src --out-dir lib",
+    "build:umd":
+      "cross-env NODE_ENV=development webpack --config webpack.umd.config.js",
+    "build:umd-min":
+      "cross-env NODE_ENV=production TARGET=minify webpack --config webpack.umd.config.js",
     "prebuild": "rimraf dist && mkdir dist",
     "prepare": "npm run build"
   },
@@ -61,7 +64,9 @@
     "babel-loader": "^7.1.2",
     "babel-plugin-transform-class-properties": "^6.24.1",
     "babel-plugin-transform-export-extensions": "^6.22.0",
+    "babel-plugin-transform-inline-environment-variables": "^0.3.0",
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
+    "babel-plugin-transform-react-remove-prop-types": "^0.4.13",
     "babel-preset-env": "^1.6.1",
     "babel-preset-react": "^6.16.0",
     "cross-env": "^5.0.5",

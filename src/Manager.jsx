@@ -2,9 +2,13 @@ import { Component, createElement } from 'react'
 import PropTypes from 'prop-types'
 
 class Manager extends Component {
-  static childContextTypes = {
-    popperManager: PropTypes.object.isRequired,
-  }
+  static childContextTypes = process.env.NODE_ENV !== 'production'
+    ? {
+        popperManager: PropTypes.object.isRequired,
+      }
+    : {
+        popperManager: () => {},
+      }
 
   static propTypes = {
     tag: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
