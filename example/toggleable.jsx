@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react'
 import { Manager, Target, Popper, Arrow } from '../src/react-popper'
 
-class OpenableExample extends PureComponent {
+class ToggleableExample extends PureComponent {
   state = {
     isOpen: false,
   }
@@ -15,7 +15,7 @@ class OpenableExample extends PureComponent {
   render() {
     return (
       <div>
-        <h2>Openable Popper Example</h2>
+        <h2>Toggleable Popper Example</h2>
         <Manager>
           <Target
             style={{ width: 120, height: 120, background: '#b4da55' }}
@@ -25,7 +25,7 @@ class OpenableExample extends PureComponent {
           </Target>
           {this.state.isOpen && (
             <Popper className="popper">
-              Popper Content for Openable Example
+              Popper Content for Toggleable Example
               <Arrow className="popper__arrow" />
             </Popper>
           )}
@@ -35,4 +35,4 @@ class OpenableExample extends PureComponent {
   }
 }
 
-export default OpenableExample
+export default ToggleableExample

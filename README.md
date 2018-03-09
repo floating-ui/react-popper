@@ -77,51 +77,11 @@ const PopperExample = () => (
 )
 ```
 
-## Usage with opening and closing
-
-This example demonstrates opening and closing a Popper component using state.
-
-```js
-import { PureComponent } from 'react'
-import { Manager, Target, Popper, Arrow } from 'react-popper'
-
-class OpenableExample extends PureComponent {
-  state = {
-    isOpen: false,
-  }
-
-  handleClick = () => {
-    this.setState(prevState => ({
-      isOpen: !prevState.isOpen
-    }))
-  }
-
-  render() {
-    return (
-      <Manager>
-        <Target
-          style={{ width: 120, height: 120, background: '#b4da55' }}
-          onClick={this.handleClick}
-        >
-          Click {this.state.isOpen ? 'to hide' : 'to show'} popper
-        </Target>
-        {this.state.isOpen && (
-          <Popper className="popper">
-            Popper Content
-            <Arrow className="popper__arrow"/>
-          </Popper>
-        )}
-      </Manager>
-    )
-  }
-}
-```
-
 ## Usage without Manager
 
 It's generally easiest to let the `Manager` and `Target` components handle passing the target DOM element to the `Popper` component. However, you can pass a target [Element](https://developer.mozilla.org/en-US/docs/Web/API/Element) or a [referenceObject](https://popper.js.org/popper-documentation.html#referenceObject) directly into `Popper` if you need to.
 
-Handling DOM Elements from React can be complicated, and is generally discouraged. This example doesn't touch on many common pitfalls and edge cases. The `Manager` and `Target` components handle these complexities for you, so their use is strongly recommended.
+Handling DOM Elements from React can be complicated. The `Manager` and `Target` components handle these complexities for you, so their use is strongly recommended when using DOM Elements.
 
 ```js
 import { PureComonent } from 'react'
