@@ -4,10 +4,13 @@
   "description": "React wrapper around PopperJS.",
   "main": "lib/react-popper.js",
   "types": "react-popper.d.ts",
-  "files": ["dist", "lib", "react-popper.d.ts"],
+  "files": [
+    "dist",
+    "lib",
+    "react-popper.d.ts"
+  ],
   "license": "MIT",
-  "author":
-    "Travis Arnold <travis@souporserious.com> (http://souporserious.com)",
+  "author": "Travis Arnold <travis@souporserious.com> (http://souporserious.com)",
   "homepage": "https://github.com/souporserious/react-popper",
   "repository": {
     "type": "git",
@@ -26,18 +29,19 @@
     "popover"
   ],
   "lint-staged": {
-    "@(src|example)/**/*.{js,jsx}": ["eslint --fix --max-warnings 5", "git add"]
+    "@(src|example)/**/*.{js,jsx}": [
+      "eslint --fix --max-warnings 5",
+      "git add"
+    ]
   },
   "scripts": {
     "precommit": "lint-staged",
     "format": "npm run lint -- --fix --quiet",
     "lint": "eslint --ext .js,.jsx src/ example/",
     "build:lib": "babel src --out-dir lib",
-    "build":
-      "npm run build:lib && cross-env NODE_ENV=production webpack --config webpack.prod.config.js",
+    "build": "npm run build:lib && cross-env NODE_ENV=production webpack --config webpack.prod.config.js",
     "dev": "webpack-dev-server --hot --progress --host 0.0.0.0",
-    "postbuild":
-      "cross-env NODE_ENV=production && cross-env TARGET=minify webpack --config webpack.prod.config.js",
+    "postbuild": "cross-env NODE_ENV=production && cross-env TARGET=minify webpack --config webpack.prod.config.js",
     "prebuild": "rimraf dist && mkdir dist",
     "prepare": "npm run build"
   },
@@ -52,7 +56,7 @@
   "devDependencies": {
     "babel-cli": "^6.26.0",
     "babel-core": "^6.26.0",
-    "babel-eslint": "^8.2.1",
+    "babel-eslint": "^8.2.2",
     "babel-loader": "^7.1.2",
     "babel-plugin-transform-class-properties": "^6.24.1",
     "babel-plugin-transform-export-extensions": "^6.22.0",
@@ -61,18 +65,18 @@
     "babel-preset-react": "^6.16.0",
     "cross-env": "^5.0.5",
     "css-loader": "^0.28.9",
-    "eslint": "^4.17.0",
+    "eslint": "^4.18.1",
     "eslint-config-prettier": "^2.9.0",
-    "eslint-config-standard": "^11.0.0-beta.0",
-    "eslint-config-standard-react": "^5.0.0",
-    "eslint-plugin-import": "^2.8.0",
+    "eslint-config-standard": "^11.0.0",
+    "eslint-config-standard-react": "^6.0.0",
+    "eslint-plugin-import": "^2.9.0",
     "eslint-plugin-node": "^6.0.0",
     "eslint-plugin-prettier": "^2.6.0",
     "eslint-plugin-promise": "^3.6.0",
-    "eslint-plugin-react": "^7.6.1",
+    "eslint-plugin-react": "^7.7.0",
     "eslint-plugin-standard": "^3.0.1",
     "husky": "^0.14.3",
-    "lint-staged": "^6.1.0",
+    "lint-staged": "^7.0.0",
     "outy": "^0.1.2",
     "prettier": "^1.10.2",
     "react": "^16.2.0",
@@ -80,8 +84,8 @@
     "react-portal": "^4.1.2",
     "react-transition-group": "^2.2.1",
     "rimraf": "^2.6.2",
-    "style-loader": "^0.20.1",
-    "webpack": "^3.10.0",
+    "style-loader": "^0.20.2",
+    "webpack": "^3.11.0",
     "webpack-dev-server": "^2.11.1"
   }
 }

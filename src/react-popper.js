@@ -1,4 +1,4 @@
-export { default as Manager } from './Manager'
-export { default as Target } from './Target'
-export { default as Popper } from './Popper'
-export { default as Arrow } from './Arrow'
+export Manager from './Manager'
+export Target from './Target'
+export Popper from './Popper'
+export Arrow from './Arrow'
