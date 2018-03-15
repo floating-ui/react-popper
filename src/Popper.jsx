@@ -49,7 +49,8 @@ class Popper extends Component {
   componentDidUpdate(lastProps) {
     if (
       lastProps.placement !== this.props.placement ||
-      lastProps.eventsEnabled !== this.props.eventsEnabled
+      lastProps.eventsEnabled !== this.props.eventsEnabled ||
+      lastProps.target !== this.props.target
     ) {
       this._destroyPopper()
       this._createPopper()
