@@ -1,6 +1,6 @@
 declare module "react-popper" {
   import * as React from "react";
-  import PopperJS from "popper.js";
+  import * as PopperJS from "popper.js";
 
   interface IRestProps {
     restProps: {
