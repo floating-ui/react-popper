@@ -5,11 +5,12 @@
 .AppleDouble
 .LSOverride
 
-# NPM
+# NPM / Yarn
 node_modules
 npm-debug.log
 dist
 lib
+yarn-error.log
 
 # General Files
 .sass-cache
