@@ -1,6 +1,6 @@
 {
   "name": "react-popper",
-  "version": "0.8.2",
+  "version": "0.8.3",
   "description": "React wrapper around PopperJS.",
   "main": "dist/react-popper.js",
   "module": "lib/react-popper.js",
