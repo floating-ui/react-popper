@@ -3,13 +3,21 @@ import PropTypes from 'prop-types'
 import PopperJS from 'popper.js'
 
 class Popper extends Component {
-  static contextTypes = {
-    popperManager: PropTypes.object.isRequired,
-  }
+  static contextTypes = process.env.NODE_ENV !== 'production'
+    ? {
+        popperManager: PropTypes.object.isRequired,
+      }
+    : {
+        popperManager: () => {},
+      }
 
-  static childContextTypes = {
-    popper: PropTypes.object.isRequired,
-  }
+  static childContextTypes = process.env.NODE_ENV !== 'production'
+    ? {
+        popper: PropTypes.object.isRequired,
+      }
+    : {
+        popper: () => {},
+      }
 
   static propTypes = {
     component: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),

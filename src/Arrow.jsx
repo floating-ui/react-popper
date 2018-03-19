@@ -37,11 +37,16 @@ const Arrow = (props, context) => {
   return createElement(component, componentProps, children)
 }
 
-Arrow.contextTypes = {
-  popper: PropTypes.object.isRequired,
-}
+Arrow.contextTypes =
+  process.env.NODE_ENV !== 'production'
+    ? {
+        popper: PropTypes.object.isRequired,
+      }
+    : {
+        popper: () => {},
+      }
 
-Arrow.propTypes = {
+Arrow.propTypes /* remove-proptypes */ = {
   component: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
   innerRef: PropTypes.func,
   children: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),

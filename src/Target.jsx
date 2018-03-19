@@ -29,11 +29,16 @@ const Target = (props, context) => {
   return createElement(component, componentProps, children)
 }
 
-Target.contextTypes = {
-  popperManager: PropTypes.object.isRequired,
-}
+Target.contextTypes =
+  process.env.NODE_ENV !== 'production'
+    ? {
+        popperManager: PropTypes.object.isRequired,
+      }
+    : {
+        popperManager: () => {},
+      }
 
-Target.propTypes = {
+Target.propTypes /* remove-proptypes */ = {
   component: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
   innerRef: PropTypes.func,
   children: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
