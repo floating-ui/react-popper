@@ -4,7 +4,7 @@ import PopperJS from 'popper.js'
 
 class Popper extends Component {
   static contextTypes = {
-    popperManager: PropTypes.object.isRequired,
+    popperManager: PropTypes.object,
   }
 
   static childContextTypes = {
@@ -18,6 +18,14 @@ class Popper extends Component {
     eventsEnabled: PropTypes.bool,
     modifiers: PropTypes.object,
     children: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
+    target: PropTypes.oneOfType([
+      PropTypes.instanceOf(Element),
+      PropTypes.shape({
+        getBoundingClientRect: PropTypes.func.isRequired,
+        clientWidth: PropTypes.number.isRequired,
+        clientHeight: PropTypes.number.isRequired,
+      }),
+    ]),
   }
 
   static defaultProps = {
@@ -41,7 +49,8 @@ class Popper extends Component {
   componentDidUpdate(lastProps) {
     if (
       lastProps.placement !== this.props.placement ||
-      lastProps.eventsEnabled !== this.props.eventsEnabled
+      lastProps.eventsEnabled !== this.props.eventsEnabled ||
+      lastProps.target !== this.props.target
     ) {
       this._destroyPopper()
       this._createPopper()
@@ -60,6 +69,16 @@ class Popper extends Component {
   }
 
   _getTargetNode = () => {
+    if (this.props.target) {
+      return this.props.target
+    } else if (
+      !this.context.popperManager ||
+      !this.context.popperManager.getTargetNode()
+    ) {
+      throw new Error(
+        'Target missing. Popper must be given a target from the Popper Manager, or as a prop.',
+      )
+    }
     return this.context.popperManager.getTargetNode()
   }
 
