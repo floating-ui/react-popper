@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react'
-import { Popper, Arrow } from '../src/react-popper'
+import { Popper, Arrow } from '../src/index'
 
-class StandaloneExample extends PureComponent {
+class StandaloneObjectExample extends PureComponent {
   state = {
     isOpen: false,
   }
@@ -13,18 +13,29 @@ class StandaloneExample extends PureComponent {
   }
 
   render() {
+    const reference = {
+      getBoundingClientRect: () => ({
+        top: 10,
+        left: 100,
+        right: 150,
+        bottom: 90,
+        width: 50,
+        height: 80,
+      }),
+      clientWidth: 50,
+      clientHeight: 80,
+    }
     return (
       <div>
-        <h2>Standalone Popper Example</h2>
+        <h2>Standalone referenceObject Popper Example</h2>
         <div
-          ref={div => (this.target = div)}
           style={{ width: 120, height: 120, background: '#b4da55' }}
           onClick={this.handleClick}
         >
           Click {this.state.isOpen ? 'to hide' : 'to show'} popper
         </div>
         {this.state.isOpen && (
-          <Popper className="popper" target={this.target}>
+          <Popper className="popper" target={reference}>
             Popper Content for Standalone example
             <Arrow className="popper__arrow" />
           </Popper>
@@ -34,4 +45,4 @@ class StandaloneExample extends PureComponent {
   }
 }
 
-export default StandaloneExample
+export default StandaloneObjectExample

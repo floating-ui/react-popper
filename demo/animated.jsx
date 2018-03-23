@@ -3,7 +3,7 @@ import { findDOMNode } from 'react-dom'
 import Transition from 'react-transition-group/Transition'
 import PropTypes from 'prop-types'
 import outy from 'outy'
-import { Manager, Target, Popper } from '../src/react-popper'
+import { Manager, Target, Popper } from '../src/index'
 
 const duration = 300
 

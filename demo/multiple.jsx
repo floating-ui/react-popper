@@ -1,6 +1,6 @@
 import React from 'react'
 import { Portal } from 'react-portal'
-import { Manager, Target, Popper, Arrow, placements } from '../src/react-popper'
+import { Manager, Target, Popper, Arrow, placements } from '../src/index'
 
 const modifiers = {
   customStyle: {

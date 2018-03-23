@@ -1,6 +1,6 @@
 import React from 'react'
 import { Portal } from 'react-portal'
-import { Manager, Target, Popper, Arrow } from '../src/react-popper'
+import { Manager, Target, Popper, Arrow } from '../src/index'
 import { modifiers } from './common'
 
 class MultipleExample extends React.Component {
