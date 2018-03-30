@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react'
-import { Manager, Target, Popper, Arrow } from '../src/react-popper'
+import { Manager, Target, Popper, Arrow } from '../src/index'
 
 class ToggleableExample extends PureComponent {
   state = {
