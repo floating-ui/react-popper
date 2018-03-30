@@ -1,5 +1,10 @@
 ## CHANGELOG
 
+Here are listed the changelogs until 0.8.2, if you are looking for more recent releases changelog please refer to the dedicated GitHub [releases](https://github.com/souporserious/react-popper/releases) page, where you will find all the releases plus the changelog for each of them.
+
+
+----------
+
 ### 0.8.2
 
 fix es5 build [#90](https://github.com/souporserious/react-popper/pull/90)

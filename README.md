@@ -39,7 +39,7 @@ const PopperExample = () => (
 )
 ```
 
-## Usage w/ child function
+## Usage with child function
 
 This is a useful way to interact with custom components. Just make sure you pass down the refs properly.
 
@@ -75,6 +75,49 @@ const PopperExample = () => (
     </Popper>
   </Manager>
 )
+```
+
+## Usage without Manager
+
+It's generally easiest to let the `Manager` and `Target` components handle passing the target DOM element to the `Popper` component. However, you can pass a target [Element](https://developer.mozilla.org/en-US/docs/Web/API/Element) or a [referenceObject](https://popper.js.org/popper-documentation.html#referenceObject) directly into `Popper` if you need to.
+
+Handling DOM Elements from React can be complicated. The `Manager` and `Target` components handle these complexities for you, so their use is strongly recommended when using DOM Elements.
+
+```js
+import { PureComonent } from 'react'
+import { Popper, Arrow } from 'react-popper'
+
+class StandaloneExample extends PureComponent {
+  state = {
+    isOpen: false,
+  }
+
+  handleClick() = () => {
+    this.setState(prevState => ({
+      isOpen: !prevState.isOpen
+    }))
+  }
+
+  render() {
+    return (
+      <div>
+        <div
+          ref={(div) => this.target = div}
+          style={{ width: 120, height: 120, background: '#b4da55' }}
+          onClick={this.handleClick}
+        >
+          Click {this.state.isOpen ? 'to hide' : 'to show'} popper
+        </div>
+        {this.state.isOpen && (
+          <Popper className="popper" target={this.target}>
+            Popper Content
+            <Arrow className="popper__arrow"/>
+          </Popper>
+        )}
+      </div>
+    )
+  }
+}
 ```
 
 ## `Shared Props`
@@ -124,11 +167,12 @@ A `Target`'s child may be one of the following:
 
 Your popper that gets attached to the `Target` component.
 
-Each `Popper` must be wrapped in a `Manager`, and each `Manager` can wrap multiple `Popper` components.
+Each `Popper` must either be wrapped in a `Manager`, or passed a `target` prop directly. Each `Manager` can wrap multiple `Popper` components.
 
 #### `placement`: PropTypes.oneOf(Popper.placements)
 #### `eventsEnabled`: PropTypes.bool
 #### `modifiers`: PropTypes.object
+#### `target`: PropTypes.oneOfType([PropTypes.instanceOf(Element), Popper.referenceObject])
 
 Passes respective options to a new [Popper instance](https://github.com/FezVrasta/popper.js/blob/master/docs/_includes/popper-documentation.md#new-popperreference-popper-options). As for `onCreate` and `onUpdate`, these callbacks were intentionally left out in favor of using the [component lifecycle methods](https://facebook.github.io/react/docs/react-component.html#the-component-lifecycle). If you have a good use case for these please feel free to file and issue and I will consider adding them in.
 

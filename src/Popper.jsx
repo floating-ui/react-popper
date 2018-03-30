@@ -2,9 +2,11 @@ import { Component, createElement } from 'react'
 import PropTypes from 'prop-types'
 import PopperJS from 'popper.js'
 
+export const placements = PopperJS.placements
+
 class Popper extends Component {
   static contextTypes = {
-    popperManager: PropTypes.object.isRequired,
+    popperManager: PropTypes.object,
   }
 
   static childContextTypes = {
@@ -15,10 +17,18 @@ class Popper extends Component {
     component: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
     onFlip: PropTypes.func,
     innerRef: PropTypes.func,
-    placement: PropTypes.oneOf(PopperJS.placements),
+    placement: PropTypes.oneOf(placements),
     eventsEnabled: PropTypes.bool,
     modifiers: PropTypes.object,
     children: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
+    target: PropTypes.oneOfType([
+      PropTypes.instanceOf(Element),
+      PropTypes.shape({
+        getBoundingClientRect: PropTypes.func.isRequired,
+        clientWidth: PropTypes.number.isRequired,
+        clientHeight: PropTypes.number.isRequired,
+      }),
+    ]),
   }
 
   static defaultProps = {
@@ -40,7 +50,7 @@ class Popper extends Component {
   }
 
   componentDidUpdate(lastProps, lastState) {
-    const { children, eventsEnabled, onFlip, placement } = this.props
+    const { children, eventsEnabled, onFlip, placement, target } = this.props
     const { data: { placement: currentPlacement, flipped } } = this.state
 
     if (
@@ -53,7 +63,8 @@ class Popper extends Component {
 
     if (
       lastProps.placement !== placement ||
-      lastProps.eventsEnabled !== eventsEnabled
+      lastProps.eventsEnabled !== eventsEnabled ||
+      lastProps.target !== target
     ) {
       this._destroyPopper()
       this._createPopper()
@@ -72,6 +83,16 @@ class Popper extends Component {
   }
 
   _getTargetNode = () => {
+    if (this.props.target) {
+      return this.props.target
+    } else if (
+      !this.context.popperManager ||
+      !this.context.popperManager.getTargetNode()
+    ) {
+      throw new Error(
+        'Target missing. Popper must be given a target from the Popper Manager, or as a prop.',
+      )
+    }
     return this.context.popperManager.getTargetNode()
   }
 
@@ -110,6 +131,7 @@ class Popper extends Component {
     }
     if (this._arrowNode) {
       modifiers.arrow = {
+        ...(this.props.modifiers.arrow || {}),
         element: this._arrowNode,
       }
     }
