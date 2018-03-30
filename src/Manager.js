@@ -1,45 +1,39 @@
-import { Component, createElement } from 'react'
-import PropTypes from 'prop-types'
+// @flow
+import React, { Component, type Node } from 'react';
+import createReactContext, { type Context } from 'create-react-context';
 
-class Manager extends Component {
-  static childContextTypes = {
-    popperManager: PropTypes.object.isRequired,
-  }
+const noop = () => {};
 
-  static propTypes = {
-    tag: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    children: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
-  }
+export const TargetNodeContext: Context<{
+  targetNode: ?HTMLElement,
+  setTargetNode: (?HTMLElement) => void,
+}> = createReactContext({ targetNode: undefined, setTargetNode: noop });
 
-  static defaultProps = {
-    tag: 'div',
-  }
+type ManagerProps = {
+  children: Node,
+};
 
-  getChildContext() {
-    return {
-      popperManager: {
-        setTargetNode: this._setTargetNode,
-        getTargetNode: this._getTargetNode,
-      },
-    }
-  }
+type ManagerState = {
+  targetNode: ?HTMLElement,
+};
 
-  _setTargetNode = node => {
-    this._targetNode = node
-  }
+export default class Manager extends Component<ManagerProps, ManagerState> {
+  state = {
+    targetNode: undefined,
+  };
 
-  _getTargetNode = () => {
-    return this._targetNode
-  }
+  setTargetNode = (targetNode: ?HTMLElement) => this.setState({ targetNode });
 
   render() {
-    const { tag, children, ...restProps } = this.props
-    if (tag !== false) {
-      return createElement(tag, restProps, children)
-    } else {
-      return children
-    }
+    return (
+      <TargetNodeContext.Provider
+        value={{
+          targetNode: this.state.targetNode,
+          setTargetNode: this.setTargetNode,
+        }}
+      >
+        {this.props.children}
+      </TargetNodeContext.Provider>
+    );
   }
 }
-
-export default Manager

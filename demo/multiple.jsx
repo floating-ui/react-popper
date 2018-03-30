@@ -1,6 +1,6 @@
-import React from 'react'
-import { Portal } from 'react-portal'
-import { Manager, Target, Popper, Arrow, placements } from '../src/index'
+import React from 'react';
+import { Portal } from 'react-portal';
+import { Manager, Target, Popper, Arrow, placements } from '../src/index';
 
 const modifiers = {
   customStyle: {
@@ -9,19 +9,19 @@ const modifiers = {
       data.styles = {
         ...data.styles,
         background: 'red',
-      }
-      return data
+      };
+      return data;
     },
   },
-}
+};
 
 class MultipleExample extends React.Component {
   state = {
     placement: 'bottom',
-  }
+  };
 
   render() {
-    const { placement } = this.state
+    const { placement } = this.state;
     return (
       <div>
         <h2>Multiple Popper Example</h2>
@@ -40,39 +40,41 @@ class MultipleExample extends React.Component {
           ))}
         </select>
         <Manager>
-          <Target style={{ width: 120, height: 120, background: 'red' }}>
-            Box
+          <Target>
+            {({ getTargetRef }) => (
+              <div
+                ref={getTargetRef}
+                style={{ width: 120, height: 120, background: 'red' }}
+              >
+                Box
+              </div>
+            )}
           </Target>
-          <Popper placement="left">
-            {({ popperProps }) => (
-              <div {...popperProps} className="popper">
-                Content Left
+          <Popper placement={this.state.placement}>
+            {({ getPopperRef, style, placement }) => (
+              <div
+                data-placement={placement}
+                ref={getPopperRef}
+                className="popper"
+                style={style}
+              >
+                Popper
                 <Arrow>
-                  {({ arrowProps }) => (
-                    <span {...arrowProps} className="popper__arrow" />
+                  {({ getArrowRef, style }) => (
+                    <div
+                      ref={getArrowRef}
+                      className="popper__arrow"
+                      style={style}
+                    />
                   )}
                 </Arrow>
               </div>
             )}
           </Popper>
-          <Popper className="popper" placement="right">
-            Content Right
-            <Arrow className="popper__arrow" />
-          </Popper>
-          <Portal>
-            <Popper
-              className="popper"
-              placement={placement}
-              modifiers={modifiers}
-            >
-              Dynamic Content in a Portal!
-              <Arrow className="popper__arrow" />
-            </Popper>
-          </Portal>
         </Manager>
       </div>
-    )
+    );
   }
 }
 
-export default MultipleExample
+export default MultipleExample;
