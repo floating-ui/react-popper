@@ -1,7 +1,6 @@
 import React from 'react'
-import PopperJS from 'popper.js'
 import { Portal } from 'react-portal'
-import { Manager, Target, Popper, Arrow } from '../src/react-popper'
+import { Manager, Target, Popper, Arrow, placements } from '../src/react-popper'
 
 const modifiers = {
   customStyle: {
@@ -34,7 +33,7 @@ class MultipleExample extends React.Component {
             })
           }
         >
-          {PopperJS.placements.map(placement => (
+          {placements.map(placement => (
             <option key={placement} value={placement}>
               {placement}
             </option>

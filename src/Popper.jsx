@@ -2,6 +2,8 @@ import { Component, createElement } from 'react'
 import PropTypes from 'prop-types'
 import PopperJS from 'popper.js'
 
+export const placements = PopperJS.placements
+
 class Popper extends Component {
   static contextTypes = {
     popperManager: PropTypes.object,
@@ -14,7 +16,7 @@ class Popper extends Component {
   static propTypes = {
     component: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
     innerRef: PropTypes.func,
-    placement: PropTypes.oneOf(PopperJS.placements),
+    placement: PropTypes.oneOf(placements),
     eventsEnabled: PropTypes.bool,
     modifiers: PropTypes.object,
     children: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
