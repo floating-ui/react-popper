@@ -51,7 +51,7 @@ class Popper extends Component {
 
   componentDidUpdate(lastProps, lastState) {
     const { children, eventsEnabled, onFlip, placement, target } = this.props
-    const { data: { placement: currentPlacement, flipped } } = this.state
+    const { data: { placement: currentPlacement, flipped } = {} } = this.state
 
     if (
       onFlip &&
