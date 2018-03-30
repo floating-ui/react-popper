@@ -49,27 +49,35 @@ class Popper extends Component {
     }
   }
 
-  componentDidUpdate(lastProps, lastState) {
+  componentDidUpdate(
+    {
+      children: lastChildren,
+      eventsEnabled: lastEventsEnabled,
+      placement: lastPlacement,
+      target: lastTarget,
+    },
+    { data: lastStateData },
+  ) {
     const { children, eventsEnabled, onFlip, placement, target } = this.props
     const { data: { placement: currentPlacement, flipped } = {} } = this.state
 
     if (
       onFlip &&
-      ((!lastState.data && flipped) ||
-        (lastState.data && lastState.data.flipped !== flipped))
+      ((!lastStateData && flipped) ||
+        (lastStateData && lastStateData.flipped !== flipped))
     ) {
       onFlip({ placement: currentPlacement, flipped })
     }
 
     if (
-      lastProps.placement !== placement ||
-      lastProps.eventsEnabled !== eventsEnabled ||
-      lastProps.target !== target
+      lastPlacement !== placement ||
+      lastEventsEnabled !== eventsEnabled ||
+      lastTarget !== target
     ) {
       this._destroyPopper()
       this._createPopper()
     }
-    if (lastProps.children !== children) {
+    if (lastChildren !== children) {
       this._scheduleUpdate()
     }
   }
