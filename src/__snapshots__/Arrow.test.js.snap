@@ -1,0 +1,21 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Arrow component consumes the ArrowNodeContext from Popper 1`] = `
+<Component>
+  <div
+    style={
+      Object {
+        "top": 10,
+      }
+    }
+  />
+</Component>
+`;
+
+exports[`Arrow component renders the expected markup 1`] = `
+<Component>
+  <div
+    style={Object {}}
+  />
+</Component>
+`;

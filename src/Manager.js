@@ -2,7 +2,7 @@
 import React, { Component, type Node } from 'react';
 import createReactContext, { type Context } from 'create-react-context';
 
-const noop = () => {};
+export const noop = () => {};
 
 export const TargetNodeContext: Context<{
   targetNode: ?HTMLElement,
