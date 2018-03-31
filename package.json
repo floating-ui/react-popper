@@ -3,34 +3,33 @@
   "version": "1.0.0-alpha.1",
   "description": "React wrapper around Popper.js",
   "license": "MIT",
-  "author":
-    "Travis Arnold <travis@souporserious.com> (http://souporserious.com)",
+  "author": "Travis Arnold <travis@souporserious.com> (http://souporserious.com)",
   "homepage": "https://github.com/souporserious/react-popper",
   "main": "dist/react-popper.js",
   "umd:main": "dist/react-popper.umd.js",
   "module": "lib/index.js",
-  "types": "react-popper.d.ts",
-  "files": ["dist", "lib", "react-popper.d.ts"],
+  "typings": "typings/react-popper.d.ts",
+  "files": [
+    "dist",
+    "lib",
+    "typings/react-popper.d.ts"
+  ],
   "scripts": {
-    "build":
-      "npm run build:clean && npm run build:es && npm run build:umd && npm run build:cjs && npm run build:flow && npm run build:umd-min && npm run build:cjs-min",
+    "build": "npm run build:clean && npm run build:es && npm run build:umd && npm run build:cjs && npm run build:flow && npm run build:umd-min && npm run build:cjs-min",
     "build:clean": "rimraf dist/ && rimraf lib/",
     "build:es": "babel src --out-dir lib",
-    "build:umd":
-      "rollup -c --output.format umd --output.name 'react-popper' --output.file dist/react-popper.umd.js",
-    "build:cjs":
-      "rollup -c --output.format cjs --output.name 'react-popper' --output.file dist/react-popper.js",
+    "build:umd": "rollup -c --output.format umd --output.name 'react-popper' --output.file dist/react-popper.umd.js",
+    "build:cjs": "rollup -c --output.format cjs --output.name 'react-popper' --output.file dist/react-popper.js",
     "build:flow": "flow-copy-source src lib",
-    "build:umd-min":
-      "MINIFY=true rollup -c --output.format umd --output.name 'react-popper' --output.file dist/react-popper.umd.min.js",
-    "build:cjs-min":
-      "MINIFY=true rollup -c --output.format cjs --output.name 'react-popper' --output.file dist/react-popper.min.js",
+    "build:umd-min": "MINIFY=true rollup -c --output.format umd --output.name 'react-popper' --output.file dist/react-popper.umd.min.js",
+    "build:cjs-min": "MINIFY=true rollup -c --output.format cjs --output.name 'react-popper' --output.file dist/react-popper.min.js",
     "demo": "parcel --out-dir demo/dist demo/index.html",
     "test": "flow check",
     "prepare": "npm run build",
     "precommit": "lint-staged",
     "format": "npm run lint -- --fix --quiet",
-    "lint": "eslint --ext .js,.jsx src/ example/"
+    "lint": "eslint --ext .js,.jsx src/ example/",
+    "test:ts": "tsc --project ./typings/tests"
   },
   "repository": {
     "type": "git",
@@ -49,7 +48,10 @@
     "popover"
   ],
   "lint-staged": {
-    "@(src|demo)/**/*.{js,jsx}": ["eslint --fix --max-warnings 5", "git add"]
+    "@(src|demo)/**/*.{js,jsx}": [
+      "eslint --fix --max-warnings 5",
+      "git add"
+    ]
   },
   "peerDependencies": {
     "react": "0.14.x || ^15.0.0 || ^16.0.0",
@@ -61,6 +63,7 @@
     "prop-types": "^15.6.1"
   },
   "devDependencies": {
+    "@types/react": "^16.1.0",
     "babel-cli": "^6.26.0",
     "babel-core": "^6.26.0",
     "babel-plugin-external-helpers": "^6.22.0",
@@ -93,6 +96,7 @@
     "rollup-plugin-node-globals": "^1.2.0",
     "rollup-plugin-node-resolve": "^3.3.0",
     "rollup-plugin-replace": "^2.0.0",
+    "typescript": "^2.8.1",
     "velocity-react": "^1.2.2"
   }
 }
