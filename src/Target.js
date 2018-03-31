@@ -1,5 +1,5 @@
 // @flow
-import React, { Children, type Node } from 'react';
+import React, { type Node } from 'react';
 import { TargetNodeContext } from './Manager';
 
 type TargetProps = {
