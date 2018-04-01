@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { Portal } from 'react-portal';
-import { Manager, Target, Popper, Arrow, placements } from '../src/index';
+import Popper, { placements } from '../src/index';
 
 const modifiers = {
   customStyle: {
@@ -39,39 +39,31 @@ class MultipleExample extends React.Component {
             </option>
           ))}
         </select>
-        <Manager>
-          <Target>
-            {({ getTargetRef }) => (
+        <Popper placement={this.state.placement}>
+          {({ referenceProps, popperProps, arrowProps }) => (
+            <Fragment>
               <div
-                ref={getTargetRef}
+                ref={referenceProps.getRef}
                 style={{ width: 120, height: 120, background: 'red' }}
               >
-                Box
+                Reference
               </div>
-            )}
-          </Target>
-          <Popper placement={this.state.placement}>
-            {({ getPopperRef, style, placement }) => (
               <div
-                data-placement={placement}
-                ref={getPopperRef}
+                data-placement={popperProps.placement}
+                ref={popperProps.getRef}
                 className="popper"
-                style={style}
+                style={popperProps.style}
               >
                 Popper
-                <Arrow>
-                  {({ getArrowRef, style }) => (
-                    <div
-                      ref={getArrowRef}
-                      className="popper__arrow"
-                      style={style}
-                    />
-                  )}
-                </Arrow>
+                <div
+                  ref={arrowProps.getRef}
+                  className="popper__arrow"
+                  style={arrowProps.style}
+                />
               </div>
-            )}
-          </Popper>
-        </Manager>
+            </Fragment>
+          )}
+        </Popper>
       </div>
     );
   }
