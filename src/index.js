@@ -1,5 +1,5 @@
 // @flow
-import React, { Component, type Node } from 'react';
+import { Component, type Node } from 'react';
 import PopperJS from 'popper.js';
 
 type PopperInstance = {
@@ -126,11 +126,11 @@ export default class Popper extends Component<PopperProps, PopperState> {
 
   initPopperInstance = () => {
     const { referenceNode, popperNode, popperInstance } = this.state;
-    if (referenceNode && popperNode && !this.state.popperInstance) {
+    if (referenceNode && popperNode && !popperInstance) {
       const popperInstance = new PopperJS(
         referenceNode,
         popperNode,
-        this.getOptions()
+        this.getOptions(),
       );
       this.setState({ popperInstance });
       return true;
