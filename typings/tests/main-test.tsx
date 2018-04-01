@@ -1,20 +1,25 @@
 import * as React from 'react';
-import { Manager, Target, Popper, Arrow } from '../..';
+import Popper from '../..';
 
 const Test = () => (
-  <Manager>
-    <Target>
-      {({ getTargetRef }) => <button ref={getTargetRef}>Target</button>}
-    </Target>
-    <Popper>
-      {({ getPopperRef, style, placement }) => (
-        <div ref={getPopperRef} style={style} data-placement={placement}>
-          Popper
-          <Arrow>
-            {({ getArrowRef, style }) => <div ref={getArrowRef} style={style} />}
-          </Arrow>
+  <Popper placement="right">
+    {({ referenceProps, popperProps, arrowProps }) => (
+      <React.Fragment>
+        <div ref={referenceProps.getRef}>
+          Reference
         </div>
-      )}
-    </Popper>
-  </Manager>
+        <div
+          data-placement={popperProps.placement}
+          ref={popperProps.getRef}
+          style={popperProps.style}
+        >
+          Popper
+          <div
+            ref={arrowProps.getRef}
+            style={arrowProps.style}
+          />
+        </div>
+      </React.Fragment>
+    )}
+  </Popper>
 )
