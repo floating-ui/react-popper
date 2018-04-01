@@ -21,6 +21,7 @@ class Popper extends Component {
     modifiers: PropTypes.object,
     children: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
     target: PropTypes.oneOfType([
+      // the following check is needed for SSR
       PropTypes.instanceOf(typeof Element !== 'undefined' ? Element : Object),
       PropTypes.shape({
         getBoundingClientRect: PropTypes.func.isRequired,
