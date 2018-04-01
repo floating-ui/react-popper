@@ -1,10 +1,11 @@
 module.exports = {
   root: true,
   extends: ['standard', 'standard-react', 'prettier', 'prettier/react'],
-  plugins: ['prettier'],
+  plugins: ['prettier', 'jest'],
   parser: 'babel-eslint',
   env: {
     browser: true,
+    'jest/globals': true,
   },
   settings: {
     react: {

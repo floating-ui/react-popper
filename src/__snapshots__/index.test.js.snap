@@ -1,0 +1,26 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders the expected markup 1`] = `
+<Popper
+  eventsEnabled={true}
+  placement="right"
+>
+  <div>
+    Reference
+  </div>
+  <div
+    style={
+      Object {
+        "opacity": 0,
+        "pointerEvents": "none",
+        "position": "absolute",
+      }
+    }
+  >
+    Popper
+    <div
+      style={Object {}}
+    />
+  </div>
+</Popper>
+`;

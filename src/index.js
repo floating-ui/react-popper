@@ -139,7 +139,9 @@ export default class Popper extends Component<PopperProps, PopperState> {
   };
 
   destroyPopperInstance = (callback: () => boolean) => {
-    this.state.popperInstance && this.state.popperInstance.destroy();
+    if (this.state.popperInstance) {
+      this.state.popperInstance.destroy();
+    }
     this.setState({ popperInstance: undefined }, callback);
   };
 
@@ -169,7 +171,9 @@ export default class Popper extends Component<PopperProps, PopperState> {
   }
 
   componentWillUnmount() {
-    this.state.popperInstance && this.state.popperInstance.destroy();
+    if (this.state.popperInstance) {
+      this.state.popperInstance.destroy();
+    }
   }
 
   render() {
