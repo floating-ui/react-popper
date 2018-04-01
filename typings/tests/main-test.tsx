@@ -15,6 +15,7 @@ const Test = () => (
         >
           Popper
           <div
+            data-placement={arrowProps.placement}
             ref={arrowProps.getRef}
             style={arrowProps.style}
           />

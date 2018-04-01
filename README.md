@@ -10,11 +10,18 @@ React wrapper around [PopperJS](https://github.com/FezVrasta/popper.js/).
 
 ## Install
 
-`npm install react-popper --save` or `yarn add react-popper`
+Via package managers:
+
+```bash
+npm install react-popper --save
+# or
+yarn add react-popper
+```
+
+Via `script` tag (UMD library exposed as `ReactPopper`):
 
 ```html
 <script src="https://unpkg.com/react-popper/dist/react-popper.js"></script>
-(UMD library exposed as `ReactPopper`)
 ```
 
 ## Usage
@@ -22,65 +29,33 @@ React wrapper around [PopperJS](https://github.com/FezVrasta/popper.js/).
 Example:
 
 ```jsx
-import { Manager, Target, Popper, Arrow } from 'react-popper';
+import Popper from 'react-popper';
 
 const Example = () => (
-  <Manager>
-    <Target>
-      {({ getTargetRef }) => (
-        <button ref={getTargetRef} className="target">
-          Target box
+  <Popper placement="right">
+    {({ referenceProps, popperProps, arrowProps }) => (
+      <>
+        <button type="button" ref={referenceProps.getRef}>
+          Reference element
         </button>
-      )}
-    </Target>
-    <Popper placement="right">
-      {({ getPopperRef, style, placement }) => (
         <div
-          ref={getPopperRef}
-          style={style}
-          data-placement={placement}
-          className="popper"
+          ref={popperProps.getRef}
+          style={popperProps.style}
+          data-placement={popperProps.placement}
         >
-          Positioned on the right of Target
-          <Arrow>
-            {({ getArrowRef, style }) => (
-              <div ref={getArrowRef} style={style} className="arrow" />
-            )}
-          </Arrow>
+          Popper element
+          <div ref={arrowProps.getRef} style={arrowProps.style} />
         </div>
-      )}
-    </Popper>
-  </Manager>
+      </>
+    )}
+  </Popper>
 );
 ```
 
-`react-popper` makes use of a React pattern called **"render props"**, if you are not
-familiar with them, please read more [on the official React documentation](https://reactjs.org/docs/render-props.html).
+`react-popper` makes use of a React pattern called **"render prop"**, if you are not
+familiar with it, please read more [on the official React documentation](https://reactjs.org/docs/render-props.html).
 
-### `Manager`
-
-The `Manager` component allows the `Target` and `Popper` components to communicate.  
-Each of them can contain only one `Target`, and as many `Popper` as you'd like.
-
-All the `Popper` components will be positioned relatively to the `Target` component.
-
-> **React 14 and 15 be aware!** You need to wrap your `Popper` and `Target` components
-> into a single `div` if you want this library to work on these versions.
-
-### `Target`
-
-The `Target` component takes `children` as only property. `children` must
-be a function that takes an object as only argument. The object contains a property called
-`getTargetRef` that must be assigned to the `ref` property of the HTML element you are going
-to use as target element.
-
-```jsx
-<Target>
-  {targetProps => <button ref={targetProps.getTargetRef}>Target</button>}
-</Target>
-```
-
-### `Popper`
+### API documentation
 
 The `Popper` component accepts the properties `children`, `placement`, `modifiers`, and `eventsEneabled`.
 
@@ -90,7 +65,7 @@ The `Popper` component accepts the properties `children`, `placement`, `modifier
   modifiers={{ preventOverflow: { enabled: false } }}
   eventsEnabled={true}
 >
-  ({getPopperRef})
+    { props => [...] }
 </Popper>
 ```
 
@@ -98,24 +73,30 @@ The `Popper` component accepts the properties `children`, `placement`, `modifier
 
 ```js
 children: ({|
-  getPopperRef: (?HTMLElement) => void,
-  style: { [string]: string | number },
-  placement: ?string,
-|}) => Node;
+  referenceProps: {
+    getRef: (?HTMLElement) => void,
+  },
+  popperProps: {
+    getRef: (?HTMLElement) => void,
+    style: { [string]: string | number },
+    placement: ?Placement,
+  },
+  arrowProps: {
+    getRef: (?HTMLElement) => void,
+    style: { [string]: string | number },
+    placement: ?Placement,
+  },
+|}) => Node
 ```
 
 A function (render prop) that takes as argument an object containing the properties
-`getPopperRef`, `placement`, and `style`.
+`referenceProps`, `popperProps`, and `arrowProps`.
 
-* `getPopperRef` must be assigned to the `ref` property of the HTML element
-  you are going to use as popper;
+These 3 properties are objects, each of them containing a `getRef` property that is going to be used to retrieve the [React refs](https://reactjs.org/docs/refs-and-the-dom.html) of the 3 components needed by `react-popper`: the **reference**, **popper**, and **arrow**.
 
-* `placement` matches with the current Popper.js placement applied to the popper element,
-  it may differ from the one you specified in case it has been altered by any of the
-  Popper.js modifiers (like the `flip` modifier);
+`popperProps` and `arrowProps`, additionally, provide a `style` property, which contains the CSS styles (React CSS properties) computed by Popper.js and needed to style the **popper** and **arrow** components so that they get positioned in the desired way. These styles should be applied to your React component usingthe `style` prop or with any CSS-in-JS library of your choice.
 
-* `style` is a list of CSS properties that define the styles needed to position the
-  popper correctly according to its target element;
+They also provide a convenience property called `placement` that is going to describe the placement of your popper after Popper.js has applied all the modifiers that may have flipped or altered the originally provided `placement` property. You can use this to alter the style of the popper and or of the arrow according to the definitive placement. For instance, you can use this property to orient the arrow on the right direction.
 
 ##### `placement`
 
@@ -146,59 +127,59 @@ modifiers?: {
 An object containing custom settings for the [Popper.js modifiers](https://popper.js.org/popper-documentation.html#modifiers).  
 You can use this property to override their settings or to inject your custom ones.
 
-### `Arrow`
+## Usage without a reference `HTMLElement`
 
-The `Arrow` component can be used to position an arrow on your popper element.  
-This component must be child of a `Popper` component.
+Whenever you need to position a popper based on some arbitrary coordinates, you can provide `Popper` with a `referenceElement` property that is going to be used in place of the `referenceProps.getRef` React ref.
 
-The component takes `children` as only property, and it expects it to be a function
-that takes as only argument an object containing the following properties:
+The `referenceElement` property must be an object with an interface compatible with an `HTMLElement` as described in the [Popper.js referenceObject documentation](https://popper.js.org/popper-documentation.html#referenceObject), this implies that you may also provide a real HTMLElement if needed.
 
-* `getArrowRef` must be assigned to the ref property of the HTML element you are going to use as arrow;
-* `style` is a list of CSS properties that define the styles needed to position
-  the arrow correctly according to its parent popper;
+If `referenceElement` is defined, it will take precedence over any `referenceProps.getRef` provied refs.
 
-## Usage without Manager
+```jsx
+import Popper from 'react-popper';
 
-It's generally easiest to let the `Manager` and `Target` components handle passing the target DOM element to the `Popper` component. However, you can pass a target [Element](https://developer.mozilla.org/en-US/docs/Web/API/Element) or a [referenceObject](https://popper.js.org/popper-documentation.html#referenceObject) directly into `Popper` if you need to.
-
-Handling DOM Elements from React can be complicated. The `Manager` and `Target` components handle these complexities for you, so their use is strongly recommended when using DOM Elements.
-
-```js
-import { PureComonent } from 'react'
-import { Popper, Arrow } from 'react-popper'
-
-class StandaloneExample extends PureComponent {
-  state = {
-    isOpen: false,
+class VirtualReference {
+  getBoundingClientRect() {
+    return {
+      top: 10,
+      left: 10,
+      bottom: 20,
+      right: 100,
+      width: 90,
+      height: 10,
+    };
   }
 
-  handleClick() = () => {
-    this.setState(prevState => ({
-      isOpen: !prevState.isOpen
-    }))
+  get clientWidth() {
+    return this.getBoundingClientRect().width;
   }
 
-  render() {
-    return (
-      <div>
-        <div
-          ref={(div) => this.target = div}
-          style={{ width: 120, height: 120, background: '#b4da55' }}
-          onClick={this.handleClick}
-        >
-          Click {this.state.isOpen ? 'to hide' : 'to show'} popper
-        </div>
-        {this.state.isOpen && (
-          <Popper className="popper" target={this.target}>
-            Popper Content
-            <Arrow className="popper__arrow"/>
-          </Popper>
-        )}
-      </div>
-    )
+  get clientHeight() {
+    return this.getBoundingClientRect().height;
   }
 }
+
+// This is going to create a virtual reference element
+// positioned 10px from top and left of the document
+// 90px wide and 10px high
+const virtualReferenceElement = new VirtualReference();
+
+// This popper will be positioned relatively to the
+// virtual reference element defined above
+const Example = () => (
+  <Popper referenceElement={virtualReferenceElement}>
+    {({ popperProps, arrowProps }) => (
+      <div
+        ref={popperProps.getRef}
+        style={popperProps.style}
+        data-placement={popperProps.placement}
+      >
+        Popper element
+        <div ref={arrowProps.getRef} style={arrowProps.style} />
+      </div>
+    )}
+  </Popper>
+);
 ```
 
 ## Running Locally

@@ -38,6 +38,7 @@ type RenderProp = ({|
   arrowProps: {
     getRef: getRefFn,
     style: Style,
+    placement: ?Placement,
   },
 |}) => Node;
 
@@ -47,6 +48,18 @@ type PopperProps = {
   },
   placement?: Placement,
   eventsEnabled?: boolean,
+  referenceElement?: {
+    +getBoundingClientRect: () => {
+      width: number,
+      height: number,
+      top: number,
+      right: number,
+      bottom: number,
+      left: number,
+    },
+    +clientWidth: number,
+    +clientHeight: number,
+  },
   children: RenderProp,
 };
 
@@ -70,6 +83,7 @@ export default class Popper extends Component<PopperProps, PopperState> {
   static defaultProps = {
     placement: 'bottom',
     eventsEnabled: true,
+    referenceElement: undefined,
   };
 
   state = {
@@ -125,12 +139,14 @@ export default class Popper extends Component<PopperProps, PopperState> {
       : this.state.data.arrowStyles;
 
   initPopperInstance = () => {
+    const { referenceElement } = this.props;
     const { referenceNode, popperNode, popperInstance } = this.state;
-    if (referenceNode && popperNode && !popperInstance) {
+    const reference = referenceElement || referenceNode;
+    if (reference && popperNode && !popperInstance) {
       const popperInstance = new PopperJS(
-        referenceNode,
+        reference,
         popperNode,
-        this.getOptions(),
+        this.getOptions()
       );
       this.setState({ popperInstance });
       return true;
@@ -163,7 +179,8 @@ export default class Popper extends Component<PopperProps, PopperState> {
         this.props.eventsEnabled !== prevProps.eventsEnabled ||
         this.state.referenceNode !== prevState.referenceNode ||
         this.state.arrowNode !== prevState.arrowNode ||
-        this.state.popperNode !== prevState.popperNode
+        this.state.popperNode !== prevState.popperNode ||
+        this.props.referenceElement !== prevProps.referenceElement
       ) {
         this.updatePopperInstance();
       }
@@ -189,6 +206,7 @@ export default class Popper extends Component<PopperProps, PopperState> {
       arrowProps: {
         getRef: this.setArrowNode,
         style: this.getArrowStyle(),
+        placement: this.getPopperPlacement(),
       },
     });
   }

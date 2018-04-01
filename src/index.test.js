@@ -15,11 +15,15 @@ const mountPopper = (PopperComponent = Popper) =>
             style={popperProps.style}
           >
             Popper
-            <div ref={arrowProps.getRef} style={arrowProps.style} />
+            <div
+              data-placement={arrowProps.placement}
+              ref={arrowProps.getRef}
+              style={arrowProps.style}
+            />
           </div>
         </Fragment>
       )}
-    </PopperComponent>,
+    </PopperComponent>
   );
 
 it('renders the expected markup', () => {
@@ -62,4 +66,53 @@ it('destroys Popper.js instance on unmount', () => {
   const instance = wrapper.state('popperInstance');
   wrapper.unmount();
   expect(instance.state.isDestroyed).toBe(true);
+});
+
+it('accepts a `referenceElement` property', () => {
+  class VirtualReference {
+    getBoundingClientRect() {
+      return {
+        top: 10,
+        left: 10,
+        bottom: 20,
+        right: 100,
+        width: 90,
+        height: 10,
+      };
+    }
+
+    get clientWidth() {
+      return this.getBoundingClientRect().width;
+    }
+
+    get clientHeight() {
+      return this.getBoundingClientRect().height;
+    }
+  }
+
+  const virtualReferenceElement = new VirtualReference();
+  const wrapper = mount(
+    <Popper referenceElement={virtualReferenceElement}>
+      {({ popperProps, arrowProps }) => (
+        <Fragment>
+          <div
+            data-placement={popperProps.placement}
+            ref={popperProps.getRef}
+            style={popperProps.style}
+          >
+            Popper
+            <div
+              data-placement={arrowProps.placement}
+              ref={arrowProps.getRef}
+              style={arrowProps.style}
+            />
+          </div>
+        </Fragment>
+      )}
+    </Popper>
+  );
+
+  expect(wrapper.state('popperInstance').reference).toBe(
+    virtualReferenceElement
+  );
 });

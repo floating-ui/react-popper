@@ -17,6 +17,7 @@ interface PopperProps {
     arrowProps: {
       getRef: (ref: HTMLElement | null) => void,
       style: React.CSSProperties,
+      placement: ?PopperJS.Placement,
     },
   })) => React.ReactNode;
 }
