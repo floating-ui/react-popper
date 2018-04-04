@@ -1,13 +1,11 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`renders the expected markup 1`] = `
+exports[`Popper component renders the expected markup 1`] = `
 <Popper
   eventsEnabled={true}
-  placement="right"
+  placement="bottom"
+  referenceElement={<div />}
 >
-  <div>
-    Reference
-  </div>
   <div
     style={
       Object {
@@ -17,7 +15,6 @@ exports[`renders the expected markup 1`] = `
       }
     }
   >
-    Popper
     <div
       style={Object {}}
     />

@@ -1,19 +1,5 @@
-import React, { Fragment } from 'react';
-import { Portal } from 'react-portal';
-import Popper, { placements } from '../src/index';
-
-const modifiers = {
-  customStyle: {
-    enabled: true,
-    fn: data => {
-      data.styles = {
-        ...data.styles,
-        background: 'red',
-      };
-      return data;
-    },
-  },
-};
+import React from 'react';
+import { Popper, Manager, Reference, placements } from '../src/index';
 
 class MultipleExample extends React.Component {
   state = {
@@ -39,31 +25,26 @@ class MultipleExample extends React.Component {
             </option>
           ))}
         </select>
-        <Popper placement={this.state.placement}>
-          {({ referenceProps, popperProps, arrowProps }) => (
-            <Fragment>
+        <Manager>
+          <Reference>
+            {referenceProps => (
+              <div {...referenceProps} className="reference" />
+            )}
+          </Reference>
+          <Popper placement={this.state.placement}>
+            {({ ref, style, placement, arrowProps }) => (
               <div
-                ref={referenceProps.getRef}
-                style={{ width: 120, height: 120, background: 'red' }}
-              >
-                Reference
-              </div>
-              <div
-                data-placement={popperProps.placement}
-                ref={popperProps.getRef}
+                ref={ref}
+                style={style}
+                data-placement={placement}
                 className="popper"
-                style={popperProps.style}
               >
                 Popper
-                <div
-                  ref={arrowProps.getRef}
-                  className="popper__arrow"
-                  style={arrowProps.style}
-                />
+                <div {...arrowProps} className="popper__arrow" />
               </div>
-            </Fragment>
-          )}
-        </Popper>
+            )}
+          </Popper>
+        </Manager>
       </div>
     );
   }

@@ -1,25 +1,30 @@
 import * as React from "react";
 import * as PopperJS from "popper.js";
 
+interface ManagerProps {
+  children: React.ReactNode;
+}
+export class Manager extends React.Component<ManagerProps, {}> { }
+
+interface ReferenceProps {
+  children: (props: ({
+    ref: (ref: HTMLElement | null) => void,
+  })) => React.ReactNode;
+}
+export class Reference extends React.Component<ReferenceProps, {}> { }
+
 interface PopperProps {
   modifiers?: PopperJS.Modifiers;
   placement?: PopperJS.Placement;
   eventsEnabled?: boolean;
   children: (props: ({
-    referenceProps: {
-      getRef: (ref: HTMLElement | null) => void,
-    },
-    popperProps: {
-      getRef: (ref: HTMLElement | null) => void,
-      style: React.CSSProperties,
-      placement: ?PopperJS.Placement,
-    },
+    ref: (ref: HTMLElement | null) => void,
+    style: React.CSSProperties,
+    placement: ?PopperJS.Placement,
     arrowProps: {
-      getRef: (ref: HTMLElement | null) => void,
+      ref: (ref: HTMLElement | null) => void,
       style: React.CSSProperties,
-      placement: ?PopperJS.Placement,
     },
   })) => React.ReactNode;
 }
-
-export default class Popper extends React.Component<PopperProps, {}> { }
+export class Popper extends React.Component<PopperProps, {}> { }
