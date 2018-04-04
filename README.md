@@ -29,26 +29,26 @@ Via `script` tag (UMD library exposed as `ReactPopper`):
 Example:
 
 ```jsx
-import Popper from 'react-popper';
+import { Manager, Reference, Popper } from 'react-popper';
 
 const Example = () => (
-  <Popper placement="right">
-    {({ referenceProps, popperProps, arrowProps }) => (
-      <>
-        <button type="button" ref={referenceProps.getRef}>
+  <Manager>
+    <Reference>
+      {({ ref }) => (
+        <button type="button" ref={ref}>
           Reference element
         </button>
-        <div
-          ref={popperProps.getRef}
-          style={popperProps.style}
-          data-placement={popperProps.placement}
-        >
+      )}
+    </Reference>
+    <Popper placement="right">
+      {({ ref, style, placement, arrowProps }) => (
+        <div ref={ref} style={style} data-placement={placement}>
           Popper element
-          <div ref={arrowProps.getRef} style={arrowProps.style} />
+          <div ref={arrowProps.ref} style={arrowProps.style} />
         </div>
-      </>
-    )}
-  </Popper>
+      )}
+    </Popper>
+  </Manager>
 );
 ```
 
@@ -56,6 +56,9 @@ const Example = () => (
 familiar with it, please read more [on the official React documentation](https://reactjs.org/docs/render-props.html).
 
 ### API documentation
+
+The `Manager` component is a simple wrapper that needs to surround all the other `react-popper` components in order
+to make them communicate with each others.
 
 The `Popper` component accepts the properties `children`, `placement`, `modifiers`, and `eventsEneabled`.
 
@@ -73,30 +76,33 @@ The `Popper` component accepts the properties `children`, `placement`, `modifier
 
 ```js
 children: ({|
-  referenceProps: {
-    getRef: (?HTMLElement) => void,
-  },
-  popperProps: {
-    getRef: (?HTMLElement) => void,
-    style: { [string]: string | number },
-    placement: ?Placement,
-  },
+  ref: (?HTMLElement) => void,
+  style: { [string]: string | number },
+  placement: ?Placement,
   arrowProps: {
-    getRef: (?HTMLElement) => void,
+    ref: (?HTMLElement) => void,
     style: { [string]: string | number },
-    placement: ?Placement,
   },
 |}) => Node
 ```
 
 A function (render prop) that takes as argument an object containing the properties
-`referenceProps`, `popperProps`, and `arrowProps`.
+`ref`, `style`, 'placement`, and`arrowProps`.
 
-These 3 properties are objects, each of them containing a `getRef` property that is going to be used to retrieve the [React refs](https://reactjs.org/docs/refs-and-the-dom.html) of the 3 components needed by `react-popper`: the **reference**, **popper**, and **arrow**.
+The first 3 properties are the `ref` property that is going to be used to retrieve the [React refs](https://reactjs.org/docs/refs-and-the-dom.html) of the **popper** element, the `style` property,
+which contains the CSS styles (React CSS properties) computed by Popper.js and needed to style
+the **popper** element so that it gets positioned in the desired way.  
+These styles should be applied to your React component using the `style` prop or with any CSS-in-JS
+library of your choice.
 
-`popperProps` and `arrowProps`, additionally, provide a `style` property, which contains the CSS styles (React CSS properties) computed by Popper.js and needed to style the **popper** and **arrow** components so that they get positioned in the desired way. These styles should be applied to your React component usingthe `style` prop or with any CSS-in-JS library of your choice.
+The `placement` property describes the placement of your popper after Popper.js has applied all the modifiers
+that may have flipped or altered the originally provided `placement` property. You can use this to alter the
+style of the popper and or of the arrow according to the definitive placement. For instance, you can use this
+property to orient the arrow to the right direction.
 
-They also provide a convenience property called `placement` that is going to describe the placement of your popper after Popper.js has applied all the modifiers that may have flipped or altered the originally provided `placement` property. You can use this to alter the style of the popper and or of the arrow according to the definitive placement. For instance, you can use this property to orient the arrow on the right direction.
+The `arrowProps` argument is an object, containing a `style` and `ref` properties that are identical to the
+ones provided as first and second argument of `children`, but are relative to the **arrow** element rather than
+the popper. Use them to, accordingly, retrieve the ref of the **arrow** element and style it.
 
 ##### `placement`
 
@@ -119,9 +125,7 @@ Tells `react-popper` to enable or disable the [Popper.js event listeners](https:
 ##### `modifiers`
 
 ```js
-modifiers?: {
-  [string]: { order: number, enabled: boolean, fn: Object => Object },
-};
+modifiers?: PopperJS$Modifiers};
 ```
 
 An object containing custom settings for the [Popper.js modifiers](https://popper.js.org/popper-documentation.html#modifiers).  
@@ -133,7 +137,7 @@ Whenever you need to position a popper based on some arbitrary coordinates, you 
 
 The `referenceElement` property must be an object with an interface compatible with an `HTMLElement` as described in the [Popper.js referenceObject documentation](https://popper.js.org/popper-documentation.html#referenceObject), this implies that you may also provide a real HTMLElement if needed.
 
-If `referenceElement` is defined, it will take precedence over any `referenceProps.getRef` provied refs.
+If `referenceElement` is defined, it will take precedence over any `referenceProps.ref` provided refs.
 
 ```jsx
 import Popper from 'react-popper';
@@ -168,14 +172,10 @@ const virtualReferenceElement = new VirtualReference();
 // virtual reference element defined above
 const Example = () => (
   <Popper referenceElement={virtualReferenceElement}>
-    {({ popperProps, arrowProps }) => (
-      <div
-        ref={popperProps.getRef}
-        style={popperProps.style}
-        data-placement={popperProps.placement}
-      >
+    {({ ref, style, placement, arrowProps }) => (
+      <div ref={ref} style={style} data-placement={placement}>
         Popper element
-        <div ref={arrowProps.getRef} style={arrowProps.style} />
+        <div ref={arrowProps.ref} style={arrowProps.style} />
       </div>
     )}
   </Popper>
@@ -198,8 +198,8 @@ const Example = () => (
 
 #### run dev mode
 
-`npm run dev` or `yarn dev`
+`npm run demo` or `yarn demo`
 
 #### open your browser and visit:
 
-`http://localhost:8080/`
+`http://localhost:1234/`
