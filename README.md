@@ -15,7 +15,7 @@ Via package managers:
 ```bash
 npm install react-popper@next --save
 # or
-yarn add react-popper
+yarn add react-popper@next
 ```
 
 Via `script` tag (UMD library exposed as `ReactPopper`):
@@ -25,6 +25,8 @@ Via `script` tag (UMD library exposed as `ReactPopper`):
 ```
 
 ## Usage
+
+> Using `react-popper@0.x`? You can find its documentation [clicking here](https://github.com/souporserious/react-popper/tree/v0.x)
 
 Example:
 
