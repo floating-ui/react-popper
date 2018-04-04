@@ -1,0 +1,13 @@
+[ignore]
+.*/node_modules/config-chain/.*
+/lib/.*
+
+[include]
+
+[libs]
+
+[lints]
+
+[options]
+
+[strict]

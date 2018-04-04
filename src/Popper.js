@@ -1,241 +1,182 @@
-import { Component, createElement } from 'react'
-import PropTypes from 'prop-types'
-import PopperJS from 'popper.js'
+// @flow
+import React, { Component, type Node } from 'react';
+import PopperJS, {
+  type Placement,
+  type Instance as PopperJS$Instance,
+  type ReferenceObject,
+} from 'popper.js';
+import { ManagerContext } from './Manager';
+import { unwrapArray } from './utils';
 
-export const placements = PopperJS.placements
+type getRefFn = (?HTMLElement) => void;
+type Style = Object;
 
-class Popper extends Component {
-  static contextTypes = {
-    popperManager: PropTypes.object,
-  }
+type ReferenceElement = ReferenceObject | HTMLElement | null;
 
-  static childContextTypes = {
-    popper: PropTypes.object.isRequired,
-  }
+type RenderProp = ({|
+  ref: getRefFn,
+  style: Style,
+  placement: ?Placement,
+  arrowProps: {
+    ref: getRefFn,
+    style: Style,
+  },
+|}) => Node;
 
-  static propTypes = {
-    component: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
-    innerRef: PropTypes.func,
-    placement: PropTypes.oneOf(placements),
-    eventsEnabled: PropTypes.bool,
-    modifiers: PropTypes.object,
-    children: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
-    target: PropTypes.oneOfType([
-      // the following check is needed for SSR
-      PropTypes.instanceOf(typeof Element !== 'undefined' ? Element : Object),
-      PropTypes.shape({
-        getBoundingClientRect: PropTypes.func.isRequired,
-        clientWidth: PropTypes.number.isRequired,
-        clientHeight: PropTypes.number.isRequired,
-      }),
-    ]),
-  }
+type PopperProps = {
+  modifiers?: {
+    [string]: { order: number, enabled: boolean, fn: Object => Object },
+  },
+  placement?: Placement,
+  eventsEnabled?: boolean,
+  referenceElement?: ReferenceElement,
+  children: RenderProp,
+};
 
+type PopperState = {
+  popperNode: ?HTMLElement,
+  arrowNode: ?HTMLElement,
+  popperInstance: ?PopperJS$Instance,
+  data: ?Object,
+};
+
+const initialStyle = {
+  position: 'absolute',
+  opacity: 0,
+  pointerEvents: 'none',
+};
+
+const initialArrowStyle = {};
+
+export class Popper extends Component<PopperProps, PopperState> {
   static defaultProps = {
-    component: 'div',
     placement: 'bottom',
     eventsEnabled: true,
-    modifiers: {},
-  }
+    referenceElement: undefined,
+  };
 
-  state = {}
+  state = {
+    popperNode: undefined,
+    arrowNode: undefined,
+    popperInstance: undefined,
+    data: undefined,
+  };
 
-  getChildContext() {
-    return {
-      popper: {
-        setArrowNode: this._setArrowNode,
-        getArrowStyle: this._getArrowStyle,
+  setPopperNode = (popperNode: ?HTMLElement) => this.setState({ popperNode });
+  setArrowNode = (arrowNode: ?HTMLElement) => this.setState({ arrowNode });
+
+  updateStateModifier = {
+    enabled: true,
+    order: 900,
+    fn: (data: Object) => {
+      this.setState({ data });
+      return data;
+    },
+  };
+
+  getOptions = () => ({
+    placement: this.props.placement,
+    eventsEnabled: this.props.eventsEnabled,
+    modifiers: {
+      ...this.props.modifiers,
+      arrow: {
+        enabled: !!this.state.arrowNode,
+        element: this.state.arrowNode,
       },
-    }
-  }
+      applyStyle: { enabled: false },
+      updateStateModifier: this.updateStateModifier,
+    },
+  });
 
-  componentDidUpdate(lastProps) {
-    if (
-      lastProps.placement !== this.props.placement ||
-      lastProps.eventsEnabled !== this.props.eventsEnabled ||
-      lastProps.target !== this.props.target
-    ) {
-      this._destroyPopper()
-      this._createPopper()
+  getPopperStyle = () =>
+    !this.state.popperNode || !this.state.data
+      ? initialStyle
+      : {
+          position: this.state.data.offsets.popper.position,
+          ...this.state.data.styles,
+        };
+
+  getPopperPlacement = () =>
+    !this.state.data ? undefined : this.state.data.placement;
+
+  getArrowStyle = () =>
+    !this.state.arrowNode || !this.state.data
+      ? initialArrowStyle
+      : this.state.data.arrowStyles;
+
+  initPopperInstance = () => {
+    const { referenceElement } = this.props;
+    const { popperNode, popperInstance } = this.state;
+    if (referenceElement && popperNode && !popperInstance) {
+      const popperInstance = new PopperJS(
+        referenceElement,
+        popperNode,
+        this.getOptions()
+      );
+      this.setState({ popperInstance });
+      return true;
     }
-    if (lastProps.children !== this.props.children) {
-      this._scheduleUpdate()
+    return false;
+  };
+
+  destroyPopperInstance = (callback: () => boolean) => {
+    if (this.state.popperInstance) {
+      this.state.popperInstance.destroy();
+    }
+    this.setState({ popperInstance: undefined }, callback);
+  };
+
+  updatePopperInstance = () => {
+    if (this.state.popperInstance) {
+      this.destroyPopperInstance(() => this.initPopperInstance());
+    }
+  };
+
+  componentDidUpdate(prevProps: PopperProps, prevState: PopperState) {
+    // If needed, initialize the Popper.js instance
+    // it will return `true` if it initialized a new instance, or `false` otherwise
+    // if it returns `false`, we make sure Popper props haven't changed, and update
+    // the Popper.js instance if needed
+    if (!this.initPopperInstance()) {
+      // If the Popper.js options have changed, update the instance (destroy + create)
+      if (
+        this.props.placement !== prevProps.placement ||
+        this.props.eventsEnabled !== prevProps.eventsEnabled ||
+        this.state.arrowNode !== prevState.arrowNode ||
+        this.state.popperNode !== prevState.popperNode ||
+        this.props.referenceElement !== prevProps.referenceElement
+      ) {
+        this.updatePopperInstance();
+      }
     }
   }
 
   componentWillUnmount() {
-    this._destroyPopper()
-  }
-
-  _setArrowNode = node => {
-    this._arrowNode = node
-  }
-
-  _getTargetNode = () => {
-    if (this.props.target) {
-      return this.props.target
-    } else if (
-      !this.context.popperManager ||
-      !this.context.popperManager.getTargetNode()
-    ) {
-      throw new Error(
-        'Target missing. Popper must be given a target from the Popper Manager, or as a prop.',
-      )
+    if (this.state.popperInstance) {
+      this.state.popperInstance.destroy();
     }
-    return this.context.popperManager.getTargetNode()
-  }
-
-  _getOffsets = data => {
-    return Object.keys(data.offsets).map(key => data.offsets[key])
-  }
-
-  _isDataDirty = data => {
-    if (this.state.data) {
-      return (
-        JSON.stringify(this._getOffsets(this.state.data)) !==
-        JSON.stringify(this._getOffsets(data))
-      )
-    } else {
-      return true
-    }
-  }
-
-  _updateStateModifier = {
-    enabled: true,
-    order: 900,
-    fn: data => {
-      if (this._isDataDirty(data)) {
-        this.setState({ data })
-      }
-      return data
-    },
-  }
-
-  _createPopper() {
-    const { placement, eventsEnabled } = this.props
-    const modifiers = {
-      ...this.props.modifiers,
-      applyStyle: { enabled: false },
-      updateState: this._updateStateModifier,
-    }
-    if (this._arrowNode) {
-      modifiers.arrow = {
-        ...(this.props.modifiers.arrow || {}),
-        element: this._arrowNode,
-      }
-    }
-    this._popper = new PopperJS(this._getTargetNode(), this._popperNode, {
-      placement,
-      eventsEnabled,
-      modifiers,
-    })
-
-    // TODO: look into setTimeout scheduleUpdate call, without it, the popper will not position properly on creation
-    setTimeout(() => this._scheduleUpdate())
-  }
-
-  _destroyPopper() {
-    if (this._popper) {
-      this._popper.destroy()
-    }
-  }
-
-  _getPopperStyle = () => {
-    const { data } = this.state
-
-    if (!this._popper || !data) {
-      return {
-        position: 'absolute',
-        pointerEvents: 'none',
-        opacity: 0,
-      }
-    }
-
-    return {
-      position: data.offsets.popper.position,
-      ...data.styles,
-    }
-  }
-
-  _getPopperPlacement = () => {
-    return this.state.data ? this.state.data.placement : undefined
-  }
-
-  _getPopperHide = () => {
-    return !!this.state.data && this.state.data.hide ? '' : undefined
-  }
-
-  _getArrowStyle = () => {
-    if (!this.state.data || !this.state.data.offsets.arrow) {
-      return {}
-    } else {
-      const { top, left } = this.state.data.offsets.arrow
-      return { top, left }
-    }
-  }
-
-  _handlePopperRef = node => {
-    this._popperNode = node
-    if (node) {
-      this._createPopper()
-    } else {
-      this._destroyPopper()
-    }
-    if (this.props.innerRef) {
-      this.props.innerRef(node)
-    }
-  }
-
-  _scheduleUpdate = () => {
-    this._popper && this._popper.scheduleUpdate()
   }
 
   render() {
-    const {
-      component,
-      innerRef,
-      placement,
-      eventsEnabled,
-      modifiers,
-      children,
-      ...restProps
-    } = this.props
-    const popperStyle = this._getPopperStyle()
-    const popperPlacement = this._getPopperPlacement()
-    const popperHide = this._getPopperHide()
-
-    if (typeof children === 'function') {
-      const popperProps = {
-        ref: this._handlePopperRef,
-        style: popperStyle,
-        'data-placement': popperPlacement,
-        'data-x-out-of-boundaries': popperHide,
-      }
-      return children({
-        popperProps,
-        restProps,
-        scheduleUpdate: this._scheduleUpdate,
-      })
-    }
-
-    const componentProps = {
-      ...restProps,
-      style: {
-        ...restProps.style,
-        ...popperStyle,
+    return unwrapArray(this.props.children)({
+      ref: this.setPopperNode,
+      style: this.getPopperStyle(),
+      placement: this.getPopperPlacement(),
+      arrowProps: {
+        ref: this.setArrowNode,
+        style: this.getArrowStyle(),
       },
-      'data-placement': popperPlacement,
-      'data-x-out-of-boundaries': popperHide,
-    }
-
-    if (typeof component === 'string') {
-      componentProps.ref = this._handlePopperRef
-    } else {
-      componentProps.innerRef = this._handlePopperRef
-    }
-
-    return createElement(component, componentProps, children)
+    });
   }
 }
 
-export default Popper
+const placements = PopperJS.placements;
+export { placements };
+
+export default (props: PopperProps) => (
+  <ManagerContext.Consumer>
+    {({ referenceNode }) => (
+      <Popper referenceElement={referenceNode} {...props} />
+    )}
+  </ManagerContext.Consumer>
+);

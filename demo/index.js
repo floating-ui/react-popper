@@ -15,7 +15,7 @@ const App = () => (
     <div style={{ marginBottom: 200 }}>
       <MultipleExample />
     </div>
-    <div style={{ marginBottom: 200 }}>
+    {/* <div style={{ marginBottom: 200 }}>
       <AnimatedExample />
     </div>
     <div style={{ marginBottom: 200 }}>
@@ -29,7 +29,7 @@ const App = () => (
     </div>
     <div style={{ marginBottom: 200 }}>
       <StandaloneObjectExample />
-    </div>
+    </div> */}
   </div>
 )
 

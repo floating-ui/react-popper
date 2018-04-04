@@ -1,45 +1,35 @@
-import { Component, createElement } from 'react'
-import PropTypes from 'prop-types'
+// @flow
+import React, { Component, type Node } from 'react';
+import createContext, { type Context } from 'create-react-context';
 
-class Manager extends Component {
-  static childContextTypes = {
-    popperManager: PropTypes.object.isRequired,
-  }
+export const ManagerContext: Context<{
+  getReferenceRef?: (?HTMLElement) => void,
+  referenceNode?: ?HTMLElement,
+}> = createContext({});
 
-  static propTypes = {
-    tag: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    children: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
-  }
+type ManagerProps = {
+  children: Node,
+};
+type ManagerState = {
+  referenceNode?: ?HTMLElement,
+};
 
-  static defaultProps = {
-    tag: 'div',
-  }
+export default class Manager extends Component<ManagerProps, ManagerState> {
+  state = {};
 
-  getChildContext() {
-    return {
-      popperManager: {
-        setTargetNode: this._setTargetNode,
-        getTargetNode: this._getTargetNode,
-      },
-    }
-  }
-
-  _setTargetNode = node => {
-    this._targetNode = node
-  }
-
-  _getTargetNode = () => {
-    return this._targetNode
-  }
+  getReferenceRef = (referenceNode: ?HTMLElement) =>
+    this.setState({ referenceNode });
 
   render() {
-    const { tag, children, ...restProps } = this.props
-    if (tag !== false) {
-      return createElement(tag, restProps, children)
-    } else {
-      return children
-    }
+    return (
+      <ManagerContext.Provider
+        value={{
+          referenceNode: this.state.referenceNode,
+          getReferenceRef: this.getReferenceRef,
+        }}
+      >
+        {this.props.children}
+      </ManagerContext.Provider>
+    );
   }
 }
-
-export default Manager

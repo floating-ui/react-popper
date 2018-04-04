@@ -1,0 +1,13 @@
+{
+  "compilerOptions": {
+    "target": "es6",
+    "module": "es2015",
+    "jsx": "react",
+    "noEmit": true,
+    "strict": true,
+    "skipLibCheck": true,
+    "moduleResolution": "node",
+    "typeRoots": ["./node_modules/@types"],
+    "types": ["react"]
+  }
+}

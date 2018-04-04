@@ -1,4 +1,4 @@
-export { default as Manager } from './Manager';
-export { default as Target } from './Target';
+// @flow
 export { default as Popper, placements } from './Popper';
-export { default as Arrow } from './Arrow';
+export { default as Manager } from './Manager';
+export { default as Reference } from './Reference';

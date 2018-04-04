@@ -10,211 +10,177 @@ React wrapper around [PopperJS](https://github.com/FezVrasta/popper.js/).
 
 ## Install
 
-`npm install react-popper --save` or `yarn add react-popper`
+Via package managers:
+
+```bash
+npm install react-popper --save
+# or
+yarn add react-popper
+```
+
+Via `script` tag (UMD library exposed as `ReactPopper`):
 
 ```html
 <script src="https://unpkg.com/react-popper/dist/react-popper.js"></script>
-(UMD library exposed as `ReactPopper`)
 ```
 
 ## Usage
 
-```js
-import { Manager, Target, Popper, Arrow } from 'react-popper'
+Example:
 
-const PopperExample = () => (
+```jsx
+import { Manager, Reference, Popper } from 'react-popper';
+
+const Example = () => (
   <Manager>
-    <Target style={{ width: 120, height: 120, background: '#b4da55' }}>
-      Target Box
-    </Target>
-    <Popper placement="left" className="popper">
-      Left Content
-      <Arrow className="popper__arrow"/>
-    </Popper>
-    <Popper placement="right" className="popper">
-      Right Content
-      <Arrow className="popper__arrow"/>
-    </Popper>
-  </Manager>
-)
-```
-
-## Usage with child function
-
-This is a useful way to interact with custom components. Just make sure you pass down the refs properly.
-
-```js
-import { Manager, Target, Popper, Arrow } from 'react-popper'
-
-const PopperExample = () => (
-  <Manager>
-    <Target>
-      {({ targetProps }) => (
-        <div {...targetProps}>
-          Target Box
-        </div>
+    <Reference>
+      {({ ref }) => (
+        <button type="button" ref={ref}>
+          Reference element
+        </button>
       )}
-    </Target>
-    <Popper placement="left">
-      {({ popperProps, restProps }) => (
-        <div
-          className="popper"
-          {...popperProps}
-        >
-          Popper Content
-          <Arrow>
-            {({ arrowProps, restProps }) => (
-              <span
-                className="popper__arrow"
-                {...arrowProps}
-              />
-            )}
-          </Arrow>
+    </Reference>
+    <Popper placement="right">
+      {({ ref, style, placement, arrowProps }) => (
+        <div ref={ref} style={style} data-placement={placement}>
+          Popper element
+          <div ref={arrowProps.ref} style={arrowProps.style} />
         </div>
       )}
     </Popper>
   </Manager>
-)
+);
 ```
 
-## Usage without Manager
+`react-popper` makes use of a React pattern called **"render prop"**, if you are not
+familiar with it, please read more [on the official React documentation](https://reactjs.org/docs/render-props.html).
 
-It's generally easiest to let the `Manager` and `Target` components handle passing the target DOM element to the `Popper` component. However, you can pass a target [Element](https://developer.mozilla.org/en-US/docs/Web/API/Element) or a [referenceObject](https://popper.js.org/popper-documentation.html#referenceObject) directly into `Popper` if you need to.
+### API documentation
 
-Handling DOM Elements from React can be complicated. The `Manager` and `Target` components handle these complexities for you, so their use is strongly recommended when using DOM Elements.
+The `Manager` component is a simple wrapper that needs to surround all the other `react-popper` components in order
+to make them communicate with each others.
+
+The `Popper` component accepts the properties `children`, `placement`, `modifiers`, and `eventsEneabled`.
+
+```jsx
+<Popper
+  placement="right"
+  modifiers={{ preventOverflow: { enabled: false } }}
+  eventsEnabled={true}
+>
+    { props => [...] }
+</Popper>
+```
+
+##### `children`
 
 ```js
-import { PureComonent } from 'react'
-import { Popper, Arrow } from 'react-popper'
+children: ({|
+  ref: (?HTMLElement) => void,
+  style: { [string]: string | number },
+  placement: ?Placement,
+  arrowProps: {
+    ref: (?HTMLElement) => void,
+    style: { [string]: string | number },
+  },
+|}) => Node
+```
 
-class StandaloneExample extends PureComponent {
-  state = {
-    isOpen: false,
+A function (render prop) that takes as argument an object containing the properties
+`ref`, `style`, 'placement`, and`arrowProps`.
+
+The first 3 properties are the `ref` property that is going to be used to retrieve the [React refs](https://reactjs.org/docs/refs-and-the-dom.html) of the **popper** element, the `style` property,
+which contains the CSS styles (React CSS properties) computed by Popper.js and needed to style
+the **popper** element so that it gets positioned in the desired way.  
+These styles should be applied to your React component using the `style` prop or with any CSS-in-JS
+library of your choice.
+
+The `placement` property describes the placement of your popper after Popper.js has applied all the modifiers
+that may have flipped or altered the originally provided `placement` property. You can use this to alter the
+style of the popper and or of the arrow according to the definitive placement. For instance, you can use this
+property to orient the arrow to the right direction.
+
+The `arrowProps` argument is an object, containing a `style` and `ref` properties that are identical to the
+ones provided as first and second argument of `children`, but are relative to the **arrow** element rather than
+the popper. Use them to, accordingly, retrieve the ref of the **arrow** element and style it.
+
+##### `placement`
+
+```js
+placement?: PopperJS$Placement;
+```
+
+One of the accepted placement values listed in the [Popper.js documentation](https://popper.js.org/popper-documentation.html#Popper.placements).  
+Your popper is going to be placed according to the value of this property.  
+Defaults to `bottom`.
+
+##### `eventsEnabled`
+
+```js
+eventsEnabled?: boolean;
+```
+
+Tells `react-popper` to enable or disable the [Popper.js event listeners](https://popper.js.org/popper-documentation.html#Popper.Defaults.eventsEnabled). `true` by default.
+
+##### `modifiers`
+
+```js
+modifiers?: PopperJS$Modifiers};
+```
+
+An object containing custom settings for the [Popper.js modifiers](https://popper.js.org/popper-documentation.html#modifiers).  
+You can use this property to override their settings or to inject your custom ones.
+
+## Usage without a reference `HTMLElement`
+
+Whenever you need to position a popper based on some arbitrary coordinates, you can provide `Popper` with a `referenceElement` property that is going to be used in place of the `referenceProps.getRef` React ref.
+
+The `referenceElement` property must be an object with an interface compatible with an `HTMLElement` as described in the [Popper.js referenceObject documentation](https://popper.js.org/popper-documentation.html#referenceObject), this implies that you may also provide a real HTMLElement if needed.
+
+If `referenceElement` is defined, it will take precedence over any `referenceProps.ref` provided refs.
+
+```jsx
+import Popper from 'react-popper';
+
+class VirtualReference {
+  getBoundingClientRect() {
+    return {
+      top: 10,
+      left: 10,
+      bottom: 20,
+      right: 100,
+      width: 90,
+      height: 10,
+    };
   }
 
-  handleClick() = () => {
-    this.setState(prevState => ({
-      isOpen: !prevState.isOpen
-    }))
+  get clientWidth() {
+    return this.getBoundingClientRect().width;
   }
 
-  render() {
-    return (
-      <div>
-        <div
-          ref={(div) => this.target = div}
-          style={{ width: 120, height: 120, background: '#b4da55' }}
-          onClick={this.handleClick}
-        >
-          Click {this.state.isOpen ? 'to hide' : 'to show'} popper
-        </div>
-        {this.state.isOpen && (
-          <Popper className="popper" target={this.target}>
-            Popper Content
-            <Arrow className="popper__arrow"/>
-          </Popper>
-        )}
-      </div>
-    )
+  get clientHeight() {
+    return this.getBoundingClientRect().height;
   }
 }
+
+// This is going to create a virtual reference element
+// positioned 10px from top and left of the document
+// 90px wide and 10px high
+const virtualReferenceElement = new VirtualReference();
+
+// This popper will be positioned relatively to the
+// virtual reference element defined above
+const Example = () => (
+  <Popper referenceElement={virtualReferenceElement}>
+    {({ ref, style, placement, arrowProps }) => (
+      <div ref={ref} style={style} data-placement={placement}>
+        Popper element
+        <div ref={arrowProps.ref} style={arrowProps.style} />
+      </div>
+    )}
+  </Popper>
+);
 ```
-
-## `Shared Props`
-
-`Target`, `Popper`, and `Arrow` all share the following props
-
-#### `component`: PropTypes.oneOfType([PropTypes.node, PropTypes.func])
-
-A valid DOM tag or custom component to render. If using a custom component, an `innerRef` prop will be passed down that **must** be attached to the child component ref.
-
-#### `innerRef`: PropTypes.func
-
-Use this prop to access the internal ref. Does not apply to the `Manager` component since we do not interact with its ref.
-
-## `Manager`
-
-This is a special component that provides the `Target` component to the `Popper` component. Pass any props as you normally would here.
-
-#### `tag`: PropTypes.oneOfType([PropTypes.string, PropTypes.bool])
-
-A valid DOM tag to render. Allows rendering just children by passing `false`. Once React 16 is out, this prop will most likely go away since we will be able to return an array and all this currently does is subscribe `Target` and `Popper`.
-
-## `Target`
-
-This is just a simple component that subscribes to `PopperManager`, so `Popper` can make use of it. Again, pass any props as you normally would here.
-
-Each `Target` must be wrapped in a `Manager`, and each `Manager` can wrap only one `Target`.
-
-#### `children`: PropTypes.oneOfType([PropTypes.node, PropTypes.func])
-
-A `Target`'s child may be one of the following:
-
-- a React element[s]
-- a function accepting the following object (all props must be passed down in order for the PopperJS to work properly)
-
-  ```js
-  {
-    targetProps: {
-      ref, // a function that accepts the target component as an argument
-    },
-    restProps, // any other props that came through the Target component
-  }
-  ```
-
-
-## `Popper`
-
-Your popper that gets attached to the `Target` component.
-
-Each `Popper` must either be wrapped in a `Manager`, or passed a `target` prop directly. Each `Manager` can wrap multiple `Popper` components.
-
-#### `placement`: PropTypes.oneOf(Popper.placements)
-#### `eventsEnabled`: PropTypes.bool
-#### `modifiers`: PropTypes.object
-#### `target`: PropTypes.oneOfType([PropTypes.instanceOf(Element), Popper.referenceObject])
-
-Passes respective options to a new [Popper instance](https://github.com/FezVrasta/popper.js/blob/master/docs/_includes/popper-documentation.md#new-popperreference-popper-options). As for `onCreate` and `onUpdate`, these callbacks were intentionally left out in favor of using the [component lifecycle methods](https://facebook.github.io/react/docs/react-component.html#the-component-lifecycle). If you have a good use case for these please feel free to file and issue and I will consider adding them in.
-
-#### `children`: PropTypes.oneOfType([PropTypes.node, PropTypes.func])
-
-A `Popper`'s child may be one of the following:
-
-- a React element[s]
-- a function accepting the following object (all props must be passed down in order for the PopperJS to work properly)
-
-  ```js
-  {
-    popperProps: {
-      ref, // a function that accepts the popper component as an argument
-      style, // the styles to apply to the popper element
-      'data-placement', // the placement of the Popper
-    },
-    restProps, // any other props that came through the Popper component
-  }
-  ```
-
-## `Arrow`
-
-Another component that subscribes to the `Popper` component as an [arrow modifier](https://github.com/FezVrasta/popper.js/blob/master/docs/_includes/popper-documentation.md#modifiers..arrow). Must be a child of `Popper`.
-
-#### `children`: PropTypes.oneOfType([PropTypes.node, PropTypes.func])
-
-An `Arrow`'s child may be one of the following:
-
-- a React element[s]
-- a function accepting the following object (all props must be passed down in order for the PopperJS to work properly)
-
-  ```js
-  {
-    arrowProps: {
-      ref, // a function that accepts the arrow component as an argument
-      style, // the styles to apply to the arrow element
-    },
-    restProps, // any other props that came through the Arrow component
-  }
-  ```
-
 
 ## Running Locally
 
@@ -232,7 +198,8 @@ An `Arrow`'s child may be one of the following:
 
 #### run dev mode
 
-`npm run dev` or `yarn dev`
+`npm run demo` or `yarn demo`
 
 #### open your browser and visit:
-`http://localhost:8080/`
+
+`http://localhost:1234/`
