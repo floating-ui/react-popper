@@ -87,7 +87,7 @@ children: ({|
 ```
 
 A function (render prop) that takes as argument an object containing the properties
-`ref`, `style`, 'placement`, and`arrowProps`.
+`ref`, `style`, `placement`, and`arrowProps`.
 
 The first 3 properties are the `ref` property that is going to be used to retrieve the [React refs](https://reactjs.org/docs/refs-and-the-dom.html) of the **popper** element, the `style` property,
 which contains the CSS styles (React CSS properties) computed by Popper.js and needed to style
@@ -125,7 +125,7 @@ Tells `react-popper` to enable or disable the [Popper.js event listeners](https:
 ##### `modifiers`
 
 ```js
-modifiers?: PopperJS$Modifiers};
+modifiers?: PopperJS$Modifiers;
 ```
 
 An object containing custom settings for the [Popper.js modifiers](https://popper.js.org/popper-documentation.html#modifiers).  
