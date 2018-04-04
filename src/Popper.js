@@ -15,6 +15,7 @@ class Popper extends Component {
 
   static propTypes = {
     component: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
+    onFlip: PropTypes.func,
     innerRef: PropTypes.func,
     placement: PropTypes.oneOf(placements),
     eventsEnabled: PropTypes.bool,
@@ -49,16 +50,35 @@ class Popper extends Component {
     }
   }
 
-  componentDidUpdate(lastProps) {
+  componentDidUpdate(
+    {
+      children: lastChildren,
+      eventsEnabled: lastEventsEnabled,
+      placement: lastPlacement,
+      target: lastTarget,
+    },
+    { data: lastStateData },
+  ) {
+    const { children, eventsEnabled, onFlip, placement, target } = this.props
+    const { data: { placement: currentPlacement, flipped } = {} } = this.state
+
     if (
-      lastProps.placement !== this.props.placement ||
-      lastProps.eventsEnabled !== this.props.eventsEnabled ||
-      lastProps.target !== this.props.target
+      onFlip &&
+      ((!lastStateData && flipped) ||
+        (lastStateData && lastStateData.flipped !== flipped))
+    ) {
+      onFlip({ placement: currentPlacement, flipped })
+    }
+
+    if (
+      lastPlacement !== placement ||
+      lastEventsEnabled !== eventsEnabled ||
+      lastTarget !== target
     ) {
       this._destroyPopper()
       this._createPopper()
     }
-    if (lastProps.children !== this.props.children) {
+    if (lastChildren !== children) {
       this._scheduleUpdate()
     }
   }
@@ -194,6 +214,7 @@ class Popper extends Component {
     const {
       component,
       innerRef,
+      onFlip,
       placement,
       eventsEnabled,
       modifiers,

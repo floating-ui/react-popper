@@ -194,6 +194,17 @@ A `Popper`'s child may be one of the following:
   }
   ```
 
+#### `onFlip`: PropTypes.func(object)
+
+Callback triggered when `Popper` placement is flipped. Return value is the following object:
+
+```js
+{
+  flipped, // PropTypes.bool
+  placement, // PropTypes.oneOf(Popper.placements)
+}
+```
+
 ## `Arrow`
 
 Another component that subscribes to the `Popper` component as an [arrow modifier](https://github.com/FezVrasta/popper.js/blob/master/docs/_includes/popper-documentation.md#modifiers..arrow). Must be a child of `Popper`.
