@@ -13,7 +13,7 @@ React wrapper around [PopperJS](https://github.com/FezVrasta/popper.js/).
 Via package managers:
 
 ```bash
-npm install react-popper --save
+npm install react-popper@next --save
 # or
 yarn add react-popper
 ```
