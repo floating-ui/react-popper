@@ -1066,6 +1066,12 @@ babel-plugin-transform-remove-undefined@^0.3.0:
   dependencies:
     babel-helper-evaluate-path "^0.3.0"
 
+babel-plugin-transform-runtime@^6.23.0:
+  version "6.23.0"
+  resolved "https://registry.yarnpkg.com/babel-plugin-transform-runtime/-/babel-plugin-transform-runtime-6.23.0.tgz#88490d446502ea9b8e7efb0fe09ec4d99479b1ee"
+  dependencies:
+    babel-runtime "^6.22.0"
+
 babel-plugin-transform-simplify-comparison-operators@^6.9.0:
   version "6.9.0"
   resolved "https://registry.yarnpkg.com/babel-plugin-transform-simplify-comparison-operators/-/babel-plugin-transform-simplify-comparison-operators-6.9.0.tgz#586252fea023cb13f2400a09c0ab178dc0844f0a"
@@ -1215,7 +1221,7 @@ babel-register@^6.26.0:
     mkdirp "^0.5.1"
     source-map-support "^0.4.15"
 
-babel-runtime@^6.11.6, babel-runtime@^6.18.0, babel-runtime@^6.22.0, babel-runtime@^6.26.0:
+babel-runtime@6.x.x, babel-runtime@^6.11.6, babel-runtime@^6.18.0, babel-runtime@^6.22.0, babel-runtime@^6.26.0:
   version "6.26.0"
   resolved "https://registry.yarnpkg.com/babel-runtime/-/babel-runtime-6.26.0.tgz#965c7058668e82b55d7bfe04ff2337bc8b5647fe"
   dependencies:
