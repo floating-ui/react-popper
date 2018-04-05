@@ -1,22 +1,34 @@
 // @flow
-import React from 'react';
-import { mount } from 'enzyme';
+import React from "react";
+import { mount } from "enzyme";
 
 // Public API
-import { Reference } from '.';
+import { Reference } from ".";
 
 // Private API
-import { ManagerContext } from './Manager';
+import { ManagerContext } from "./Manager";
 
-describe('Arrow component', () => {
-  it('renders the expected markup', () => {
+describe("Arrow component", () => {
+  it("renders the expected markup", () => {
+    const getReferenceRef = jest.fn();
+
+    // HACK: wrapping DIV needed to make Enzyme happy for now
     const wrapper = mount(
-      <Reference>{({ ref }) => <div ref={ref} />}</Reference>
+      <div>
+        <ManagerContext.Provider
+          value={{
+            getReferenceRef,
+            referenceNode: undefined,
+          }}
+        >
+          <Reference>{({ ref }) => <div ref={ref} />}</Reference>
+        </ManagerContext.Provider>
+      </div>
     );
-    expect(wrapper).toMatchSnapshot();
+    expect(wrapper.children()).toMatchSnapshot();
   });
 
-  it('consumes the ArrowNodeContext from Popper', () => {
+  it("consumes the ManagerContext from Manager", () => {
     const getReferenceRef = jest.fn();
 
     // HACK: wrapping DIV needed to make Enzyme happy for now

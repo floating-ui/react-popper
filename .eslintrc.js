@@ -1,23 +1,14 @@
 module.exports = {
   root: true,
-  extends: ['standard', 'standard-react', 'prettier', 'prettier/react'],
-  plugins: ['prettier', 'jest'],
   parser: 'babel-eslint',
   env: {
     browser: true,
-    'jest/globals': true,
   },
-  settings: {
-    react: {
-      version: '16.3',
-    },
-  },
+  plugins: ['react'],
   rules: {
-    // prettier
-    'prettier/prettier': [
-      'error',
-      { trailingComma: 'es5', singleQuote: true, semi: true },
-    ],
-    'no-unexpected-multiline': 'off',
+    'no-unused-vars': 'error',
+    'react/jsx-uses-vars': 'error',
+    'react/jsx-uses-react': 'error',
+    'react/react-in-jsx-scope': 'error',
   },
 };

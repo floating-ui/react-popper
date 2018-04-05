@@ -2,11 +2,20 @@
 
 exports[`Manager component renders the expected markup 1`] = `
 <Manager>
-  <div
-    id="target"
-  />
-  <div
-    id="popper"
-  />
+  <Provider
+    value={
+      Object {
+        "getReferenceRef": [Function],
+        "referenceNode": undefined,
+      }
+    }
+  >
+    <div
+      id="reference"
+    />
+    <div
+      id="popper"
+    />
+  </Provider>
 </Manager>
 `;

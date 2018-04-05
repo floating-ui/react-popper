@@ -3,10 +3,9 @@
 [![npm version](https://img.shields.io/npm/v/react-popper.svg)](https://www.npmjs.com/package/react-popper)
 [![npm downloads](https://img.shields.io/npm/dm/react-popper.svg)](https://www.npmjs.com/package/react-popper)
 [![Dependency Status](https://david-dm.org/souporserious/react-popper.svg)](https://david-dm.org/souporserious/react-popper)
-[![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
 [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg)](https://github.com/prettier/prettier)
 
-React wrapper around [PopperJS](https://github.com/FezVrasta/popper.js/).
+React wrapper around [Popper.js](https://popper.js.org).
 
 ## Install
 
@@ -31,7 +30,7 @@ Via `script` tag (UMD library exposed as `ReactPopper`):
 Example:
 
 ```jsx
-import { Manager, Reference, Popper } from 'react-popper';
+import { Manager, Reference, Popper } from "react-popper";
 
 const Example = () => (
   <Manager>
@@ -142,7 +141,7 @@ The `referenceElement` property must be an object with an interface compatible w
 If `referenceElement` is defined, it will take precedence over any `referenceProps.ref` provided refs.
 
 ```jsx
-import Popper from 'react-popper';
+import Popper from "react-popper";
 
 class VirtualReference {
   getBoundingClientRect() {

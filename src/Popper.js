@@ -3,6 +3,7 @@ import React, { Component, type Node } from 'react';
 import PopperJS, {
   type Placement,
   type Instance as PopperJS$Instance,
+  type Data,
   type ReferenceObject,
 } from 'popper.js';
 import { ManagerContext } from './Manager';
@@ -21,6 +22,8 @@ type RenderProp = ({|
     ref: getRefFn,
     style: Style,
   },
+
+  
 |}) => Node;
 
 type PopperProps = {
@@ -37,7 +40,7 @@ type PopperState = {
   popperNode: ?HTMLElement,
   arrowNode: ?HTMLElement,
   popperInstance: ?PopperJS$Instance,
-  data: ?Object,
+  data: ?Data,
 };
 
 const initialStyle = {

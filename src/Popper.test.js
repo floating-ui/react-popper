@@ -1,9 +1,9 @@
 // @flow
-import React from 'react';
-import { mount } from 'enzyme';
+import React from "react";
+import { mount } from "enzyme";
 
 // Private API
-import { Popper as InnerPopper } from './Popper';
+import { Popper as InnerPopper } from "./Popper";
 
 const mountPopper = props =>
   mount(
@@ -16,56 +16,56 @@ const mountPopper = props =>
     </InnerPopper>
   );
 
-describe('Popper component', () => {
-  it('renders the expected markup', () => {
-    const referenceElement = document.createElement('div');
+describe("Popper component", () => {
+  it("renders the expected markup", () => {
+    const referenceElement = document.createElement("div");
     const wrapper = mountPopper({ referenceElement });
     expect(wrapper).toMatchSnapshot();
   });
 
-  it('initializes the Popper.js instance on first update', () => {
-    const referenceElement = document.createElement('div');
+  it("initializes the Popper.js instance on first update", () => {
+    const referenceElement = document.createElement("div");
     const wrapper = mountPopper({ referenceElement });
-    expect(wrapper.state('popperInstance')).toBeDefined();
+    expect(wrapper.state("popperInstance")).toBeDefined();
   });
 
   it("doesn't update Popper.js instance on props update if not needed by Popper.js", () => {
-    const referenceElement = document.createElement('div');
-    const wrapper = mountPopper({ referenceElement, placement: 'bottom' });
-    const instance = wrapper.state('popperInstance');
+    const referenceElement = document.createElement("div");
+    const wrapper = mountPopper({ referenceElement, placement: "bottom" });
+    const instance = wrapper.state("popperInstance");
 
-    wrapper.setProps({ placement: 'sd' });
+    wrapper.setProps({ placement: "bottom" });
 
-    expect(wrapper.state('popperInstance')).toBe(instance);
+    expect(wrapper.state("popperInstance")).toBe(instance);
   });
 
-  it('updates Popper.js on explicitly listed props change', () => {
-    const referenceElement = document.createElement('div');
+  it("updates Popper.js on explicitly listed props change", () => {
+    const referenceElement = document.createElement("div");
     const wrapper = mountPopper({ referenceElement });
-    const instance = wrapper.state('popperInstance');
-    wrapper.setProps({ placement: 'top' });
+    const instance = wrapper.state("popperInstance");
+    wrapper.setProps({ placement: "top" });
     wrapper.update();
-    expect(wrapper.state('popperInstance')).not.toBe(instance);
+    expect(wrapper.state("popperInstance")).not.toBe(instance);
   });
 
-  it('does not update Popper.js on generic props change', () => {
-    const referenceElement = document.createElement('div');
+  it("does not update Popper.js on generic props change", () => {
+    const referenceElement = document.createElement("div");
     const wrapper = mountPopper({ referenceElement });
-    const instance = wrapper.state('popperInstance');
-    wrapper.setProps({ foo: 'bar' });
+    const instance = wrapper.state("popperInstance");
+    wrapper.setProps({ foo: "bar" });
     wrapper.update();
-    expect(wrapper.state('popperInstance')).toBe(instance);
+    expect(wrapper.state("popperInstance")).toBe(instance);
   });
 
-  it('destroys Popper.js instance on unmount', () => {
-    const referenceElement = document.createElement('div');
+  it("destroys Popper.js instance on unmount", () => {
+    const referenceElement = document.createElement("div");
     const wrapper = mountPopper({ referenceElement });
-    const instance = wrapper.state('popperInstance');
+    const instance = wrapper.state("popperInstance");
     wrapper.unmount();
     expect(instance.state.isDestroyed).toBe(true);
   });
 
-  it('accepts a `referenceElement` property', () => {
+  it("accepts a `referenceElement` property", () => {
     class VirtualReference {
       getBoundingClientRect() {
         return {
@@ -90,7 +90,7 @@ describe('Popper component', () => {
     const virtualReferenceElement = new VirtualReference();
     const wrapper = mountPopper({ referenceElement: virtualReferenceElement });
 
-    expect(wrapper.state('popperInstance').reference).toBe(
+    expect(wrapper.state("popperInstance").reference).toBe(
       virtualReferenceElement
     );
   });

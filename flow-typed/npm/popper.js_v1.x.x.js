@@ -1,32 +1,33 @@
-declare module 'popper.js' {
-  declare type Position = 'top' | 'right' | 'bottom' | 'left';
+declare module "popper.js" {
+  declare type Position = "top" | "right" | "bottom" | "left";
   declare type Placement =
-    | 'auto-start'
-    | 'auto'
-    | 'auto-end'
-    | 'top-start'
-    | 'top'
-    | 'top-end'
-    | 'right-start'
-    | 'right'
-    | 'right-end'
-    | 'bottom-end'
-    | 'bottom'
-    | 'bottom-start'
-    | 'left-end'
-    | 'left'
-    | 'left-start';
+    | "auto-start"
+    | "auto"
+    | "auto-end"
+    | "top-start"
+    | "top"
+    | "top-end"
+    | "right-start"
+    | "right"
+    | "right-end"
+    | "bottom-end"
+    | "bottom"
+    | "bottom-start"
+    | "left-end"
+    | "left"
+    | "left-start";
 
   declare type Offset = {
     top: number,
     left: number,
     width: number,
     height: number,
+    position: Position,
   };
 
-  declare type Boundary = 'scrollParent' | 'viewport' | 'window';
+  declare type Boundary = "scrollParent" | "viewport" | "window";
 
-  declare type Behavior = 'flip' | 'clockwise' | 'counterclockwise';
+  declare type Behavior = "flip" | "clockwise" | "counterclockwise";
 
   declare type Data = {
     instance: Popper,
@@ -36,6 +37,7 @@ declare module 'popper.js' {
     hide: boolean,
     arrowElement: Element,
     styles: CSSStyleDeclaration,
+    arrowStyles: CSSStyleDeclaration,
     boundaries: Object,
     offsets: {
       popper: Offset,
@@ -83,8 +85,8 @@ declare module 'popper.js' {
     },
     computeStyle?: BaseModifier & {
       gpuAcceleration?: boolean,
-      x?: 'bottom' | 'top',
-      y?: 'left' | 'right',
+      x?: "bottom" | "top",
+      y?: "left" | "right",
     },
 
     [name: string]: (BaseModifier & { [string]: * }) | null,
