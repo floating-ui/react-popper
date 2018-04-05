@@ -1,29 +1,30 @@
 // @flow
 import React, { Component, type Node } from 'react';
+import createContext, { type Context } from 'create-react-context';
 import PopperJS, {
   type Placement,
   type Instance as PopperJS$Instance,
-  type Data,
   type Modifiers,
+  type Data,
   type ReferenceObject,
 } from 'popper.js';
 import { ManagerContext } from './Manager';
 import { unwrapArray } from './utils';
 
 type getRefFn = (?HTMLElement) => void;
-type Style = Object;
-
 type ReferenceElement = ReferenceObject | HTMLElement | null;
+type Subscribe = (() => void) => void;
+type Unsubscribe = Subscribe;
 
 type RenderProp = ({|
   ref: getRefFn,
-  style: Style,
+  style: CSSStyleDeclaration,
   placement: ?Placement,
   outOfBoundaries: ?boolean,
   scheduleUpdate: () => void,
   arrowProps: {
     ref: getRefFn,
-    style: Style,
+    style: CSSStyleDeclaration,
   },
 |}) => Node;
 
@@ -34,6 +35,8 @@ type PopperProps = {
   positionFixed?: boolean,
   referenceElement?: ReferenceElement,
   children: RenderProp,
+  subscribe?: Subscribe,
+  unsubscribe?: Unsubscribe,
 };
 
 type PopperState = {
@@ -41,7 +44,13 @@ type PopperState = {
   arrowNode: ?HTMLElement,
   popperInstance: ?PopperJS$Instance,
   data: ?Data,
+  subscribers: Array<() => void>,
 };
+
+const PopperContext: Context<{
+  subscribe?: Subscribe,
+  unsubscribe?: Subscribe,
+}> = createContext({});
 
 const initialStyle = {
   position: 'absolute',
@@ -66,6 +75,7 @@ export class InnerPopper extends Component<PopperProps, PopperState> {
     arrowNode: undefined,
     popperInstance: undefined,
     data: undefined,
+    subscribers: [],
   };
 
   setPopperNode = (popperNode: ?HTMLElement) => this.setState({ popperNode });
@@ -82,6 +92,8 @@ export class InnerPopper extends Component<PopperProps, PopperState> {
 
   getOptions = () => ({
     placement: this.props.placement,
+    onUpdate: this.onPopperUpdate,
+    onCreate: this.onPopperUpdate,
     eventsEnabled: this.props.eventsEnabled,
     positionFixed: this.props.positionFixed,
     modifiers: {
@@ -168,24 +180,58 @@ export class InnerPopper extends Component<PopperProps, PopperState> {
     }
   }
 
+  onPopperUpdate = () => {
+    this.state.subscribers.forEach(scheduleUpdate => scheduleUpdate());
+  };
+
+  subscribe = (scheduleUpdate: () => void) =>
+    this.setState(({ subscribers }) => ({
+      subscribers: [...subscribers, scheduleUpdate],
+    }));
+
+  unsubscribe = (scheduleUpdate: () => void) =>
+    this.setState(({ subscribers }) => ({
+      subscribers: subscribers.filter(
+        subscriber => subscriber !== scheduleUpdate
+      ),
+    }));
+
+  contextValue = {
+    subscribe: this.subscribe,
+    unsubscribe: this.unsubscribe,
+  };
+
   componentWillUnmount() {
     if (this.state.popperInstance) {
       this.state.popperInstance.destroy();
     }
+    if (this.props.unsubscribe) {
+      this.props.unsubscribe(this.scheduleUpdate);
+    }
+  }
+
+  componentDidMount() {
+    if (this.props.subscribe) {
+      this.props.subscribe(this.scheduleUpdate);
+    }
   }
 
   render() {
-    return unwrapArray(this.props.children)({
-      ref: this.setPopperNode,
-      style: this.getPopperStyle(),
-      placement: this.getPopperPlacement(),
-      outOfBoundaries: this.getOutOfBoundariesState(),
-      scheduleUpdate: this.scheduleUpdate,
-      arrowProps: {
-        ref: this.setArrowNode,
-        style: this.getArrowStyle(),
-      },
-    });
+    return (
+      <PopperContext.Provider value={this.contextValue}>
+        {unwrapArray(this.props.children)({
+          ref: this.setPopperNode,
+          style: this.getPopperStyle(),
+          placement: this.getPopperPlacement(),
+          outOfBoundaries: this.getOutOfBoundariesState(),
+          scheduleUpdate: this.scheduleUpdate,
+          arrowProps: {
+            ref: this.setArrowNode,
+            style: this.getArrowStyle(),
+          },
+        })}
+      </PopperContext.Provider>
+    );
   }
 }
 
@@ -196,7 +242,16 @@ export default function Popper(props: PopperProps) {
   return (
     <ManagerContext.Consumer>
       {({ referenceNode }) => (
-        <InnerPopper referenceElement={referenceNode} {...props} />
+        <PopperContext.Consumer>
+          {({ subscribe, unsubscribe }) => (
+            <InnerPopper
+              referenceElement={referenceNode}
+              {...props}
+              subscribe={subscribe}
+              unsubscribe={unsubscribe}
+            />
+          )}
+        </PopperContext.Consumer>
       )}
     </ManagerContext.Consumer>
   );
