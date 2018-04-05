@@ -1,4 +1,6 @@
 // @flow
-export { default as Popper, placements } from './Popper';
-export { default as Manager } from './Manager';
-export { default as Reference } from './Reference';
+import Popper, { placements } from './Popper';
+import Manager from './Manager';
+import Reference from './Reference';
+
+export { Popper, placements, Manager, Reference };
