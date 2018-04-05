@@ -34,3 +34,8 @@ https://codesandbox.io/s/www4l6vkl8
 ### Any other comments?
 
 <!-- Any additional information. -->
+
+### Packages versions
+
+- Popper.js: 
+- react-popper:
