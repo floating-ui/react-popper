@@ -26,13 +26,14 @@
     "build:cjs-min":
       "MINIFY=true rollup -c --output.format cjs --output.name 'react-popper' --output.file dist/react-popper.min.js",
     "demo": "parcel --out-dir demo/dist demo/index.html",
-    "pretest": "npm run lint",
-    "test": "npm run test:flow && npm run test:ts && npm run test:jest",
+    "test":
+      "npm run test:eslint && npm run test:flow && npm run test:ts && npm run test:jest",
     "test:ts": "tsc --project ./typings/tests",
     "test:flow": "flow check",
     "test:jest": "jest",
+    "test:eslint": "eslint src",
     "prepare": "npm run build",
-    "precommit": "pretty-quick --staged && eslint src"
+    "precommit": "pretty-quick --staged && test"
   },
   "jest": {
     "setupTestFrameworkScriptFile": "<rootDir>jest.setup.js",
