@@ -1,6 +1,6 @@
 {
   "name": "react-popper",
-  "version": "0.9.2",
+  "version": "0.9.4",
   "description": "React wrapper around PopperJS.",
   "license": "MIT",
   "author": "Travis Arnold <travis@souporserious.com> (http://souporserious.com)",
