@@ -1,9 +1,9 @@
 {
-  "presets": [["env", { "modules": false }], "stage-2", "react"],
+  "presets": [["env", { "modules": false }], "stage-1", "react"],
   "plugins": ["transform-class-properties"],
   "env": {
     "test": {
-      "presets": ["env", "stage-2", "react"]
+      "presets": ["env", "stage-1", "react"]
     }
   }
 }

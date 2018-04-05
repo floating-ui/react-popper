@@ -3,31 +3,28 @@
   "version": "1.0.0-beta.1",
   "description": "React wrapper around Popper.js",
   "license": "MIT",
-  "author":
-    "Travis Arnold <travis@souporserious.com> (http://souporserious.com)",
+  "author": "Travis Arnold <travis@souporserious.com> (http://souporserious.com)",
   "homepage": "https://github.com/souporserious/react-popper",
   "main": "dist/react-popper.js",
   "umd:main": "dist/react-popper.umd.js",
   "module": "lib/index.js",
   "typings": "typings/react-popper.d.ts",
-  "files": ["dist", "lib", "typings/react-popper.d.ts"],
+  "files": [
+    "dist",
+    "lib",
+    "typings/react-popper.d.ts"
+  ],
   "scripts": {
-    "build":
-      "npm run build:clean && npm run build:es && npm run build:umd && npm run build:cjs && npm run build:flow && npm run build:umd-min && npm run build:cjs-min",
+    "build": "npm run build:clean && npm run build:es && npm run build:umd && npm run build:cjs && npm run build:flow && npm run build:umd-min && npm run build:cjs-min",
     "build:clean": "rimraf dist/ && rimraf lib/",
     "build:es": "babel src --ignore '*.test.js,__mocks__' --out-dir lib",
-    "build:umd":
-      "rollup -c --output.format umd --output.name 'react-popper' --output.file dist/react-popper.umd.js",
-    "build:cjs":
-      "rollup -c --output.format cjs --output.name 'react-popper' --output.file dist/react-popper.js",
+    "build:umd": "rollup -c --output.format umd --output.name 'react-popper' --output.file dist/react-popper.umd.js",
+    "build:cjs": "rollup -c --output.format cjs --output.name 'react-popper' --output.file dist/react-popper.js",
     "build:flow": "flow-copy-source --ignore '{__mocks__/*,*.test}.js' src lib",
-    "build:umd-min":
-      "MINIFY=true rollup -c --output.format umd --output.name 'react-popper' --output.file dist/react-popper.umd.min.js",
-    "build:cjs-min":
-      "MINIFY=true rollup -c --output.format cjs --output.name 'react-popper' --output.file dist/react-popper.min.js",
+    "build:umd-min": "MINIFY=true rollup -c --output.format umd --output.name 'react-popper' --output.file dist/react-popper.umd.min.js",
+    "build:cjs-min": "MINIFY=true rollup -c --output.format cjs --output.name 'react-popper' --output.file dist/react-popper.min.js",
     "demo": "parcel --out-dir demo/dist demo/index.html",
-    "test":
-      "npm run test:eslint && npm run test:flow && npm run test:ts && npm run test:jest",
+    "test": "npm run test:eslint && npm run test:flow && npm run test:ts && npm run test:jest",
     "test:ts": "tsc --project ./typings/tests",
     "test:flow": "flow check",
     "test:jest": "jest",
@@ -37,7 +34,9 @@
   },
   "jest": {
     "setupTestFrameworkScriptFile": "<rootDir>jest.setup.js",
-    "snapshotSerializers": ["enzyme-to-json/serializer"]
+    "snapshotSerializers": [
+      "enzyme-to-json/serializer"
+    ]
   },
   "repository": {
     "type": "git",
@@ -75,7 +74,7 @@
     "babel-plugin-transform-react-remove-prop-types": "^0.4.13",
     "babel-preset-env": "^1.6.1",
     "babel-preset-react": "^6.24.1",
-    "babel-preset-stage-2": "^6.24.1",
+    "babel-preset-stage-1": "^6.24.1",
     "enzyme": "^3.3.0",
     "enzyme-adapter-react-16": "^1.1.1",
     "enzyme-to-json": "^3.3.3",

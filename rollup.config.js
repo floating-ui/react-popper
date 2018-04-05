@@ -6,7 +6,7 @@ export default {
   plugins: [
     babel({
       babelrc: false,
-      presets: [['env', { modules: false }], 'stage-2', 'react'],
+      presets: [['env', { modules: false }], 'stage-1', 'react'],
       plugins: [
         'external-helpers',
         ['transform-react-remove-prop-types', { mode: 'wrap' }],
