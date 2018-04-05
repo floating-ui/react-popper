@@ -30,7 +30,7 @@ Via `script` tag (UMD library exposed as `ReactPopper`):
 Example:
 
 ```jsx
-import { Manager, Reference, Popper } from "react-popper";
+import { Manager, Reference, Popper } from 'react-popper';
 
 const Example = () => (
   <Manager>
@@ -132,6 +132,39 @@ modifiers?: PopperJS$Modifiers;
 An object containing custom settings for the [Popper.js modifiers](https://popper.js.org/popper-documentation.html#modifiers).  
 You can use this property to override their settings or to inject your custom ones.
 
+## Usage with `ReactDOM.createPortal`
+
+Popper.js is smart enough to work even if the **popper** and **reference** elements aren't
+in the same DOM context.  
+This means that you can use [`ReactDOM.createPortal`](https://reactjs.org/docs/portals.html)
+(or any pre React 16 alternative) to move the popper component somewhere else in the DOM.
+
+```jsx
+import { Manager, Reference, Popper } from 'react-popper';
+
+const Example = () => (
+  <Manager>
+    <Reference>
+      {props => (
+        <button type="button" {...props}>
+          Reference
+        </button>
+      )}
+    </Reference>
+    {ReactDOM.createPortal(
+      <Popper>
+        {({ placement, ...props }) => (
+          <div {...props} data-placement={placement}>
+            Popper
+          </div>
+        )}
+      </Popper>,
+      document.querySelector('#destination')
+    )}
+  </Manager>
+);
+```
+
 ## Usage without a reference `HTMLElement`
 
 Whenever you need to position a popper based on some arbitrary coordinates, you can provide `Popper` with a `referenceElement` property that is going to be used in place of the `referenceProps.getRef` React ref.
@@ -141,7 +174,7 @@ The `referenceElement` property must be an object with an interface compatible w
 If `referenceElement` is defined, it will take precedence over any `referenceProps.ref` provided refs.
 
 ```jsx
-import Popper from "react-popper";
+import { Popper } from 'react-popper';
 
 class VirtualReference {
   getBoundingClientRect() {
