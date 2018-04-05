@@ -18,9 +18,9 @@ export default {
   output: {
     sourcemap: true,
     globals: {
-      react: 'react',
+      react: 'React',
       'prop-types': 'PropTypes',
-      'popper.js': 'PopperJS',
+      'popper.js': 'Popper',
     },
   },
 };
