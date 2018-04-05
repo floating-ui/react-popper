@@ -13,11 +13,11 @@ const common = {
 };
 
 const commonOutput = {
-  name: 'react-popper',
+  name: 'ReactPopper',
   sourcemap: true,
   globals: {
-    react: 'react',
-    'popper.js': 'PopperJS',
+    react: 'React',
+    'popper.js': 'Popper',
     'create-react-context': 'createContext',
     warning: 'warning',
   },
