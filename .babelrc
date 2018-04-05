@@ -4,6 +4,12 @@
   "env": {
     "test": {
       "presets": ["env", "stage-1", "react"]
+    },
+    "es": {
+      "presets": [["env", { "modules": false }], "stage-1", "react"]
+    },
+    "cjs": {
+      "presets": [["env", { "modules": "commonjs" }], "stage-1", "react"]
     }
   }
 }
