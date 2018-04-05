@@ -12,10 +12,13 @@ because of the bug you found!
 ### CodePen demo
 
 <!--
-Use this CodeSandbox template to allow the contributors to easily reproduce your problem.  
+Modify this CodePen template to allow the contributors to easily reproduce your problem.
+
+- v0.x: https://codepen.io/FezVrasta/pen/KoxOJM
+- v1.x: WIP
+
 -->
 
-https://codesandbox.io/s/www4l6vkl8
 
 ### Steps to reproduce the problem
 
