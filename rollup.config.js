@@ -17,7 +17,6 @@ const commonOutput = {
   sourcemap: true,
   globals: {
     react: 'react',
-    'prop-types': 'PropTypes',
     'popper.js': 'PopperJS',
     'create-react-context': 'createContext',
     warning: 'warning',
