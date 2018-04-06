@@ -18,6 +18,7 @@ class Popper extends Component {
     innerRef: PropTypes.func,
     placement: PropTypes.oneOf(placements),
     eventsEnabled: PropTypes.bool,
+    positionFixed: PropTypes.bool,
     modifiers: PropTypes.object,
     children: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
     target: PropTypes.oneOfType([
@@ -35,6 +36,7 @@ class Popper extends Component {
     component: 'div',
     placement: 'bottom',
     eventsEnabled: true,
+    positionFixed: false,
     modifiers: {},
   }
 
@@ -112,7 +114,7 @@ class Popper extends Component {
   }
 
   _createPopper() {
-    const { placement, eventsEnabled } = this.props
+    const { placement, eventsEnabled, positionFixed } = this.props
     const modifiers = {
       ...this.props.modifiers,
       applyStyle: { enabled: false },
@@ -126,6 +128,7 @@ class Popper extends Component {
     }
     this._popper = new PopperJS(this._getTargetNode(), this._popperNode, {
       placement,
+      positionFixed,
       eventsEnabled,
       modifiers,
     })
