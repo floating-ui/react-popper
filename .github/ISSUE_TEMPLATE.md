@@ -1,5 +1,10 @@
 <!--
 Thanks for your interest in contributing to react-popper!  
+Do you have any generic question about the library? Find us on Spectrum!
+
+https://spectrum.chat/popper-js/react-popper
+
+Do you want to report a bug?
 Please, make sure to fill all the sections of the template before submitting any issue. 
 
 Issues without the required informations will be closed.
