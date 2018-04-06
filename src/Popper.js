@@ -199,6 +199,7 @@ class Popper extends Component {
       innerRef,
       placement,
       eventsEnabled,
+      positionFixed,
       modifiers,
       children,
       ...restProps
