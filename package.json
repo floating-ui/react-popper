@@ -27,7 +27,7 @@
     "test:eslint": "eslint src",
     "prepare": "npm run build",
     "precommit": "pretty-quick --staged && test",
-    "prepublish": "git-branch-is master"
+    "prepublishOnly": "git-branch-is master"
   },
   "jest": {
     "setupTestFrameworkScriptFile": "<rootDir>jest.setup.js",
