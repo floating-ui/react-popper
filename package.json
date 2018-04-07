@@ -7,7 +7,6 @@
   "homepage": "https://github.com/souporserious/react-popper",
   "main": "lib/cjs/index.js",
   "module": "lib/es/index.js",
-  "browser": "dist/react-popper.js",
   "typings": "typings/react-popper.d.ts",
   "files": [
     "/dist",
@@ -15,11 +14,10 @@
     "/typings/react-popper.d.ts"
   ],
   "scripts": {
-    "build": "npm run build:clean && npm run build:es && npm run build:cjs && npm run build:browser && npm run build:flow",
+    "build": "npm run build:clean && npm run build:es && npm run build:cjs && npm run build:flow",
     "build:clean": "rimraf dist/ && rimraf lib/",
     "build:es": "BABEL_ENV=es babel src --ignore '*.test.js,__mocks__' --out-dir lib/es",
     "build:cjs": "BABEL_ENV=cjs babel src --ignore '*.test.js,__mocks__' --out-dir lib/cjs",
-    "build:browser": "rollup -c",
     "build:flow": "flow-copy-source --ignore '{__mocks__/*,*.test}.js' src lib/es",
     "demo": "parcel --out-dir demo/dist demo/index.html",
     "test": "npm run test:eslint && npm run test:flow && npm run test:ts && npm run test:jest",
@@ -98,13 +96,6 @@
     "react-portal": "^4.1.4",
     "react-transition-group": "^2.2.1",
     "rimraf": "^2.6.2",
-    "rollup": "^0.57.1",
-    "rollup-plugin-babel": "^3.0.3",
-    "rollup-plugin-babel-minify": "^4.0.0",
-    "rollup-plugin-commonjs": "^9.1.0",
-    "rollup-plugin-node-globals": "^1.2.0",
-    "rollup-plugin-node-resolve": "^3.3.0",
-    "rollup-plugin-replace": "^2.0.0",
     "typescript": "^2.8.1"
   }
 }
