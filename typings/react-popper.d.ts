@@ -21,6 +21,7 @@ interface PopperProps {
     ref: (ref: HTMLElement | null) => void,
     style: React.CSSProperties,
     placement: ?PopperJS.Placement,
+    scheduleUpdate: () => void,
     arrowProps: {
       ref: (ref: HTMLElement | null) => void,
       style: React.CSSProperties,

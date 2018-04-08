@@ -4,6 +4,7 @@ import PopperJS, {
   type Placement,
   type Instance as PopperJS$Instance,
   type Data,
+  type Modifiers,
   type ReferenceObject,
 } from 'popper.js';
 import { ManagerContext } from './Manager';
@@ -18,18 +19,15 @@ type RenderProp = ({|
   ref: getRefFn,
   style: Style,
   placement: ?Placement,
+  scheduleUpdate: () => void,
   arrowProps: {
     ref: getRefFn,
     style: Style,
   },
-
-  
 |}) => Node;
 
 type PopperProps = {
-  modifiers?: {
-    [string]: { order: number, enabled: boolean, fn: Object => Object },
-  },
+  modifiers?: Modifiers,
   placement?: Placement,
   eventsEnabled?: boolean,
   referenceElement?: ReferenceElement,
@@ -135,6 +133,12 @@ export class Popper extends Component<PopperProps, PopperState> {
     }
   };
 
+  scheduleUpdate = () => {
+    if (this.state.popperInstance) {
+      this.state.popperInstance.scheduleUpdate();
+    }
+  };
+
   componentDidUpdate(prevProps: PopperProps, prevState: PopperState) {
     // If needed, initialize the Popper.js instance
     // it will return `true` if it initialized a new instance, or `false` otherwise
@@ -165,6 +169,7 @@ export class Popper extends Component<PopperProps, PopperState> {
       ref: this.setPopperNode,
       style: this.getPopperStyle(),
       placement: this.getPopperPlacement(),
+      scheduleUpdate: this.scheduleUpdate,
       arrowProps: {
         ref: this.setArrowNode,
         style: this.getArrowStyle(),

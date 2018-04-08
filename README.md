@@ -82,6 +82,7 @@ children: ({|
   ref: (?HTMLElement) => void,
   style: { [string]: string | number },
   placement: ?Placement,
+  scheduleUpdate: () => void,
   arrowProps: {
     ref: (?HTMLElement) => void,
     style: { [string]: string | number },
@@ -102,6 +103,8 @@ The `placement` property describes the placement of your popper after Popper.js 
 that may have flipped or altered the originally provided `placement` property. You can use this to alter the
 style of the popper and or of the arrow according to the definitive placement. For instance, you can use this
 property to orient the arrow to the right direction.
+
+`scheduleUpdate` is a function you can call to schedule a Popper.js position update. It will directly call the [Popper#scheduleUpdate](https://popper.js.org/popper-documentation.html#Popper.scheduleUpdate) method.
 
 The `arrowProps` argument is an object, containing a `style` and `ref` properties that are identical to the
 ones provided as first and second argument of `children`, but are relative to the **arrow** element rather than
@@ -147,16 +150,16 @@ import { Manager, Reference, Popper } from 'react-popper';
 const Example = () => (
   <Manager>
     <Reference>
-      {props => (
-        <button type="button" {...props}>
+      {({ ref }) => (
+        <button type="button" ref={ref}>
           Reference
         </button>
       )}
     </Reference>
     {ReactDOM.createPortal(
       <Popper>
-        {({ placement, ...props }) => (
-          <div {...props} data-placement={placement}>
+        {({ placement, ref, style }) => (
+          <div ref={ref} style={style} data-placement={placement}>
             Popper
           </div>
         )}
