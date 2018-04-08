@@ -17,6 +17,7 @@ interface PopperProps {
   modifiers?: PopperJS.Modifiers;
   placement?: PopperJS.Placement;
   eventsEnabled?: boolean;
+  positionFixed?: boolean;
   children: (props: ({
     ref: (ref: HTMLElement | null) => void,
     style: React.CSSProperties,

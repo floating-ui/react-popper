@@ -30,6 +30,7 @@ type PopperProps = {
   modifiers?: Modifiers,
   placement?: Placement,
   eventsEnabled?: boolean,
+  positionFixed?: boolean,
   referenceElement?: ReferenceElement,
   children: RenderProp,
 };
@@ -54,6 +55,7 @@ export class Popper extends Component<PopperProps, PopperState> {
     placement: 'bottom',
     eventsEnabled: true,
     referenceElement: undefined,
+    positionFixed: false,
   };
 
   state = {
@@ -78,6 +80,7 @@ export class Popper extends Component<PopperProps, PopperState> {
   getOptions = () => ({
     placement: this.props.placement,
     eventsEnabled: this.props.eventsEnabled,
+    positionFixed: this.props.positionFixed,
     modifiers: {
       ...this.props.modifiers,
       arrow: {
@@ -151,7 +154,8 @@ export class Popper extends Component<PopperProps, PopperState> {
         this.props.eventsEnabled !== prevProps.eventsEnabled ||
         this.state.arrowNode !== prevState.arrowNode ||
         this.state.popperNode !== prevState.popperNode ||
-        this.props.referenceElement !== prevProps.referenceElement
+        this.props.referenceElement !== prevProps.referenceElement ||
+        this.props.positionFixed !== prevProps.positionFixed
       ) {
         this.updatePopperInstance();
       }

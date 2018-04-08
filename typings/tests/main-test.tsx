@@ -4,7 +4,11 @@ import { Manager, Reference, Popper } from '../..';
 const Test = () => (
   <Manager>
     <Reference>{({ ref }) => <div ref={ref} />}</Reference>
-    <Popper>
+    <Popper
+      eventsEnabled
+      positionFixed
+      modifiers={{ flip: { enabled: false } }}
+    >
       {({ ref, style, placement, scheduleUpdate, arrowProps }) => (
         <div
           ref={ref}

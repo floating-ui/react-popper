@@ -4,6 +4,7 @@ exports[`Popper component renders the expected markup 1`] = `
 <Popper
   eventsEnabled={true}
   placement="bottom"
+  positionFixed={false}
   referenceElement={<div />}
 >
   <div

@@ -63,13 +63,14 @@ familiar with it, please read more [on the official React documentation](https:/
 The `Manager` component is a simple wrapper that needs to surround all the other `react-popper` components in order
 to make them communicate with each others.
 
-The `Popper` component accepts the properties `children`, `placement`, `modifiers`, and `eventsEneabled`.
+The `Popper` component accepts the properties `children`, `placement`, `modifiers`, `eventsEneabled` and `positionFixed`.
 
 ```jsx
 <Popper
   placement="right"
   modifiers={{ preventOverflow: { enabled: false } }}
   eventsEnabled={true}
+  positionFixed={false}
 >
     { props => [...] }
 </Popper>
@@ -127,6 +128,12 @@ eventsEnabled?: boolean;
 ```
 
 Tells `react-popper` to enable or disable the [Popper.js event listeners](https://popper.js.org/popper-documentation.html#Popper.Defaults.eventsEnabled). `true` by default.
+
+##### `positionFixed`
+
+Set this property to `true` to tell Popper.js to use the `position: fixed` strategy
+to position the popper element. By default it's false, meaning that it will use the
+`position: absolute` strategy.
 
 ##### `modifiers`
 
