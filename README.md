@@ -151,6 +151,10 @@ in the same DOM context.
 This means that you can use [`ReactDOM.createPortal`](https://reactjs.org/docs/portals.html)
 (or any pre React 16 alternative) to move the popper component somewhere else in the DOM.
 
+This can be useful if you want to position a tooltip inside an `overflow: hidden` container
+that you want to make overflow. Please note that you can also try the `positionFixed` strategy
+to obtain a similar effect with less hassle.
+
 ```jsx
 import { Manager, Reference, Popper } from 'react-popper';
 
