@@ -10,9 +10,11 @@ exports[`Popper component renders the expected markup 1`] = `
   <div
     style={
       Object {
+        "left": 0,
         "opacity": 0,
         "pointerEvents": "none",
         "position": "absolute",
+        "top": 0,
       }
     }
   >
