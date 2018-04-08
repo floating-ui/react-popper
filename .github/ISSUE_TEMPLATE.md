@@ -14,13 +14,13 @@ Want your issue to be fixed earlier? Create a PR that introduces a CI test that 
 because of the bug you found!
 -->
 
-### CodePen demo
+### Reproduction demo
 
 <!--
-Modify this CodePen template to allow the contributors to easily reproduce your problem.
+Fork and/or modify this CodePen/CodeSandbox template to allow the contributors to easily reproduce your problem.
 
 - v0.x: https://codepen.io/FezVrasta/pen/KoxOJM
-- v1.x: WIP
+- v1.x: https://codesandbox.io/s/7mwkynymlq
 
 -->
 
