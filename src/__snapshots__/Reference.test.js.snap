@@ -15,10 +15,10 @@ exports[`Arrow component renders the expected markup 1`] = `
     }
   }
 >
-  <Component>
+  <Reference>
     <Consumer>
       <div />
     </Consumer>
-  </Component>
+  </Reference>
 </Provider>
 `;

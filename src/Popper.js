@@ -52,7 +52,7 @@ const initialStyle = {
 
 const initialArrowStyle = {};
 
-export class Popper extends Component<PopperProps, PopperState> {
+export class InnerPopper extends Component<PopperProps, PopperState> {
   static defaultProps = {
     placement: 'bottom',
     eventsEnabled: true,
@@ -187,10 +187,12 @@ export class Popper extends Component<PopperProps, PopperState> {
 const placements = PopperJS.placements;
 export { placements };
 
-export default (props: PopperProps) => (
-  <ManagerContext.Consumer>
-    {({ referenceNode }) => (
-      <Popper referenceElement={referenceNode} {...props} />
-    )}
-  </ManagerContext.Consumer>
-);
+export default function Popper(props: PopperProps) {
+  return (
+    <ManagerContext.Consumer>
+      {({ referenceNode }) => (
+        <InnerPopper referenceElement={referenceNode} {...props} />
+      )}
+    </ManagerContext.Consumer>
+  );
+}
