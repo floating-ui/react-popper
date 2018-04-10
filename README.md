@@ -63,7 +63,7 @@ familiar with it, please read more [on the official React documentation](https:/
 The `Manager` component is a simple wrapper that needs to surround all the other `react-popper` components in order
 to make them communicate with each others.
 
-The `Popper` component accepts the properties `children`, `placement`, `modifiers`, `eventsEneabled` and `positionFixed`.
+The `Popper` component accepts the properties `children`, `placement`, `modifiers`, `eventsEnabled` and `positionFixed`.
 
 ```jsx
 <Popper
