@@ -19,6 +19,7 @@ type RenderProp = ({|
   ref: getRefFn,
   style: Style,
   placement: ?Placement,
+  outOfBoundaries: ?boolean,
   scheduleUpdate: () => void,
   arrowProps: {
     ref: getRefFn,
@@ -110,6 +111,9 @@ export class InnerPopper extends Component<PopperProps, PopperState> {
       ? initialArrowStyle
       : this.state.data.arrowStyles;
 
+  getOutOfBoundariesState = () =>
+    this.state.data ? this.state.data.hide : undefined;
+
   initPopperInstance = () => {
     const { referenceElement } = this.props;
     const { popperNode, popperInstance } = this.state;
@@ -175,6 +179,7 @@ export class InnerPopper extends Component<PopperProps, PopperState> {
       ref: this.setPopperNode,
       style: this.getPopperStyle(),
       placement: this.getPopperPlacement(),
+      outOfBoundaries: this.getOutOfBoundariesState(),
       scheduleUpdate: this.scheduleUpdate,
       arrowProps: {
         ref: this.setArrowNode,

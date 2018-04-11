@@ -83,6 +83,7 @@ children: ({|
   ref: (?HTMLElement) => void,
   style: { [string]: string | number },
   placement: ?Placement,
+  outOfBoundaries: ?boolean,
   scheduleUpdate: () => void,
   arrowProps: {
     ref: (?HTMLElement) => void,
@@ -120,6 +121,13 @@ placement?: PopperJS$Placement;
 One of the accepted placement values listed in the [Popper.js documentation](https://popper.js.org/popper-documentation.html#Popper.placements).  
 Your popper is going to be placed according to the value of this property.  
 Defaults to `bottom`.
+
+```js
+outOfBoundaries: ?boolean;
+```
+
+A boolean that can be used to hide the popper element in case it's overflowing
+from its boundaries. [Read more](https://popper.js.org/popper-documentation.html#modifiers..hide).
 
 ##### `eventsEnabled`
 

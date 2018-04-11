@@ -1,6 +1,7 @@
 [ignore]
 .*/node_modules/config-chain/.*
 /lib/.*
+.*/.cache
 
 [include]
 

@@ -9,10 +9,17 @@ const Test = () => (
       positionFixed
       modifiers={{ flip: { enabled: false } }}
     >
-      {({ ref, style, placement, scheduleUpdate, arrowProps }) => (
+      {({
+        ref,
+        style,
+        placement,
+        outOfBoundaries,
+        scheduleUpdate,
+        arrowProps,
+      }) => (
         <div
           ref={ref}
-          style={style}
+          style={{ ...style, opacity: outOfBoundaries ? 0 : 1 }}
           data-placement={placement}
           onClick={() => scheduleUpdate()}
         >
