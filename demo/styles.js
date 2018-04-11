@@ -3,6 +3,9 @@ import styled, { keyframes } from 'react-emotion';
 const gradients = {
   purple: 'linear-gradient(to right, #9d50bb, #6e48aa)',
   orange: 'linear-gradient(to right, #ff4e50, #f9d423)',
+  pink: 'linear-gradient(to right, #f857a6, #ff5858)',
+  blue: 'linear-gradient(to right, #4b6cb7, #182848)',
+  green: 'linear-gradient(to right, #134E5E, #71B280)',
 };
 
 export const Main = styled('main')`
