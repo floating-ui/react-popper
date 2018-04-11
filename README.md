@@ -248,7 +248,7 @@ const Example = () => (
 
 #### run dev mode
 
-`npm run demo` or `yarn demo`
+`npm run demo:dev` or `yarn demo:dev`
 
 #### open your browser and visit:
 
