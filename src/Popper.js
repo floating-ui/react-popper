@@ -34,6 +34,7 @@ type PopperProps = {
   positionFixed?: boolean,
   referenceElement?: ReferenceElement,
   children: RenderProp,
+  innerRef?: (?HTMLElement) => mixed,
 };
 
 type PopperState = {
@@ -68,7 +69,12 @@ export class InnerPopper extends Component<PopperProps, PopperState> {
     data: undefined,
   };
 
-  setPopperNode = (popperNode: ?HTMLElement) => this.setState({ popperNode });
+  setPopperNode = (popperNode: ?HTMLElement) => {
+    if (this.props.innerRef) {
+      this.props.innerRef(popperNode);
+    }
+    this.setState({ popperNode });
+  };
   setArrowNode = (arrowNode: ?HTMLElement) => this.setState({ arrowNode });
 
   updateStateModifier = {
