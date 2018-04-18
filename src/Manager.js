@@ -5,7 +5,7 @@ import createContext, { type Context } from "create-react-context";
 export const ManagerContext: Context<{
   getReferenceRef?: (?HTMLElement) => void,
   referenceNode?: ?HTMLElement,
-}> = createContext({ getRefeferenceRef: undefined, referenceNode: undefined });
+}> = createContext({ getReferenceRef: undefined, referenceNode: undefined });
 
 type ManagerProps = {
   children: Node,
