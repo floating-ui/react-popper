@@ -11,6 +11,7 @@ npm-debug.log
 dist
 lib
 yarn-error.log
+package-lock.json
 
 # General Files
 .sass-cache
