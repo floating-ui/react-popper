@@ -16,8 +16,8 @@
   "scripts": {
     "build": "npm run build:clean && npm run build:es && npm run build:cjs && npm run build:flow",
     "build:clean": "rimraf dist/ && rimraf lib/",
-    "build:es": "BABEL_ENV=es babel src --ignore '*.test.js,__mocks__' --out-dir lib/es",
-    "build:cjs": "BABEL_ENV=cjs babel src --ignore '*.test.js,__mocks__' --out-dir lib/cjs",
+    "build:es": "cross-env BABEL_ENV=es babel src --ignore '*.test.js,__mocks__' --out-dir lib/es",
+    "build:cjs": "cross-env BABEL_ENV=cjs babel src --ignore '*.test.js,__mocks__' --out-dir lib/cjs",
     "build:flow": "flow-copy-source --ignore '{__mocks__/*,*.test}.js' src lib/es",
     "demo:dev": "parcel --out-dir demo/dist demo/index.html",
     "demo:build": "parcel build --out-dir demo/dist demo/index.html --public-url=/react-popper",
@@ -76,6 +76,7 @@
     "babel-preset-env": "^1.6.1",
     "babel-preset-react": "^6.24.1",
     "babel-preset-stage-1": "^6.24.1",
+    "cross-env": "^5.1.4",
     "emotion": "^9.1.1",
     "enzyme": "^3.3.0",
     "enzyme-adapter-react-16": "^1.1.1",
