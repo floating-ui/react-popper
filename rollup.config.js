@@ -3,8 +3,22 @@ import minify from 'rollup-plugin-babel-minify';
 import replace from 'rollup-plugin-replace';
 import nodeResolve from 'rollup-plugin-node-resolve';
 
-const baseConfig = (outputFormat, fullVersion) => {
+const baseConfig = (outputFormat) => {
   const isProduction = process.env.NODE_ENV === 'production';
+
+  let file;
+  switch (outputFormat) {
+    case 'umd':
+      file = 'dist/umd/react-popper' + (isProduction ? '.min' : '') + '.js';
+      break;
+
+    case 'cjs':
+      file = 'dist/react-popper' + (isProduction ? '.min' : '') + '.js';
+      break;
+
+    default:
+      throw new Error('Unsupported output format: ' + outputFormat);
+  }
 
   return {
     input: 'src/index.js',
@@ -18,13 +32,10 @@ const baseConfig = (outputFormat, fullVersion) => {
         comments: false,
       }) : false,
     ],
-    external: fullVersion
-      ? ['react', 'react-dom', 'prop-types']
-      : ['react', 'react-dom', 'prop-types', 'popper.js'],
+    external: ['react', 'react-dom', 'prop-types', 'popper.js'],
     output: {
       name: 'ReactPopper',
-      file: 'dist/react-popper.' + (fullVersion ? 'full.' : '') +
-        outputFormat + (isProduction ? '.min' : '') + '.js',
+      file: file,
       format: outputFormat,
       sourcemap: true,
       globals: {
@@ -37,8 +48,6 @@ const baseConfig = (outputFormat, fullVersion) => {
 };
 
 export default [
-  baseConfig('cjs', true),
-  baseConfig('cjs', false),
-  baseConfig('umd', true),
-  baseConfig('umd', false),
+  baseConfig('cjs'),
+  baseConfig('umd'),
 ];

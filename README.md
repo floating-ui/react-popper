@@ -19,24 +19,15 @@ If you prefer to include React Popper globally by marking `react-popper` as exte
 
 * [**cdnjs**](https://cdnjs.com/libraries/react-popper)
 ```html
-<!-- Wrapper only version (Excludes popper.js) -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/react-popper/0.10.2/react-popper.umd.min.js"></script>
-
-<!-- Full version (Includes popper.js) -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/react-popper/0.10.2/react-popper.full.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-popper/0.10.2/umd/react-popper.min.js"></script>
 ```
 
 * [**unpkg**](https://unpkg.com/react-popper/)
 ```html
-<!-- Wrapper only version (Excludes popper.js) -->
-<script src="https://unpkg.com/react-popper@0.10.2/dist/react-popper.umd.min.js"></script>
-
-<!-- Full version (Includes popper.js) -->
-<script src="https://unpkg.com/react-popper@0.10.2/dist/react-popper.full.umd.min.js"></script>
+<script src="https://unpkg.com/react-popper@0.10.2/dist/umd/react-popper.min.js"></script>
 ```
 
 > **Note**: To load a specific version of React Popper replace `0.10.2` with the version number.
-
 
 ## Usage
 
