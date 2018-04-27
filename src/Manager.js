@@ -7,7 +7,7 @@ export const ManagerContext: Context<{
   referenceNode?: ?HTMLElement,
 }> = createContext({ getReferenceRef: undefined, referenceNode: undefined });
 
-type ManagerProps = {
+export type ManagerProps = {
   children: Node,
 };
 type ManagerState = {

@@ -7,33 +7,36 @@ import PopperJS, {
   type Modifiers,
   type ReferenceObject,
 } from 'popper.js';
+import type { Style } from 'typed-styles';
 import { ManagerContext } from './Manager';
 import { unwrapArray } from './utils';
 
 type getRefFn = (?HTMLElement) => void;
-type Style = Object;
-
 type ReferenceElement = ReferenceObject | HTMLElement | null;
+type StyleOffsets = { top: number, left: number };
+type StylePosition = { position: 'absolute' | 'fixed' };
 
-type RenderProp = ({|
+export type PopperArrowProps = {
   ref: getRefFn,
-  style: Style,
-  placement: ?Placement,
+  style: StyleOffsets & Style,
+};
+export type PopperChildrenProps = {|
+  ref: getRefFn,
+  style: StyleOffsets & StylePosition & Style,
+  placement: Placement,
   outOfBoundaries: ?boolean,
   scheduleUpdate: () => void,
-  arrowProps: {
-    ref: getRefFn,
-    style: Style,
-  },
-|}) => Node;
+  arrowProps: PopperArrowProps,
+|};
+export type PopperChildren = PopperChildrenProps => Node;
 
-type PopperProps = {
+export type PopperProps = {
   modifiers?: Modifiers,
   placement?: Placement,
   eventsEnabled?: boolean,
   positionFixed?: boolean,
   referenceElement?: ReferenceElement,
-  children: RenderProp,
+  children: PopperChildren,
 };
 
 type PopperState = {
