@@ -20,7 +20,8 @@ interface ArrowProps extends RefProps {
 }
 
 interface PopperChildrenProps extends RefProps {
-    arrowProps: ArrowProps
+    arrowProps: ArrowProps;
+    outOfBoundaries: boolean | null;
     placement: PopperJS.Placement;
     scheduleUpdate: () => void;
     style: React.CSSProperties;
