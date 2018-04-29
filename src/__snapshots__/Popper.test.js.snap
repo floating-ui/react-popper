@@ -7,20 +7,29 @@ exports[`Popper component renders the expected markup 1`] = `
   positionFixed={false}
   referenceElement={<div />}
 >
-  <div
-    style={
+  <Provider
+    value={
       Object {
-        "left": 0,
-        "opacity": 0,
-        "pointerEvents": "none",
-        "position": "absolute",
-        "top": 0,
+        "subscribe": [Function],
+        "unsubscribe": [Function],
       }
     }
   >
     <div
-      style={Object {}}
-    />
-  </div>
+      style={
+        Object {
+          "left": 0,
+          "opacity": 0,
+          "pointerEvents": "none",
+          "position": "absolute",
+          "top": 0,
+        }
+      }
+    >
+      <div
+        style={Object {}}
+      />
+    </div>
+  </Provider>
 </InnerPopper>
 `;
