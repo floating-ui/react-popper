@@ -9,11 +9,8 @@ const baseConfig = (outputFormat) => {
   let file;
   switch (outputFormat) {
     case 'umd':
-      file = 'dist/umd/react-popper' + (isProduction ? '.min' : '') + '.js';
-      break;
-
     case 'cjs':
-      file = 'dist/react-popper' + (isProduction ? '.min' : '') + '.js';
+      file = 'dist/' + outputFormat + '/react-popper' + (isProduction ? '.min' : '') + '.js';
       break;
 
     default:
