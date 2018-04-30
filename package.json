@@ -15,13 +15,11 @@
     "react-popper.d.ts"
   ],
   "scripts": {
-    "build": "npm run build:clean && npm run build:es && npm run build:umd && npm run build:cjs && npm run build:umd-min && npm run build:cjs-min",
+    "build": "npm run build:clean && npm run build:es && npm run build:dist && npm run build:dist:prod",
     "build:clean": "rm -rf dist/ && rm -rf lib/",
     "build:es": "babel src --out-dir lib && mv lib/index.js lib/react-popper.js",
-    "build:umd": "rollup -c --output.format umd --output.name ReactPopper --output.file dist/react-popper.umd.js",
-    "build:cjs": "rollup -c --output.format cjs --output.name ReactPopper --output.file dist/react-popper.js",
-    "build:umd-min": "MINIFY=true rollup -c --output.format umd --output.name ReactPopper --output.file dist/react-popper.umd.min.js",
-    "build:cjs-min": "MINIFY=true rollup -c --output.format cjs --output.name ReactPopper --output.file dist/react-popper.min.js",
+    "build:dist": "rollup -c",
+    "build:dist:prod": "NODE_ENV=production rollup -c",
     "demo": "parcel --out-dir demo/dist demo/index.html",
     "prepare": "npm run build",
     "precommit": "lint-staged",

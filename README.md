@@ -12,10 +12,22 @@ React wrapper around [PopperJS](https://github.com/FezVrasta/popper.js/).
 
 `npm install react-popper --save` or `yarn add react-popper`
 
+
+### CDN
+
+If you prefer to include React Popper globally by marking `react-popper` as external in your application, the `react-popper` library (exposed as `ReactPopper`) provides various single-file distributions, which are hosted on the following CDNs:
+
+* [**cdnjs**](https://cdnjs.com/libraries/react-popper)
 ```html
-<script src="https://unpkg.com/react-popper/dist/react-popper.js"></script>
-(UMD library exposed as `ReactPopper`)
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-popper/0.10.2/umd/react-popper.min.js"></script>
 ```
+
+* [**unpkg**](https://unpkg.com/react-popper/)
+```html
+<script src="https://unpkg.com/react-popper@0.10.2/dist/umd/react-popper.min.js"></script>
+```
+
+> **Note**: To load a specific version of React Popper replace `0.10.2` with the version number.
 
 ## Usage
 
