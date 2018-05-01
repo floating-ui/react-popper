@@ -1,5 +1,5 @@
 // @flow
-import React, { Component, type Node } from "react";
+import * as React from "react";
 import createContext, { type Context } from "create-react-context";
 
 export const ManagerContext: Context<{
@@ -8,7 +8,7 @@ export const ManagerContext: Context<{
 }> = createContext({ getReferenceRef: undefined, referenceNode: undefined });
 
 export type ManagerProps = {
-  children: Node,
+  children: React.Node,
 };
 type ManagerState = {
   context: {
@@ -17,7 +17,7 @@ type ManagerState = {
   },
 };
 
-export default class Manager extends Component<ManagerProps, ManagerState> {
+export default class Manager extends React.Component<ManagerProps, ManagerState> {
   constructor() {
     super();
     this.state = {
