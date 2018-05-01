@@ -40,7 +40,7 @@ export default [
   {
     input,
     output: {
-      file: 'dist/index.min.js',
+      file: 'dist/index.umd.min.js',
       format: 'umd',
       name: 'ReactPopper',
       globals: umdGlobals,
