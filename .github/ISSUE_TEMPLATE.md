@@ -10,6 +10,8 @@ Please, make sure to fill all the sections of the template before submitting any
 Issues without the required informations will be closed.
 Do not delete this template or it will be closed!
 
+If your issue is a feature request please feel free to delete the template and describe it.  
+
 Want your issue to be fixed earlier? Create a PR that introduces a CI test that fails
 because of the bug you found!
 -->
@@ -17,7 +19,8 @@ because of the bug you found!
 ### Reproduction demo
 
 <!--
-Fork and/or modify this CodePen/CodeSandbox template to allow the contributors to easily reproduce your problem.
+Fork and/or modify this CodePen/CodeSandbox template to allow the contributors to easily reproduce your problem.  
+If the problem can't be reproduced using these templates, explain why in this section.
 
 - v0.x: https://codepen.io/FezVrasta/pen/KoxOJM
 - v1.x: https://codesandbox.io/s/7mwkynymlq
