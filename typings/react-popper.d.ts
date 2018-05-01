@@ -6,28 +6,36 @@ interface ManagerProps {
 }
 export class Manager extends React.Component<ManagerProps, {}> { }
 
+type RefHandler = (ref: HTMLElement | null) => void;
+
+interface ReferenceChildrenProps {
+  ref: RefHandler;
+}
+
 interface ReferenceProps {
-  children: (props: ({
-    ref: (ref: HTMLElement | null) => void,
-  })) => React.ReactNode;
+  children: (props: ReferenceChildrenProps) => React.ReactNode;
 }
 export class Reference extends React.Component<ReferenceProps, {}> { }
 
+interface PopperArrowProps {
+  ref: RefHandler;
+  style: React.CSSProperties;
+}
+
+interface PopperChildrenProps {
+  arrowProps: PopperArrowProps;
+  outOfBoundaries: boolean | null;
+  placement: PopperJS.Placement;
+  ref: RefHandler;
+  scheduleUpdate: () => void;
+  style: React.CSSProperties;
+}
+
 interface PopperProps {
+  children: (props: PopperChildrenProps) => React.ReactNode;
+  eventsEnabled?: boolean;
   modifiers?: PopperJS.Modifiers;
   placement?: PopperJS.Placement;
-  eventsEnabled?: boolean;
   positionFixed?: boolean;
-  children: (props: ({
-    ref: (ref: HTMLElement | null) => void,
-    style: React.CSSProperties,
-    placement?: PopperJS.Placement,
-    outOfBoundaries: boolean | null,
-    scheduleUpdate: () => void,
-    arrowProps: {
-      ref: (ref: HTMLElement | null) => void,
-      style: React.CSSProperties,
-    },
-  })) => React.ReactNode;
 }
 export class Popper extends React.Component<PopperProps, {}> { }
