@@ -1,12 +1,12 @@
 // @flow
-import React, { type Node } from 'react';
+import * as React from 'react';
 import warning from 'warning';
 import { ManagerContext } from './Manager';
 import { unwrapArray } from './utils';
 
 export type ReferenceChildrenProps = { ref: (?HTMLElement) => void };
 export type ReferenceProps = {
-  children: ReferenceChildrenProps => Node,
+  children: ReferenceChildrenProps => React.Node,
 };
 
 export default function Reference({ children }: ReferenceProps) {

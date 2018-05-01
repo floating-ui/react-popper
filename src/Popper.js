@@ -1,5 +1,5 @@
 // @flow
-import React, { Component, type Node } from 'react';
+import * as React from 'react';
 import PopperJS, {
   type Placement,
   type Instance as PopperJS$Instance,
@@ -28,7 +28,7 @@ export type PopperChildrenProps = {|
   scheduleUpdate: () => void,
   arrowProps: PopperArrowProps,
 |};
-export type PopperChildren = PopperChildrenProps => Node;
+export type PopperChildren = PopperChildrenProps => React.Node;
 
 export type PopperProps = {
   modifiers?: Modifiers,
@@ -56,7 +56,7 @@ const initialStyle = {
 
 const initialArrowStyle = {};
 
-export class InnerPopper extends Component<PopperProps, PopperState> {
+export class InnerPopper extends React.Component<PopperProps, PopperState> {
   static defaultProps = {
     placement: 'bottom',
     eventsEnabled: true,
