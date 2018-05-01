@@ -55,8 +55,7 @@
     "popover"
   ],
   "peerDependencies": {
-    "react": "0.14.x || ^15.0.0 || ^16.0.0",
-    "react-dom": "0.14.x || ^15.0.0 || ^16.0.0"
+    "react": "0.14.x || ^15.0.0 || ^16.0.0"
   },
   "dependencies": {
     "babel-runtime": "6.x.x",

@@ -9,7 +9,6 @@ const input = './src/index.js';
 
 const umdGlobals = {
   react: 'React',
-  'react-dom': 'ReactDOM',
   'popper.js': 'Popper',
 };
 
