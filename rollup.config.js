@@ -1,6 +1,7 @@
 import nodeResolve from 'rollup-plugin-node-resolve';
 import commonjs from 'rollup-plugin-commonjs';
 import babel from 'rollup-plugin-babel';
+import replace from 'rollup-plugin-replace';
 import uglify from 'rollup-plugin-uglify';
 import { sizeSnapshot } from 'rollup-plugin-size-snapshot';
 
@@ -33,6 +34,7 @@ export default [
       nodeResolve(),
       commonjs({ include: '**/node_modules/**' }),
       babel(getBabelOptions()),
+      replace({ 'process.env.NODE_ENV': JSON.stringify('development') }),
       sizeSnapshot(),
     ],
   },
@@ -50,6 +52,8 @@ export default [
       nodeResolve(),
       commonjs({ include: '**/node_modules/**' }),
       babel(getBabelOptions()),
+      replace({ 'process.env.NODE_ENV': JSON.stringify('production') }),
+      sizeSnapshot(),
       uglify(),
     ],
   },
