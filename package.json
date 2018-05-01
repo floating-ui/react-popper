@@ -18,7 +18,7 @@
     "build:clean": "rimraf dist/ && rimraf lib/",
     "build:es": "cross-env BABEL_ENV=es babel src --ignore '*.test.js,__mocks__' --out-dir lib/es",
     "build:cjs": "cross-env BABEL_ENV=cjs babel src --ignore '*.test.js,__mocks__' --out-dir lib/cjs",
-    "build:flow": "flow-copy-source --ignore '{__mocks__/*,*.test}.js' src lib/es",
+    "build:flow": "flow-copy-source --ignore '{__mocks__/*,*.test}.js' src lib/cjs",
     "demo:dev": "parcel --out-dir demo/dist demo/index.html",
     "demo:build": "parcel build --out-dir demo/dist demo/index.html --public-url=/react-popper",
     "demo:deploy": "yarn demo:build && gh-pages -d demo/dist",
@@ -62,6 +62,7 @@
     "create-react-context": "^0.2.1",
     "popper.js": "^1.14.1",
     "prop-types": "^15.6.1",
+    "typed-styles": "^0.0.5",
     "warning": "^3.0.0"
   },
   "devDependencies": {

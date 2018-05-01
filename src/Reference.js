@@ -4,8 +4,9 @@ import warning from 'warning';
 import { ManagerContext } from './Manager';
 import { unwrapArray } from './utils';
 
-type ReferenceProps = {
-  children: ({ ref: (?HTMLElement) => void }) => Node,
+export type ReferenceChildrenProps = { ref: (?HTMLElement) => void };
+export type ReferenceProps = {
+  children: ReferenceChildrenProps => Node,
 };
 
 export default function Reference({ children }: ReferenceProps) {
