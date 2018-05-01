@@ -9,16 +9,17 @@
   "module": "lib/es/index.js",
   "typings": "typings/react-popper.d.ts",
   "files": [
-    "/dist",
-    "/lib",
-    "/typings/react-popper.d.ts"
+    "dist",
+    "lib",
+    "src",
+    "typings/react-popper.d.ts"
   ],
   "scripts": {
     "build": "npm run build:clean && npm run build:es && npm run build:cjs && npm run build:flow",
     "build:clean": "rimraf dist/ && rimraf lib/",
     "build:es": "cross-env BABEL_ENV=es babel src --ignore '*.test.js,__mocks__' --out-dir lib/es",
     "build:cjs": "cross-env BABEL_ENV=cjs babel src --ignore '*.test.js,__mocks__' --out-dir lib/cjs",
-    "build:flow": "flow-copy-source --ignore '{__mocks__/*,*.test}.js' src lib/es",
+    "build:flow": "echo \"// @flow\n\nexport * from '../../src';\" > lib/cjs/index.js.flow",
     "demo:dev": "parcel --out-dir demo/dist demo/index.html",
     "demo:build": "parcel build --out-dir demo/dist demo/index.html --public-url=/react-popper",
     "demo:deploy": "yarn demo:build && gh-pages -d demo/dist",
@@ -88,7 +89,6 @@
     "eslint-plugin-promise": "^3.7.0",
     "eslint-plugin-react": "^7.7.0",
     "flow-bin": "^0.69.0",
-    "flow-copy-source": "^1.3.0",
     "gh-pages": "^1.1.0",
     "git-branch-is": "^0.1.0",
     "jest": "^22.4.3",
