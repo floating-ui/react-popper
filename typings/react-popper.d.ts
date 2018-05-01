@@ -25,7 +25,7 @@ interface PopperArrowProps {
 interface PopperChildrenProps {
   arrowProps: PopperArrowProps;
   outOfBoundaries: boolean | null;
-  placement?: PopperJS.Placement;
+  placement: PopperJS.Placement;
   ref: RefHandler;
   scheduleUpdate: () => void;
   style: React.CSSProperties;
