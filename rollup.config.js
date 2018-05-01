@@ -1,7 +1,15 @@
 import nodeResolve from 'rollup-plugin-node-resolve';
 import commonjs from 'rollup-plugin-commonjs';
 import babel from 'rollup-plugin-babel';
+import uglify from 'rollup-plugin-uglify';
 import { sizeSnapshot } from 'rollup-plugin-size-snapshot';
+
+const input = './src/index.js';
+
+const umdGlobals = {
+  react: 'React',
+  'react-dom': 'ReactDOM',
+};
 
 const getBabelOptions = () => ({
   babelrc: false,
@@ -12,22 +20,36 @@ const getBabelOptions = () => ({
 
 export default [
   {
-    input: './src/index.js',
+    input,
     output: {
       file: 'dist/index.umd.js',
       format: 'umd',
       name: 'ReactPopper',
-      globals: {
-        react: 'React',
-        'react-dom': 'ReactDOM',
-      },
+      globals: umdGlobals,
     },
-    external: ['react', 'react-dom'],
+    external: Object.keys(umdGlobals),
     plugins: [
       nodeResolve(),
       commonjs({ include: '**/node_modules/**' }),
       babel(getBabelOptions()),
       sizeSnapshot(),
+    ],
+  },
+
+  {
+    input,
+    output: {
+      file: 'dist/index.min.js',
+      format: 'umd',
+      name: 'ReactPopper',
+      globals: umdGlobals,
+    },
+    external: Object.keys(umdGlobals),
+    plugins: [
+      nodeResolve(),
+      commonjs({ include: '**/node_modules/**' }),
+      babel(getBabelOptions()),
+      uglify(),
     ],
   },
 ];
