@@ -1,12 +1,12 @@
 {
   "dist/index.umd.js": {
-    "bundled": 51326,
-    "minified": 18445,
-    "gzipped": 5908
+    "bundled": 51290,
+    "minified": 18413,
+    "gzipped": 5897
   },
   "dist/index.umd.min.js": {
-    "bundled": 28128,
-    "minified": 10794,
-    "gzipped": 3612
+    "bundled": 28092,
+    "minified": 10762,
+    "gzipped": 3602
   }
 }
