@@ -2,23 +2,33 @@
 import * as React from 'react';
 import warning from 'warning';
 import { ManagerContext } from './Manager';
-import { unwrapArray } from './utils';
+import { safeInvoke, unwrapArray } from './utils';
 
 export type ReferenceChildrenProps = { ref: (?HTMLElement) => void };
 export type ReferenceProps = {
   children: ReferenceChildrenProps => React.Node,
+  innerRef?: (?HTMLElement) => void,
 };
 
-export default function Reference({ children }: ReferenceProps) {
+export class InnerReference extends React.Component<ReferenceProps> {
+  refHandler = (node: ?HTMLElement) => {
+    safeInvoke(this.props.innerRef, node);
+    safeInvoke(this.props.getReferenceRef, node);
+  }
+
+  render() {
+    warning(
+      this.props.getReferenceRef,
+      '`Reference` should not be used outside of a `Manager` component.'
+    );
+    return unwrapArray(this.props.children)({ ref: this.refHandler });
+  }
+}
+
+export default function Reference(props: ReferenceProps) {
   return (
     <ManagerContext.Consumer>
-      {({ getReferenceRef }) => {
-        warning(
-          getReferenceRef,
-          '`Reference` should not be used outside of a `Manager` component.'
-        );
-        return unwrapArray(children)({ ref: getReferenceRef });
-      }}
+      {({ getReferenceRef }) => <InnerReference getReferenceRef={getReferenceRef} {...props} />}
     </ManagerContext.Consumer>
   );
 }

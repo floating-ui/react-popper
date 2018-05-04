@@ -14,6 +14,7 @@ interface ReferenceChildrenProps {
 
 interface ReferenceProps {
   children: (props: ReferenceChildrenProps) => React.ReactNode;
+  innerRef?: RefHandler;
 }
 export class Reference extends React.Component<ReferenceProps, {}> { }
 
@@ -34,6 +35,7 @@ interface PopperChildrenProps {
 interface PopperProps {
   children: (props: PopperChildrenProps) => React.ReactNode;
   eventsEnabled?: boolean;
+  innerRef?: RefHandler;
   modifiers?: PopperJS.Modifiers;
   placement?: PopperJS.Placement;
   positionFixed?: boolean;
