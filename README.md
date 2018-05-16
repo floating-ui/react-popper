@@ -255,7 +255,7 @@ TypeScript definitions in `typings/react-popper.d.ts`.
 
 #### clone repo
 
-`git clone git@github.com:souporserious/react-popper.git`
+`git clone git@github.com:FezVrasta/react-popper.git`
 
 #### move into folder
 
