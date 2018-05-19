@@ -9,7 +9,7 @@ import PopperJS, {
 } from 'popper.js';
 import type { Style } from 'typed-styles';
 import { ManagerContext } from './Manager';
-import { unwrapArray } from './utils';
+import { safeInvoke, unwrapArray } from './utils';
 
 type getRefFn = (?HTMLElement) => void;
 type ReferenceElement = ReferenceObject | HTMLElement | null;
@@ -31,12 +31,13 @@ export type PopperChildrenProps = {|
 export type PopperChildren = PopperChildrenProps => React.Node;
 
 export type PopperProps = {
+  children: PopperChildren,
+  eventsEnabled?: boolean,
+  innerRef?: getRefFn,
   modifiers?: Modifiers,
   placement?: Placement,
-  eventsEnabled?: boolean,
   positionFixed?: boolean,
   referenceElement?: ReferenceElement,
-  children: PopperChildren,
 };
 
 type PopperState = {
@@ -71,7 +72,10 @@ export class InnerPopper extends React.Component<PopperProps, PopperState> {
     data: undefined,
   };
 
-  setPopperNode = (popperNode: ?HTMLElement) => this.setState({ popperNode });
+  setPopperNode = (popperNode: ?HTMLElement) => {
+    safeInvoke(this.props.innerRef, popperNode);
+    this.setState({ popperNode });
+  }
   setArrowNode = (arrowNode: ?HTMLElement) => this.setState({ arrowNode });
 
   updateStateModifier = {

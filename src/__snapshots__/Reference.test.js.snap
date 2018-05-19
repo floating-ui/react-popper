@@ -17,7 +17,19 @@ exports[`Arrow component renders the expected markup 1`] = `
 >
   <Reference>
     <Consumer>
-      <div />
+      <InnerReference
+        getReferenceRef={
+          [MockFunction] {
+            "calls": Array [
+              Array [
+                <div />,
+              ],
+            ],
+          }
+        }
+      >
+        <div />
+      </InnerReference>
     </Consumer>
   </Reference>
 </Provider>
