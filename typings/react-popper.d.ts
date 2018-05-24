@@ -39,5 +39,6 @@ interface PopperProps {
   modifiers?: PopperJS.Modifiers;
   placement?: PopperJS.Placement;
   positionFixed?: boolean;
+  referenceElement?: PopperJS.ReferenceObject;
 }
 export class Popper extends React.Component<PopperProps, {}> { }
