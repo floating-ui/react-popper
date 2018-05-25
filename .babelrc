@@ -1,15 +1,33 @@
 {
-  "presets": [["env", { "modules": false }], "stage-1", "react"],
-  "plugins": ["transform-class-properties", "transform-runtime"],
+  "presets": [
+    ["env", { "modules": false }],
+    "stage-2",
+    "react"
+  ],
   "env": {
-    "test": {
-      "presets": ["env", "stage-1", "react"]
-    },
     "esm": {
-      "presets": [["env", { "modules": false }], "stage-1", "react"]
+      "plugins": [
+        ["transform-runtime", { "useBuiltIns": true }]
+      ],
+      "ignore": [
+        "**/*.test.js",
+        "**/__mocks__/**"
+      ]
     },
     "cjs": {
-      "presets": [["env", { "modules": "commonjs" }], "stage-1", "react"]
+      "plugins": [
+        ["transform-runtime", { "useBuiltIns": true }],
+        "transform-es2015-modules-commonjs"
+      ],
+      "ignore": [
+        "**/*.test.js",
+        "**/__mocks__/**"
+      ]
+    },
+    "test": {
+      "plugins": [
+        "transform-es2015-modules-commonjs"
+      ]
     }
   }
 }
