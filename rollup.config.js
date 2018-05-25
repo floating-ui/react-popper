@@ -13,9 +13,7 @@ const umdGlobals = {
 };
 
 const getBabelOptions = () => ({
-  babelrc: false,
   exclude: '**/node_modules/**',
-  presets: [['env', { modules: false }], 'stage-1', 'react'],
   plugins: ['external-helpers'],
 });
 
