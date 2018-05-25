@@ -1,15 +1,34 @@
 {
-  "presets": [["env", { "modules": false }], "stage-1", "react"],
-  "plugins": ["transform-class-properties", "transform-runtime"],
+  "presets": [
+    ["@babel/env", { "modules": false }],
+    "@babel/stage-3",
+    "@babel/react",
+    "@babel/flow"
+  ],
   "env": {
-    "test": {
-      "presets": ["env", "stage-1", "react"]
-    },
     "esm": {
-      "presets": [["env", { "modules": false }], "stage-1", "react"]
+      "plugins": [
+        ["@babel/transform-runtime", { "useBuiltIns": true, "useESModules": true }]
+      ],
+      "ignore": [
+        "**/*.test.js",
+        "**/__mocks__/**"
+      ]
     },
     "cjs": {
-      "presets": [["env", { "modules": "commonjs" }], "stage-1", "react"]
+      "plugins": [
+        "@babel/transform-modules-commonjs",
+        ["@babel/transform-runtime", { "useBuiltIns": true, "useESModules": false }]
+      ],
+      "ignore": [
+        "**/*.test.js",
+        "**/__mocks__/**"
+      ]
+    },
+    "test": {
+      "plugins": [
+        "@babel/transform-modules-commonjs"
+      ]
     }
   }
 }
