@@ -5,7 +5,7 @@
     "test": {
       "presets": ["env", "stage-1", "react"]
     },
-    "es": {
+    "esm": {
       "presets": [["env", { "modules": false }], "stage-1", "react"]
     },
     "cjs": {

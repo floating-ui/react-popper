@@ -6,7 +6,7 @@
   "author": "Travis Arnold <travis@souporserious.com> (http://souporserious.com)",
   "homepage": "https://github.com/souporserious/react-popper",
   "main": "lib/cjs/index.js",
-  "module": "lib/es/index.js",
+  "module": "lib/esm/index.js",
   "typings": "typings/react-popper.d.ts",
   "files": [
     "/dist",
@@ -14,10 +14,10 @@
     "/typings/react-popper.d.ts"
   ],
   "scripts": {
-    "build": "npm run build:clean && npm run build:es && npm run build:cjs && npm run build:umd && npm run build:flow",
+    "build": "npm run build:clean && npm run build:esm && npm run build:cjs && npm run build:umd && npm run build:flow",
     "build:clean": "rimraf dist/ && rimraf lib/",
     "build:umd": "rollup -c",
-    "build:es": "cross-env BABEL_ENV=es babel src --ignore '*.test.js,__mocks__' --out-dir lib/es",
+    "build:esm": "cross-env BABEL_ENV=esm babel src --ignore '*.test.js,__mocks__' --out-dir lib/esm",
     "build:cjs": "cross-env BABEL_ENV=cjs babel src --ignore '*.test.js,__mocks__' --out-dir lib/cjs",
     "build:flow": "flow-copy-source --ignore '{__mocks__/*,*.test}.js' src lib/cjs",
     "demo:dev": "parcel --out-dir demo/dist demo/index.html",
