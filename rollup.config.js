@@ -2,7 +2,7 @@ import nodeResolve from 'rollup-plugin-node-resolve';
 import commonjs from 'rollup-plugin-commonjs';
 import babel from 'rollup-plugin-babel';
 import replace from 'rollup-plugin-replace';
-import uglify from 'rollup-plugin-uglify';
+import { uglify } from 'rollup-plugin-uglify';
 import { sizeSnapshot } from 'rollup-plugin-size-snapshot';
 
 const input = './src/index.js';
@@ -53,5 +53,13 @@ export default [
       sizeSnapshot(),
       uglify(),
     ],
+  },
+
+  {
+    input,
+    output: { file: 'dist/index.esm.js', format: 'esm' },
+    external: id =>
+      !id.startsWith('\0') && !id.startsWith('.') && !id.startsWith('/'),
+    plugins: [babel(getBabelOptions()), sizeSnapshot()],
   },
 ];
