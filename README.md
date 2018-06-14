@@ -60,7 +60,7 @@ familiar with it, please read more [on the official React documentation](https:/
 
 > Using React <=15 or Preact? The components created with them don't support to return
 [fragments](https://reactjs.org/docs/fragments.html), this means that you will need to
-wrap `<Reference />` and `<Popper />` into a `<div />` to make `react-popper` work.
+wrap `<Reference />` and `<Popper />` into a single, common, `<div />` to make `react-popper` work.
 
 ### API documentation
 
