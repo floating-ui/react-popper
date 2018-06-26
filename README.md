@@ -71,6 +71,7 @@ The `Popper` component accepts the properties `children`, `placement`, `modifier
 
 ```jsx
 <Popper
+  innerRef={(node) => this.popperNode = node}
   placement="right"
   modifiers={{ preventOverflow: { enabled: false } }}
   eventsEnabled={true}
@@ -115,6 +116,13 @@ property to orient the arrow to the right direction.
 The `arrowProps` argument is an object, containing a `style` and `ref` properties that are identical to the
 ones provided as first and second argument of `children`, but are relative to the **arrow** element rather than
 the popper. Use them to, accordingly, retrieve the ref of the **arrow** element and style it.
+
+##### `innerRef`
+```js
+innerRef?: (?HTMLElement) => void
+```
+
+Function that can be used to obtain popper reference
 
 ##### `placement`
 
