@@ -175,6 +175,10 @@ This can be useful if you want to position a tooltip inside an `overflow: hidden
 that you want to make overflow. Please note that you can also try the `positionFixed` strategy
 to obtain a similar effect with less hassle.
 
+When you place the popper in a top-level portal, overflow prevention logic will not be useful to you,
+and sometimes it will get in your way. If that's the case, you can limit it only to `viewport` using
+`modifiers` prop.
+
 ```jsx
 import { Manager, Reference, Popper } from 'react-popper';
 
@@ -190,7 +194,12 @@ const Example = () => (
     {ReactDOM.createPortal(
       <Popper>
         {({ placement, ref, style }) => (
-          <div ref={ref} style={style} data-placement={placement}>
+          <div
+            ref={ref}
+            style={style}
+            data-placement={placement}
+            modifiers={{ preventOverflow: { boundariesElement: "viewport" } }}
+          >
             Popper
           </div>
         )}
