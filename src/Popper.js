@@ -41,7 +41,6 @@ export type PopperProps = {
 };
 
 type PopperState = {
-  popperInstance: ?PopperJS$Instance,
   data: ?Data,
 };
 
@@ -64,9 +63,10 @@ export class InnerPopper extends React.Component<PopperProps, PopperState> {
   };
 
   state = {
-    popperInstance: undefined,
     data: undefined,
   };
+
+  popperInstance: ?PopperJS$Instance;
 
   popperNode: ?HTMLElement = null;
   arrowNode: ?HTMLElement = null;
@@ -130,9 +130,8 @@ export class InnerPopper extends React.Component<PopperProps, PopperState> {
     this.state.data ? this.state.data.hide : undefined;
 
   initPopperInstance = () => {
-    const { popperNode} = this
+    const { popperNode, popperInstance } = this
     const { referenceElement } = this.props;
-    const { popperInstance } = this.state;
 
     if (referenceElement && popperNode && !popperInstance) {
       const popperInstance = new PopperJS(
@@ -140,28 +139,31 @@ export class InnerPopper extends React.Component<PopperProps, PopperState> {
         popperNode,
         this.getOptions()
       );
-      this.setState({ popperInstance });
+      this.popperInstance = popperInstance;
       return true;
     }
     return false;
   };
 
-  destroyPopperInstance = (callback: () => boolean) => {
-    if (this.state.popperInstance) {
-      this.state.popperInstance.destroy();
-    }
-    this.setState({ popperInstance: undefined }, callback);
+  destroy = () => {
+    if (!this.popperInstance) return false
+    this.popperInstance.destroy();
+    this.popperInstance = null
+    return true;
+  }
+
+  destroyPopperInstance = (callback: () => void) => {
+    if (this.destroy()) this.forceUpdate(callback)
+
   };
 
   updatePopperInstance = () => {
-    if (this.state.popperInstance) {
-      this.destroyPopperInstance(() => this.initPopperInstance());
-    }
+    if (this.destroy()) this.initPopperInstance();
   };
 
   scheduleUpdate = () => {
-    if (this.state.popperInstance) {
-      this.state.popperInstance.scheduleUpdate();
+    if (this.popperInstance) {
+      this.popperInstance.scheduleUpdate();
     }
   };
 
@@ -184,9 +186,7 @@ export class InnerPopper extends React.Component<PopperProps, PopperState> {
   }
 
   componentWillUnmount() {
-    if (this.state.popperInstance) {
-      this.state.popperInstance.destroy();
-    }
+    this.destroy()
   }
 
   render() {
