@@ -41,8 +41,6 @@ export type PopperProps = {
 };
 
 type PopperState = {
-  popperNode: ?HTMLElement,
-  arrowNode: ?HTMLElement,
   popperInstance: ?PopperJS$Instance,
   data: ?Data,
 };
@@ -66,17 +64,27 @@ export class InnerPopper extends React.Component<PopperProps, PopperState> {
   };
 
   state = {
-    popperNode: undefined,
-    arrowNode: undefined,
     popperInstance: undefined,
     data: undefined,
   };
 
+  popperNode: ?HTMLElement = null;
+  arrowNode: ?HTMLElement = null;
+
   setPopperNode = (popperNode: ?HTMLElement) => {
+    if (this.popperNode === popperNode) return
+
     safeInvoke(this.props.innerRef, popperNode);
-    this.setState({ popperNode });
+    this.popperNode = popperNode;
+
+    if (!this.initPopperInstance()) this.updatePopperInstance();
   }
-  setArrowNode = (arrowNode: ?HTMLElement) => this.setState({ arrowNode });
+
+  setArrowNode = (arrowNode: ?HTMLElement) => {
+    if (this.arrowNode === arrowNode) return
+    this.arrowNode = arrowNode;
+    if (!this.initPopperInstance()) this.updatePopperInstance();
+  }
 
   updateStateModifier = {
     enabled: true,
@@ -94,8 +102,8 @@ export class InnerPopper extends React.Component<PopperProps, PopperState> {
     modifiers: {
       ...this.props.modifiers,
       arrow: {
-        enabled: !!this.state.arrowNode,
-        element: this.state.arrowNode,
+        enabled: !!this.arrowNode,
+        element: this.arrowNode,
       },
       applyStyle: { enabled: false },
       updateStateModifier: this.updateStateModifier,
@@ -103,7 +111,7 @@ export class InnerPopper extends React.Component<PopperProps, PopperState> {
   });
 
   getPopperStyle = () =>
-    !this.state.popperNode || !this.state.data
+    !this.popperNode || !this.state.data
       ? initialStyle
       : {
           position: this.state.data.offsets.popper.position,
@@ -114,7 +122,7 @@ export class InnerPopper extends React.Component<PopperProps, PopperState> {
     !this.state.data ? undefined : this.state.data.placement;
 
   getArrowStyle = () =>
-    !this.state.arrowNode || !this.state.data
+    !this.arrowNode || !this.state.data
       ? initialArrowStyle
       : this.state.data.arrowStyles;
 
@@ -122,8 +130,10 @@ export class InnerPopper extends React.Component<PopperProps, PopperState> {
     this.state.data ? this.state.data.hide : undefined;
 
   initPopperInstance = () => {
+    const { popperNode} = this
     const { referenceElement } = this.props;
-    const { popperNode, popperInstance } = this.state;
+    const { popperInstance } = this.state;
+
     if (referenceElement && popperNode && !popperInstance) {
       const popperInstance = new PopperJS(
         referenceElement,
@@ -155,7 +165,7 @@ export class InnerPopper extends React.Component<PopperProps, PopperState> {
     }
   };
 
-  componentDidUpdate(prevProps: PopperProps, prevState: PopperState) {
+  componentDidUpdate(prevProps: PopperProps) {
     // If needed, initialize the Popper.js instance
     // it will return `true` if it initialized a new instance, or `false` otherwise
     // if it returns `false`, we make sure Popper props haven't changed, and update
@@ -165,8 +175,6 @@ export class InnerPopper extends React.Component<PopperProps, PopperState> {
       if (
         this.props.placement !== prevProps.placement ||
         this.props.eventsEnabled !== prevProps.eventsEnabled ||
-        this.state.arrowNode !== prevState.arrowNode ||
-        this.state.popperNode !== prevState.popperNode ||
         this.props.referenceElement !== prevProps.referenceElement ||
         this.props.positionFixed !== prevProps.positionFixed
       ) {

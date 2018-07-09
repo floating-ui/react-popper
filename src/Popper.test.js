@@ -65,6 +65,19 @@ describe("Popper component", () => {
     expect(instance.state.isDestroyed).toBe(true);
   });
 
+  it.only("handles changing refs gracefully", () => {
+    const referenceElement = document.createElement("div");
+    expect(() => mount(
+      <InnerPopper referenceElemen={referenceElement}>
+        {({ ref, style, placement, arrowProps }) => (
+          <div ref={current => ref(current)} style={style} data-placement={placement}>
+            <div {...arrowProps} ref={current => arrowProps.ref(current)} />
+          </div>
+        )}
+      </InnerPopper>
+    )).not.toThrow();
+  });
+
   it("accepts a `referenceElement` property", () => {
     class VirtualReference {
       getBoundingClientRect() {
