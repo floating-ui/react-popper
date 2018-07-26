@@ -3,7 +3,6 @@
 exports[`Popper component renders the expected markup 1`] = `
 <InnerPopper
   eventsEnabled={true}
-  init={true}
   placement="bottom"
   positionFixed={false}
   referenceElement={<div />}

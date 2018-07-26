@@ -29,16 +29,6 @@ describe('Popper component', () => {
     expect(wrapper.instance().popperInstance).toBeDefined();
   });
 
-  it('defers initialization until init is set', () => {
-    const referenceElement = document.createElement('div');
-    const wrapper = mountPopper({ referenceElement, init: false });
-    expect(wrapper.instance().popperInstance).not.toBeDefined();
-
-    wrapper.setProps({ init: 'true' });
-
-    expect(wrapper.instance().popperInstance).toBeDefined();
-  });
-
   it("doesn't update Popper.js instance on props update if not needed by Popper.js", () => {
     const referenceElement = document.createElement('div');
     const wrapper = mountPopper({ referenceElement, placement: 'bottom' });
