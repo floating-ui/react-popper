@@ -41,9 +41,6 @@ export type PopperProps = {
 };
 
 type PopperState = {
-  popperNode: ?HTMLElement,
-  arrowNode: ?HTMLElement,
-  popperInstance: ?PopperJS$Instance,
   data: ?Data,
 };
 
@@ -66,17 +63,29 @@ export class InnerPopper extends React.Component<PopperProps, PopperState> {
   };
 
   state = {
-    popperNode: undefined,
-    arrowNode: undefined,
-    popperInstance: undefined,
     data: undefined,
   };
 
+  popperInstance: ?PopperJS$Instance;
+
+  popperNode: ?HTMLElement = null;
+  arrowNode: ?HTMLElement = null;
+
   setPopperNode = (popperNode: ?HTMLElement) => {
+    if (this.popperNode === popperNode) return;
+
     safeInvoke(this.props.innerRef, popperNode);
-    this.setState({ popperNode });
-  }
-  setArrowNode = (arrowNode: ?HTMLElement) => this.setState({ arrowNode });
+    this.popperNode = popperNode;
+
+    if (!this.popperInstance) this.updatePopperInstance();
+  };
+
+  setArrowNode = (arrowNode: ?HTMLElement) => {
+    if (this.arrowNode === arrowNode) return;
+    this.arrowNode = arrowNode;
+
+    if (!this.popperInstance) this.updatePopperInstance();
+  };
 
   updateStateModifier = {
     enabled: true,
@@ -94,8 +103,8 @@ export class InnerPopper extends React.Component<PopperProps, PopperState> {
     modifiers: {
       ...this.props.modifiers,
       arrow: {
-        enabled: !!this.state.arrowNode,
-        element: this.state.arrowNode,
+        enabled: !!this.arrowNode,
+        element: this.arrowNode,
       },
       applyStyle: { enabled: false },
       updateStateModifier: this.updateStateModifier,
@@ -103,7 +112,7 @@ export class InnerPopper extends React.Component<PopperProps, PopperState> {
   });
 
   getPopperStyle = () =>
-    !this.state.popperNode || !this.state.data
+    !this.popperNode || !this.state.data
       ? initialStyle
       : {
           position: this.state.data.offsets.popper.position,
@@ -114,71 +123,55 @@ export class InnerPopper extends React.Component<PopperProps, PopperState> {
     !this.state.data ? undefined : this.state.data.placement;
 
   getArrowStyle = () =>
-    !this.state.arrowNode || !this.state.data
+    !this.arrowNode || !this.state.data
       ? initialArrowStyle
       : this.state.data.arrowStyles;
 
   getOutOfBoundariesState = () =>
     this.state.data ? this.state.data.hide : undefined;
 
-  initPopperInstance = () => {
-    const { referenceElement } = this.props;
-    const { popperNode, popperInstance } = this.state;
-    if (referenceElement && popperNode && !popperInstance) {
-      const popperInstance = new PopperJS(
-        referenceElement,
-        popperNode,
-        this.getOptions()
-      );
-      this.setState({ popperInstance });
-      return true;
-    }
-    return false;
-  };
+  destroyPopperInstance = () => {
+    if (!this.popperInstance) return;
 
-  destroyPopperInstance = (callback: () => boolean) => {
-    if (this.state.popperInstance) {
-      this.state.popperInstance.destroy();
-    }
-    this.setState({ popperInstance: undefined }, callback);
+    this.popperInstance.destroy();
+    this.popperInstance = null;
   };
 
   updatePopperInstance = () => {
-    if (this.state.popperInstance) {
-      this.destroyPopperInstance(() => this.initPopperInstance());
-    }
+    this.destroyPopperInstance();
+
+    const { popperNode } = this;
+    const { referenceElement } = this.props;
+
+    if (!referenceElement || !popperNode) return;
+
+    this.popperInstance = new PopperJS(
+      referenceElement,
+      popperNode,
+      this.getOptions()
+    );
   };
 
   scheduleUpdate = () => {
-    if (this.state.popperInstance) {
-      this.state.popperInstance.scheduleUpdate();
+    if (this.popperInstance) {
+      this.popperInstance.scheduleUpdate();
     }
   };
 
-  componentDidUpdate(prevProps: PopperProps, prevState: PopperState) {
-    // If needed, initialize the Popper.js instance
-    // it will return `true` if it initialized a new instance, or `false` otherwise
-    // if it returns `false`, we make sure Popper props haven't changed, and update
-    // the Popper.js instance if needed
-    if (!this.initPopperInstance()) {
-      // If the Popper.js options have changed, update the instance (destroy + create)
-      if (
-        this.props.placement !== prevProps.placement ||
-        this.props.eventsEnabled !== prevProps.eventsEnabled ||
-        this.state.arrowNode !== prevState.arrowNode ||
-        this.state.popperNode !== prevState.popperNode ||
-        this.props.referenceElement !== prevProps.referenceElement ||
-        this.props.positionFixed !== prevProps.positionFixed
-      ) {
-        this.updatePopperInstance();
-      }
+  componentDidUpdate(prevProps: PopperProps) {
+    // If the Popper.js options have changed, update the instance (destroy + create)
+    if (
+      this.props.placement !== prevProps.placement ||
+      this.props.eventsEnabled !== prevProps.eventsEnabled ||
+      this.props.referenceElement !== prevProps.referenceElement ||
+      this.props.positionFixed !== prevProps.positionFixed
+    ) {
+      this.updatePopperInstance();
     }
   }
 
   componentWillUnmount() {
-    if (this.state.popperInstance) {
-      this.state.popperInstance.destroy();
-    }
+    this.destroyPopperInstance();
   }
 
   render() {

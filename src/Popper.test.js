@@ -1,9 +1,9 @@
 // @flow
-import React from "react";
-import { mount } from "enzyme";
+import React from 'react';
+import { mount } from 'enzyme';
 
 // Private API
-import { InnerPopper } from "./Popper";
+import { InnerPopper } from './Popper';
 
 const mountPopper = props =>
   mount(
@@ -16,56 +16,77 @@ const mountPopper = props =>
     </InnerPopper>
   );
 
-describe("Popper component", () => {
-  it("renders the expected markup", () => {
-    const referenceElement = document.createElement("div");
+describe('Popper component', () => {
+  it('renders the expected markup', () => {
+    const referenceElement = document.createElement('div');
     const wrapper = mountPopper({ referenceElement });
     expect(wrapper).toMatchSnapshot();
   });
 
-  it("initializes the Popper.js instance on first update", () => {
-    const referenceElement = document.createElement("div");
+  it('initializes the Popper.js instance on first update', () => {
+    const referenceElement = document.createElement('div');
     const wrapper = mountPopper({ referenceElement });
-    expect(wrapper.state("popperInstance")).toBeDefined();
+    expect(wrapper.instance().popperInstance).toBeDefined();
   });
 
   it("doesn't update Popper.js instance on props update if not needed by Popper.js", () => {
-    const referenceElement = document.createElement("div");
-    const wrapper = mountPopper({ referenceElement, placement: "bottom" });
-    const instance = wrapper.state("popperInstance");
+    const referenceElement = document.createElement('div');
+    const wrapper = mountPopper({ referenceElement, placement: 'bottom' });
+    const instance = wrapper.instance().popperInstance;
 
-    wrapper.setProps({ placement: "bottom" });
+    expect(instance).toBeDefined();
 
-    expect(wrapper.state("popperInstance")).toBe(instance);
+    wrapper.setProps({ placement: 'bottom' });
+
+    expect(wrapper.instance().popperInstance).toBe(instance);
   });
 
-  it("updates Popper.js on explicitly listed props change", () => {
-    const referenceElement = document.createElement("div");
+  it('updates Popper.js on explicitly listed props change', () => {
+    const referenceElement = document.createElement('div');
     const wrapper = mountPopper({ referenceElement });
-    const instance = wrapper.state("popperInstance");
-    wrapper.setProps({ placement: "top" });
+    const instance = wrapper.instance().popperInstance;
+    wrapper.setProps({ placement: 'top' });
     wrapper.update();
-    expect(wrapper.state("popperInstance")).not.toBe(instance);
+    expect(wrapper.instance().popperInstance).not.toBe(instance);
   });
 
-  it("does not update Popper.js on generic props change", () => {
-    const referenceElement = document.createElement("div");
+  it('does not update Popper.js on generic props change', () => {
+    const referenceElement = document.createElement('div');
     const wrapper = mountPopper({ referenceElement });
-    const instance = wrapper.state("popperInstance");
-    wrapper.setProps({ foo: "bar" });
+    const instance = wrapper.instance().popperInstance;
+    wrapper.setProps({ foo: 'bar' });
     wrapper.update();
-    expect(wrapper.state("popperInstance")).toBe(instance);
+    expect(wrapper.instance().popperInstance).toBe(instance);
   });
 
-  it("destroys Popper.js instance on unmount", () => {
-    const referenceElement = document.createElement("div");
+  it('destroys Popper.js instance on unmount', () => {
+    const referenceElement = document.createElement('div');
     const wrapper = mountPopper({ referenceElement });
-    const instance = wrapper.state("popperInstance");
+    const instance = wrapper.instance().popperInstance;
     wrapper.unmount();
     expect(instance.state.isDestroyed).toBe(true);
   });
 
-  it("accepts a `referenceElement` property", () => {
+  it('handles changing refs gracefully', () => {
+    const referenceElement = document.createElement('div');
+    expect(() =>
+      mount(
+        <InnerPopper referenceElemen={referenceElement}>
+          {({ ref, style, placement, arrowProps }) => (
+            <div
+              ref={current => ref(current)}
+              style={style}
+              data-placement={placement}
+            >
+              <div {...arrowProps} ref={current => arrowProps.ref(current)} />
+            </div>
+          )}
+        </InnerPopper>
+      )
+    ).not.toThrow();
+  });
+
+  it('accepts a `referenceElement` property', () => {
     class VirtualReference {
       getBoundingClientRect() {
         return {
@@ -90,7 +111,7 @@ describe("Popper component", () => {
     const virtualReferenceElement = new VirtualReference();
     const wrapper = mountPopper({ referenceElement: virtualReferenceElement });
 
-    expect(wrapper.state("popperInstance").reference).toBe(
+    expect(wrapper.instance().popperInstance.reference).toBe(
       virtualReferenceElement
     );
   });
