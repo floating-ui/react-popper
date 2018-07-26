@@ -63,6 +63,7 @@
     "create-react-context": "^0.2.1",
     "popper.js": "^1.14.1",
     "prop-types": "^15.6.1",
+    "react-lifecycles-compat": "^3.0.4",
     "typed-styles": "^0.0.5",
     "warning": "^3.0.0"
   },
