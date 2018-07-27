@@ -16,6 +16,10 @@ type ReferenceElement = ReferenceObject | HTMLElement | null;
 type StyleOffsets = { top: number, left: number };
 type StylePosition = { position: 'absolute' | 'fixed' };
 
+type PopperInstance = PopperJS$Instance & {
+  enableEventListeners(): void,
+  disableEventListeners(): void,
+};
 export type PopperArrowProps = {
   ref: getRefFn,
   style: StyleOffsets & Style,
@@ -66,7 +70,7 @@ export class InnerPopper extends React.Component<PopperProps, PopperState> {
     data: undefined,
   };
 
-  popperInstance: ?PopperJS$Instance;
+  popperInstance: ?PopperInstance;
 
   popperNode: ?HTMLElement = null;
   arrowNode: ?HTMLElement = null;
@@ -145,11 +149,11 @@ export class InnerPopper extends React.Component<PopperProps, PopperState> {
 
     if (!referenceElement || !popperNode) return;
 
-    this.popperInstance = new PopperJS(
+    this.popperInstance = (new PopperJS(
       referenceElement,
       popperNode,
       this.getOptions()
-    );
+    ): any);
   };
 
   scheduleUpdate = () => {
@@ -162,11 +166,17 @@ export class InnerPopper extends React.Component<PopperProps, PopperState> {
     // If the Popper.js options have changed, update the instance (destroy + create)
     if (
       this.props.placement !== prevProps.placement ||
-      this.props.eventsEnabled !== prevProps.eventsEnabled ||
       this.props.referenceElement !== prevProps.referenceElement ||
       this.props.positionFixed !== prevProps.positionFixed
     ) {
       this.updatePopperInstance();
+    } else if (
+      this.props.eventsEnabled !== prevProps.eventsEnabled &&
+      this.popperInstance
+    ) {
+      this.props.eventsEnabled
+        ? this.popperInstance.enableEventListeners()
+        : this.popperInstance.disableEventListeners();
     }
   }
 
