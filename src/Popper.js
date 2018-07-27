@@ -193,7 +193,6 @@ export class InnerPopper extends React.Component<PopperProps, PopperState> {
     // the new position Popper has already measured it, if the place change triggers
     // a size change it will result in a misaligned popper. So we schedule an update to be sure.
     if (prevState.placement !== this.state.placement) {
-      console.log('placement shifted!');
       this.scheduleUpdate();
     }
   }
