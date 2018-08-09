@@ -58,12 +58,9 @@
     "react": "0.14.x || ^15.0.0 || ^16.0.0"
   },
   "dependencies": {
-    "babel-plugin-transform-class-properties": "^6.24.1",
-    "babel-runtime": "6.x.x",
     "create-react-context": "^0.2.1",
     "popper.js": "^1.14.1",
     "prop-types": "^15.6.1",
-    "react-lifecycles-compat": "^3.0.4",
     "typed-styles": "^0.0.5",
     "warning": "^3.0.0"
   },
@@ -74,6 +71,7 @@
     "babel-eslint": "^8.2.2",
     "babel-jest": "^22.4.3",
     "babel-plugin-external-helpers": "^6.22.0",
+    "babel-plugin-transform-class-properties": "^6.24.1",
     "babel-plugin-transform-es2015-modules-commonjs": "^6.26.2",
     "babel-plugin-transform-runtime": "^6.23.0",
     "babel-preset-env": "^1.6.1",

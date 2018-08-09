@@ -8,7 +8,6 @@ import PopperJS, {
   type ReferenceObject,
 } from 'popper.js';
 import type { Style } from 'typed-styles';
-import { polyfill } from 'react-lifecycles-compat';
 import { ManagerContext } from './Manager';
 import { safeInvoke, unwrapArray } from './utils';
 
@@ -43,7 +42,6 @@ export type PopperProps = {
 
 type PopperState = {
   data: ?Data,
-  lastPropsPlacement: ?Placement,
   placement: ?Placement,
 };
 
@@ -68,22 +66,12 @@ export class InnerPopper extends React.Component<PopperProps, PopperState> {
   state = {
     data: undefined,
     placement: undefined,
-    lastPropsPlacement: undefined,
   };
 
   popperInstance: ?PopperJS$Instance;
 
   popperNode: ?HTMLElement = null;
   arrowNode: ?HTMLElement = null;
-
-  static getDerivedStateFromProps(nextProps: PopperProps, state: PopperState) {
-    const { placement } = nextProps;
-
-    if (nextProps.placement !== state.lastPropsPlacement)
-      return { placement, lastPropsPlacement: placement };
-
-    return null;
-  }
 
   setPopperNode = (popperNode: ?HTMLElement) => {
     if (this.popperNode === popperNode) return;
@@ -215,8 +203,6 @@ export class InnerPopper extends React.Component<PopperProps, PopperState> {
     });
   }
 }
-
-polyfill(InnerPopper);
 
 const placements = PopperJS.placements;
 export { placements };
