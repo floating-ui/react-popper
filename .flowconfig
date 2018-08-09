@@ -6,6 +6,7 @@
 [include]
 
 [libs]
+node_modules/popper.js/index.js.flow
 
 [lints]
 

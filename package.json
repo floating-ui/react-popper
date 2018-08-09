@@ -61,7 +61,7 @@
     "babel-plugin-transform-class-properties": "^6.24.1",
     "babel-runtime": "6.x.x",
     "create-react-context": "^0.2.1",
-    "popper.js": "^1.14.1",
+    "popper.js": "^1.14.4",
     "prop-types": "^15.6.1",
     "typed-styles": "^0.0.5",
     "warning": "^3.0.0"

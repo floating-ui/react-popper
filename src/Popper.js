@@ -2,7 +2,7 @@
 import * as React from 'react';
 import PopperJS, {
   type Placement,
-  type Instance as PopperJS$Instance,
+  type Instance,
   type Data,
   type Modifiers,
   type ReferenceObject,
@@ -16,10 +16,6 @@ type ReferenceElement = ReferenceObject | HTMLElement | null;
 type StyleOffsets = { top: number, left: number };
 type StylePosition = { position: 'absolute' | 'fixed' };
 
-type PopperInstance = PopperJS$Instance & {
-  enableEventListeners(): void,
-  disableEventListeners(): void,
-};
 export type PopperArrowProps = {
   ref: getRefFn,
   style: StyleOffsets & Style,
@@ -70,7 +66,7 @@ export class InnerPopper extends React.Component<PopperProps, PopperState> {
     data: undefined,
   };
 
-  popperInstance: ?PopperInstance;
+  popperInstance: ?Instance;
 
   popperNode: ?HTMLElement = null;
   arrowNode: ?HTMLElement = null;
@@ -149,11 +145,11 @@ export class InnerPopper extends React.Component<PopperProps, PopperState> {
 
     if (!referenceElement || !popperNode) return;
 
-    this.popperInstance = (new PopperJS(
+    this.popperInstance = new PopperJS(
       referenceElement,
       popperNode,
       this.getOptions()
-    ): any);
+    );
   };
 
   scheduleUpdate = () => {
