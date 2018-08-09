@@ -22,7 +22,7 @@ yarn add react-popper@next
 Via `script` tag (UMD library exposed as `ReactPopper`):
 
 ```html
-<script src="https://unpkg.com/react-popper/dist/react-popper.js"></script>
+<script src="https://unpkg.com/react-popper/dist/index.umd.js"></script>
 ```
 
 ## Usage
