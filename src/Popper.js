@@ -42,6 +42,7 @@ export type PopperProps = {
 
 type PopperState = {
   data: ?Data,
+  placement: ?Placement,
 };
 
 const initialStyle = {
@@ -64,6 +65,7 @@ export class InnerPopper extends React.Component<PopperProps, PopperState> {
 
   state = {
     data: undefined,
+    placement: undefined,
   };
 
   popperInstance: ?Instance;
@@ -91,7 +93,11 @@ export class InnerPopper extends React.Component<PopperProps, PopperState> {
     enabled: true,
     order: 900,
     fn: (data: Object) => {
-      this.setState({ data });
+      const { placement } = data;
+      this.setState(
+        { data, placement },
+        placement !== this.state.placement ? this.scheduleUpdate : undefined
+      );
       return data;
     },
   };
@@ -120,7 +126,7 @@ export class InnerPopper extends React.Component<PopperProps, PopperState> {
         };
 
   getPopperPlacement = () =>
-    !this.state.data ? undefined : this.state.data.placement;
+    !this.state.data ? undefined : this.state.placement;
 
   getArrowStyle = () =>
     !this.arrowNode || !this.state.data
@@ -158,7 +164,7 @@ export class InnerPopper extends React.Component<PopperProps, PopperState> {
     }
   };
 
-  componentDidUpdate(prevProps: PopperProps) {
+  componentDidUpdate(prevProps: PopperProps, prevState: PopperState) {
     // If the Popper.js options have changed, update the instance (destroy + create)
     if (
       this.props.placement !== prevProps.placement ||
@@ -173,6 +179,15 @@ export class InnerPopper extends React.Component<PopperProps, PopperState> {
       this.props.eventsEnabled
         ? this.popperInstance.enableEventListeners()
         : this.popperInstance.disableEventListeners();
+    }
+
+    // A placement difference in state means popper determined a new placement
+    // apart from the props value. By the time the popper element is rendered with
+    // the new position Popper has already measured it, if the place change triggers
+    // a size change it will result in a misaligned popper. So we schedule an update to be sure.
+    if (prevState.placement !== this.state.placement) {
+      this.scheduleUpdate();
+
     }
   }
 
