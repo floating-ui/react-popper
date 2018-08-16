@@ -9,14 +9,16 @@
 
 React wrapper around [Popper.js](https://popper.js.org).
 
+**important note:** popper.js is **not** a tooltip library, it's a *positioning engine* to be used to build features such as (but not restricted to) tooltips.
+
 ## Install
 
 Via package managers:
 
 ```bash
-npm install react-popper@next --save
+npm install react-popper --save
 # or
-yarn add react-popper@next
+yarn add react-popper
 ```
 
 Via `script` tag (UMD library exposed as `ReactPopper`):
