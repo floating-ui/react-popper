@@ -2,7 +2,7 @@
 import * as React from 'react';
 import PopperJS, {
   type Placement,
-  type Instance as PopperJS$Instance,
+  type Instance,
   type Data,
   type Modifiers,
   type ReferenceObject,
@@ -68,7 +68,7 @@ export class InnerPopper extends React.Component<PopperProps, PopperState> {
     placement: undefined,
   };
 
-  popperInstance: ?PopperJS$Instance;
+  popperInstance: ?Instance;
 
   popperNode: ?HTMLElement = null;
   arrowNode: ?HTMLElement = null;
@@ -168,12 +168,17 @@ export class InnerPopper extends React.Component<PopperProps, PopperState> {
     // If the Popper.js options have changed, update the instance (destroy + create)
     if (
       this.props.placement !== prevProps.placement ||
-      this.props.eventsEnabled !== prevProps.eventsEnabled ||
       this.props.referenceElement !== prevProps.referenceElement ||
       this.props.positionFixed !== prevProps.positionFixed
     ) {
       this.updatePopperInstance();
-      return;
+    } else if (
+      this.props.eventsEnabled !== prevProps.eventsEnabled &&
+      this.popperInstance
+    ) {
+      this.props.eventsEnabled
+        ? this.popperInstance.enableEventListeners()
+        : this.popperInstance.disableEventListeners();
     }
 
     // A placement difference in state means popper determined a new placement
