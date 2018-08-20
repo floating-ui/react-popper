@@ -187,7 +187,6 @@ export class InnerPopper extends React.Component<PopperProps, PopperState> {
     // a size change it will result in a misaligned popper. So we schedule an update to be sure.
     if (prevState.placement !== this.state.placement) {
       this.scheduleUpdate();
-
     }
   }
 
