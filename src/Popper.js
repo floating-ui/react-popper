@@ -79,7 +79,7 @@ export class InnerPopper extends React.Component<PopperProps, PopperState> {
     safeInvoke(this.props.innerRef, popperNode);
     this.popperNode = popperNode;
 
-    if (!this.popperInstance) this.updatePopperInstance();
+    this.updatePopperInstance();
   };
 
   setArrowNode = (arrowNode: ?HTMLElement) => {
