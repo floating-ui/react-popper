@@ -25,6 +25,7 @@ export type PopperChildrenProps = {|
   style: StyleOffsets & StylePosition & Style,
   placement: Placement,
   outOfBoundaries: ?boolean,
+  update: () => void,
   scheduleUpdate: () => void,
   arrowProps: PopperArrowProps,
 |};
@@ -158,6 +159,12 @@ export class InnerPopper extends React.Component<PopperProps, PopperState> {
     );
   };
 
+  update = () => {
+    if (this.popperInstance) {
+      this.popperInstance.update();
+    }
+  };
+
   scheduleUpdate = () => {
     if (this.popperInstance) {
       this.popperInstance.scheduleUpdate();
@@ -200,6 +207,7 @@ export class InnerPopper extends React.Component<PopperProps, PopperState> {
       style: this.getPopperStyle(),
       placement: this.getPopperPlacement(),
       outOfBoundaries: this.getOutOfBoundariesState(),
+      update: this.update,
       scheduleUpdate: this.scheduleUpdate,
       arrowProps: {
         ref: this.setArrowNode,

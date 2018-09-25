@@ -28,6 +28,7 @@ interface PopperChildrenProps {
   outOfBoundaries: boolean | null;
   placement: PopperJS.Placement;
   ref: RefHandler;
+  update: () => void;
   scheduleUpdate: () => void;
   style: React.CSSProperties;
 }
