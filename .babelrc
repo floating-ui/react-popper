@@ -1,16 +1,16 @@
 {
   "presets": [
-    ["env", { "modules": false, "loose": true }],
-    "stage-2",
-    "react"
+    ["@babel/env", { "modules": false, "loose": true }],
+    "@babel/flow",
+    "@babel/react"
   ],
   "plugins": [
-    "transform-class-properties"
+    "@babel/proposal-class-properties"
   ],
   "env": {
     "esm": {
       "plugins": [
-        ["transform-runtime", { "useBuiltIns": true }]
+        "@babel/transform-runtime"
       ],
       "ignore": [
         "**/*.test.js",
@@ -19,8 +19,8 @@
     },
     "cjs": {
       "plugins": [
-        ["transform-runtime", { "useBuiltIns": true }],
-        "transform-es2015-modules-commonjs"
+        "@babel/transform-runtime",
+        "@babel/transform-modules-commonjs"
       ],
       "ignore": [
         "**/*.test.js",
@@ -29,7 +29,7 @@
     },
     "test": {
       "plugins": [
-        "transform-es2015-modules-commonjs"
+        "@babel/transform-modules-commonjs"
       ]
     }
   }
