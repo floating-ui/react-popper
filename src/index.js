@@ -1,10 +1,10 @@
 // @flow
 
 // Public components
-import Popper, { placements } from './Popper';
+import Popper, { placements, Defaults as PopperJSDefaults } from './Popper';
 import Manager from './Manager';
 import Reference from './Reference';
-export { Popper, placements, Manager, Reference };
+export { Popper, placements, Manager, Reference, PopperJSDefaults };
 
 // Public types
 import type { Placement } from 'popper.js';
