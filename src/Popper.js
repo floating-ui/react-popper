@@ -109,6 +109,7 @@ export class InnerPopper extends React.Component<PopperProps, PopperState> {
     modifiers: {
       ...this.props.modifiers,
       arrow: {
+        ...(this.props.modifiers && this.props.modifiers.arrow),
         enabled: !!this.arrowNode,
         element: this.arrowNode,
       },
