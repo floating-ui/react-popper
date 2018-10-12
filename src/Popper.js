@@ -209,8 +209,8 @@ export class InnerPopper extends React.Component<PopperProps, PopperState> {
   }
 }
 
-const { placements, Defaults } = PopperJS;
-export { placements, Defaults };
+const { placements } = PopperJS;
+export { placements, PopperJS };
 
 export default function Popper(props: PopperProps) {
   return (
