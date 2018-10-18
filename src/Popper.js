@@ -213,11 +213,14 @@ export class InnerPopper extends React.Component<PopperProps, PopperState> {
 const placements = PopperJS.placements;
 export { placements };
 
-export default function Popper(props: PopperProps) {
+export default function Popper({ referenceElement, ...props }: PopperProps) {
   return (
     <ManagerContext.Consumer>
       {({ referenceNode }) => (
-        <InnerPopper referenceElement={referenceNode} {...props} />
+        <InnerPopper
+          referenceElement={referenceElement ? referenceElement : referenceNode}
+          {...props}
+        />
       )}
     </ManagerContext.Consumer>
   );
