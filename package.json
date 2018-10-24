@@ -58,6 +58,7 @@
     "react": "0.14.x || ^15.0.0 || ^16.0.0"
   },
   "dependencies": {
+    "@types/react": "^16.1.0",
     "babel-runtime": "6.x.x",
     "create-react-context": "^0.2.1",
     "popper.js": "^1.14.4",
