@@ -64,7 +64,7 @@
     "popper.js": "^1.14.4",
     "prop-types": "^15.6.1",
     "typed-styles": "^0.0.5",
-    "warning": "^3.0.0"
+    "warning": ">=3.0.0 <5.0.0"
   },
   "devDependencies": {
     "@types/react": "^16.1.0",
