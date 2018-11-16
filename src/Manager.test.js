@@ -3,7 +3,9 @@ import React from "react";
 import { mount } from "enzyme";
 
 // Public API
-import { Manager } from ".";
+import { Manager, Popper, Reference } from ".";
+
+import { InnerPopper } from './Popper';
 
 // Private API
 import { ManagerContext } from "./Manager";
@@ -41,6 +43,55 @@ describe("Manager component", () => {
     expect(wrapper.find(Reference).prop("referenceNode")).toBe(referenceNode);
   });
 });
+
+describe('Managed Reference', () => {
+  it('If passed a referenceElement prop value, uses the referenceElement prop value', () => {
+    const element = document.createElement("div");
+    const wrapper = mount(
+      <Manager>
+        <Reference>
+          {({ ref }) => (
+            <div ref={ref}>
+              hello
+            </div>
+          )}
+        </Reference>
+        <Popper referenceElement={element}>
+          {() => null}
+        </Popper>
+      </Manager>
+    );
+    const PopperInstance = wrapper.find(InnerPopper);
+    expect(PopperInstance.prop('referenceElement')).toBe(element);
+  });
+  it('If the referenceElement prop is undefined, use the referenceNode from context', () => {
+    let referenceElement;
+    let ReferenceComp = ({ innerRef }) => (
+      <div ref={(node) => {
+        // We just want to invoke this once so that we have access to the referenceElement in the upper scope.
+        if (referenceElement) return;
+        innerRef(node);
+        referenceElement = node;
+      }}>
+        hello
+      </div>
+    );
+    const wrapper = mount(
+      <Manager>
+        <Reference>
+          {({ ref }) => (
+             <ReferenceComp innerRef={ref}/>
+          )}
+        </Reference>
+        <Popper referenceElement={undefined}>
+          {() => null}
+        </Popper>
+      </Manager>
+    );
+    const PopperInstance = wrapper.find(InnerPopper);
+    expect(PopperInstance.prop('referenceElement')).toBe(referenceElement);
+  })
+})
 
 describe("ReferenceNodeContext", () => {
   it("provides proper default values", () => {
