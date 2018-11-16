@@ -63,8 +63,8 @@
     "create-react-context": "^0.2.1",
     "popper.js": "^1.14.4",
     "prop-types": "^15.6.1",
-    "typed-styles": "^0.0.5",
-    "warning": "^3.0.0"
+    "typed-styles": "^0.0.7",
+    "warning": "^4.0.2"
   },
   "devDependencies": {
     "@types/react": "^16.1.0",
