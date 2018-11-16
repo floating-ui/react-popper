@@ -5,8 +5,8 @@ exports[`Manager component renders the expected markup 1`] = `
   <Provider
     value={
       Object {
-        "getReferenceRef": [Function],
         "referenceNode": undefined,
+        "setReferenceNode": [Function],
       }
     }
   >

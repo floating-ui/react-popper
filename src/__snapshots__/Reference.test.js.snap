@@ -4,21 +4,21 @@ exports[`Arrow component renders the expected markup 1`] = `
 <Provider
   value={
     Object {
-      "getReferenceRef": [MockFunction] {
+      "referenceNode": undefined,
+      "setReferenceNode": [MockFunction] {
         "calls": Array [
           Array [
             <div />,
           ],
         ],
       },
-      "referenceNode": undefined,
     }
   }
 >
   <Reference>
     <Consumer>
       <InnerReference
-        getReferenceRef={
+        setReferenceNode={
           [MockFunction] {
             "calls": Array [
               Array [
