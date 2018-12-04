@@ -62,7 +62,6 @@
     "babel-runtime": "6.x.x",
     "create-react-context": "<=0.2.2",
     "popper.js": "^1.14.4",
-    "prop-types": "^15.6.1",
     "typed-styles": "^0.0.7",
     "warning": "^4.0.2"
   },
