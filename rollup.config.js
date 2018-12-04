@@ -14,7 +14,7 @@ const umdGlobals = {
 
 const getBabelOptions = () => ({
   exclude: '**/node_modules/**',
-  plugins: ['external-helpers'],
+  plugins: [],
 });
 
 export default [

@@ -1,36 +1,25 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Arrow component renders the expected markup 1`] = `
-<Provider
-  value={
-    Object {
-      "getReferenceRef": [MockFunction] {
+<Reference>
+  <InnerReference
+    getReferenceRef={
+      [MockFunction] {
         "calls": Array [
           Array [
             <div />,
           ],
         ],
-      },
-      "referenceNode": undefined,
+        "results": Array [
+          Object {
+            "isThrow": false,
+            "value": undefined,
+          },
+        ],
+      }
     }
-  }
->
-  <Reference>
-    <Consumer>
-      <InnerReference
-        getReferenceRef={
-          [MockFunction] {
-            "calls": Array [
-              Array [
-                <div />,
-              ],
-            ],
-          }
-        }
-      >
-        <div />
-      </InnerReference>
-    </Consumer>
-  </Reference>
-</Provider>
+  >
+    <div />
+  </InnerReference>
+</Reference>
 `;
