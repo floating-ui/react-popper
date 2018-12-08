@@ -11,7 +11,7 @@ import type { Style } from 'typed-styles';
 import { ManagerContext } from './Manager';
 import { safeInvoke, unwrapArray } from './utils';
 
-type getRefFn = (?HTMLElement) => void;
+type getRefFn = (HTMLElement | null) => void;
 type ReferenceElement = ReferenceObject | HTMLElement | null;
 type StyleOffsets = { top: number, left: number };
 type StylePosition = { position: 'absolute' | 'fixed' };
@@ -59,7 +59,7 @@ export class InnerPopper extends React.Component<PopperProps, PopperState> {
   static defaultProps = {
     placement: 'bottom',
     eventsEnabled: true,
-    referenceElement: undefined,
+    referenceElement: null,
     positionFixed: false,
   };
 
@@ -68,13 +68,13 @@ export class InnerPopper extends React.Component<PopperProps, PopperState> {
     placement: undefined,
   };
 
-  popperInstance: ?Instance;
+  popperInstance: Instance | null;
 
-  popperNode: ?HTMLElement = null;
-  arrowNode: ?HTMLElement = null;
+  popperNode: HTMLElement | null = null;
+  arrowNode: HTMLElement | null = null;
 
-  setPopperNode = (popperNode: ?HTMLElement) => {
-    if (this.popperNode === popperNode) return;
+  setPopperNode = (popperNode: HTMLElement | null) => {
+    if (!popperNode || this.popperNode === popperNode) return;
 
     safeInvoke(this.props.innerRef, popperNode);
     this.popperNode = popperNode;
@@ -82,8 +82,8 @@ export class InnerPopper extends React.Component<PopperProps, PopperState> {
     this.updatePopperInstance();
   };
 
-  setArrowNode = (arrowNode: ?HTMLElement) => {
-    if (this.arrowNode === arrowNode) return;
+  setArrowNode = (arrowNode: HTMLElement | null) => {
+    if (!arrowNode || this.arrowNode === arrowNode) return;
     this.arrowNode = arrowNode;
 
     if (!this.popperInstance) this.updatePopperInstance();
@@ -94,10 +94,7 @@ export class InnerPopper extends React.Component<PopperProps, PopperState> {
     order: 900,
     fn: (data: Object) => {
       const { placement } = data;
-      this.setState(
-        { data, placement },
-        placement !== this.state.placement ? this.scheduleUpdate : undefined
-      );
+      this.setState({ data, placement });
       return data;
     },
   };
@@ -218,7 +215,9 @@ export default function Popper({ referenceElement, ...props }: PopperProps) {
     <ManagerContext.Consumer>
       {({ referenceNode }) => (
         <InnerPopper
-          referenceElement={referenceElement ? referenceElement : referenceNode}
+          referenceElement={
+            referenceElement !== undefined ? referenceElement : referenceNode
+          }
           {...props}
         />
       )}
