@@ -189,6 +189,7 @@ export class InnerPopper extends React.Component<PopperProps, PopperState> {
   }
 
   componentWillUnmount() {
+    safeInvoke(this.props.innerRef, null);
     this.destroyPopperInstance();
   }
 
