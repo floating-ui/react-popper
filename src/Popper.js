@@ -11,7 +11,7 @@ import type { Style } from 'typed-styles';
 import { ManagerContext } from './Manager';
 import { safeInvoke, unwrapArray } from './utils';
 
-type getRefFn = (HTMLElement | null) => void;
+type getRefFn = (?HTMLElement) => void;
 type ReferenceElement = ReferenceObject | HTMLElement | null;
 type StyleOffsets = { top: number, left: number };
 type StylePosition = { position: 'absolute' | 'fixed' };
@@ -59,7 +59,7 @@ export class InnerPopper extends React.Component<PopperProps, PopperState> {
   static defaultProps = {
     placement: 'bottom',
     eventsEnabled: true,
-    referenceElement: null,
+    referenceElement: undefined,
     positionFixed: false,
   };
 
@@ -68,12 +68,12 @@ export class InnerPopper extends React.Component<PopperProps, PopperState> {
     placement: undefined,
   };
 
-  popperInstance: Instance | null;
+  popperInstance: ?Instance;
 
-  popperNode: HTMLElement | null = null;
-  arrowNode: HTMLElement | null = null;
+  popperNode: ?HTMLElement = null;
+  arrowNode: ?HTMLElement = null;
 
-  setPopperNode = (popperNode: HTMLElement | null) => {
+  setPopperNode = (popperNode: ?HTMLElement) => {
     if (!popperNode || this.popperNode === popperNode) return;
 
     safeInvoke(this.props.innerRef, popperNode);
@@ -82,7 +82,7 @@ export class InnerPopper extends React.Component<PopperProps, PopperState> {
     this.updatePopperInstance();
   };
 
-  setArrowNode = (arrowNode: HTMLElement | null) => {
+  setArrowNode = (arrowNode: ?HTMLElement) => {
     if (!arrowNode || this.arrowNode === arrowNode) return;
     this.arrowNode = arrowNode;
 
@@ -94,7 +94,10 @@ export class InnerPopper extends React.Component<PopperProps, PopperState> {
     order: 900,
     fn: (data: Object) => {
       const { placement } = data;
-      this.setState({ data, placement });
+      this.setState(
+        { data, placement },
+        placement !== this.state.placement ? this.scheduleUpdate : undefined
+      );
       return data;
     },
   };
