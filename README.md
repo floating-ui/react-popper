@@ -60,7 +60,7 @@ const Example = () => (
 `react-popper` makes use of a React pattern called **"render prop"**, if you are not
 familiar with it, please read more [on the official React documentation](https://reactjs.org/docs/render-props.html).
 
-> Using React <=15 or Preact? The components created with them don't support to return
+> Using React <=16 or Preact? The components created with them don't support to return
 [fragments](https://reactjs.org/docs/fragments.html), this means that you will need to
 wrap `<Reference />` and `<Popper />` into a single, common, `<div />` to make `react-popper` work.
 
