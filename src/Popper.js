@@ -74,7 +74,7 @@ export class InnerPopper extends React.Component<PopperProps, PopperState> {
   arrowNode: ?HTMLElement = null;
 
   setPopperNode = (popperNode: ?HTMLElement) => {
-    if (this.popperNode === popperNode) return;
+    if (!popperNode || this.popperNode === popperNode) return;
 
     safeInvoke(this.props.innerRef, popperNode);
     this.popperNode = popperNode;
@@ -83,10 +83,7 @@ export class InnerPopper extends React.Component<PopperProps, PopperState> {
   };
 
   setArrowNode = (arrowNode: ?HTMLElement) => {
-    if (this.arrowNode === arrowNode) return;
     this.arrowNode = arrowNode;
-
-    if (!this.popperInstance) this.updatePopperInstance();
   };
 
   updateStateModifier = {
@@ -192,6 +189,7 @@ export class InnerPopper extends React.Component<PopperProps, PopperState> {
   }
 
   componentWillUnmount() {
+    safeInvoke(this.props.innerRef, null);
     this.destroyPopperInstance();
   }
 
@@ -218,7 +216,9 @@ export default function Popper({ referenceElement, ...props }: PopperProps) {
     <ManagerContext.Consumer>
       {({ referenceNode }) => (
         <InnerPopper
-          referenceElement={referenceElement ? referenceElement : referenceNode}
+          referenceElement={
+            referenceElement !== undefined ? referenceElement : referenceNode
+          }
           {...props}
         />
       )}

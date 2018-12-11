@@ -71,7 +71,7 @@ describe('Popper component', () => {
     const referenceElement = document.createElement('div');
     expect(() =>
       mount(
-        <InnerPopper referenceElemen={referenceElement}>
+        <InnerPopper referenceElement={referenceElement}>
           {({ ref, style, placement, arrowProps }) => (
             <div
               ref={current => ref(current)}
