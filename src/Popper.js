@@ -65,7 +65,7 @@ export class InnerPopper extends React.Component<PopperProps, PopperState> {
 
   state = {
     data: undefined,
-    placement: this.props.placement,
+    placement: undefined,
   };
 
   popperInstance: ?Instance;

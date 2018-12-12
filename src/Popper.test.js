@@ -116,7 +116,7 @@ describe('Popper component', () => {
     );
   });
 
-  it(`should render 2 times when placement was not updated, 3 times when it was`, () => {
+  it(`should render 3 times when placement is changed`, () => {
     const referenceElement = document.createElement('div');
     let renderCounter = 0;
     const wrapper = mount(
@@ -127,7 +127,7 @@ describe('Popper component', () => {
         }}
       </InnerPopper>
     );
-    expect(renderCounter).toBe(2);
+    expect(renderCounter).toBe(3);
     renderCounter = 0;
 
     wrapper.setProps({ placement: 'bottom' });
