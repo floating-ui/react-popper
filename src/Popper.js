@@ -91,10 +91,7 @@ export class InnerPopper extends React.Component<PopperProps, PopperState> {
     order: 900,
     fn: (data: Object) => {
       const { placement } = data;
-      this.setState(
-        { data, placement },
-        placement !== this.state.placement ? this.scheduleUpdate : undefined
-      );
+      this.setState({ data, placement });
       return data;
     },
   };
