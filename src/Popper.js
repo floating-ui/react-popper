@@ -74,7 +74,7 @@ export class InnerPopper extends React.Component<PopperProps, PopperState> {
   arrowNode: ?HTMLElement = null;
 
   setPopperNode = (popperNode: ?HTMLElement) => {
-    if (this.popperNode === popperNode) return;
+    if (!popperNode || this.popperNode === popperNode) return;
 
     safeInvoke(this.props.innerRef, popperNode);
     this.popperNode = popperNode;
@@ -83,10 +83,7 @@ export class InnerPopper extends React.Component<PopperProps, PopperState> {
   };
 
   setArrowNode = (arrowNode: ?HTMLElement) => {
-    if (this.arrowNode === arrowNode) return;
     this.arrowNode = arrowNode;
-
-    if (!this.popperInstance) this.updatePopperInstance();
   };
 
   updateStateModifier = {
@@ -94,10 +91,7 @@ export class InnerPopper extends React.Component<PopperProps, PopperState> {
     order: 900,
     fn: (data: Object) => {
       const { placement } = data;
-      this.setState(
-        { data, placement },
-        placement !== this.state.placement ? this.scheduleUpdate : undefined
-      );
+      this.setState({ data, placement });
       return data;
     },
   };
@@ -109,6 +103,7 @@ export class InnerPopper extends React.Component<PopperProps, PopperState> {
     modifiers: {
       ...this.props.modifiers,
       arrow: {
+        ...(this.props.modifiers && this.props.modifiers.arrow),
         enabled: !!this.arrowNode,
         element: this.arrowNode,
       },
@@ -191,6 +186,7 @@ export class InnerPopper extends React.Component<PopperProps, PopperState> {
   }
 
   componentWillUnmount() {
+    safeInvoke(this.props.innerRef, null);
     this.destroyPopperInstance();
   }
 
@@ -212,11 +208,16 @@ export class InnerPopper extends React.Component<PopperProps, PopperState> {
 const placements = PopperJS.placements;
 export { placements };
 
-export default function Popper(props: PopperProps) {
+export default function Popper({ referenceElement, ...props }: PopperProps) {
   return (
     <ManagerContext.Consumer>
       {({ referenceNode }) => (
-        <InnerPopper referenceElement={referenceNode} {...props} />
+        <InnerPopper
+          referenceElement={
+            referenceElement !== undefined ? referenceElement : referenceNode
+          }
+          {...props}
+        />
       )}
     </ManagerContext.Consumer>
   );

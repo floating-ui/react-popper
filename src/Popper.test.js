@@ -71,7 +71,7 @@ describe('Popper component', () => {
     const referenceElement = document.createElement('div');
     expect(() =>
       mount(
-        <InnerPopper referenceElemen={referenceElement}>
+        <InnerPopper referenceElement={referenceElement}>
           {({ ref, style, placement, arrowProps }) => (
             <div
               ref={current => ref(current)}
@@ -114,5 +114,23 @@ describe('Popper component', () => {
     expect(wrapper.instance().popperInstance.reference).toBe(
       virtualReferenceElement
     );
+  });
+
+  it(`should render 3 times when placement is changed`, () => {
+    const referenceElement = document.createElement('div');
+    let renderCounter = 0;
+    const wrapper = mount(
+      <InnerPopper placement="top" referenceElement={referenceElement}>
+        {({ ref, style, placement }) => {
+          renderCounter++;
+          return <div ref={ref} style={style} data-placement={placement} />;
+        }}
+      </InnerPopper>
+    );
+    expect(renderCounter).toBe(3);
+    renderCounter = 0;
+
+    wrapper.setProps({ placement: 'bottom' });
+    expect(renderCounter).toBe(3);
   });
 });

@@ -8,13 +8,10 @@ exports[`Popper component renders the expected markup 1`] = `
   referenceElement={<div />}
 >
   <div
+    data-placement="bottom"
     style={
       Object {
-        "left": 0,
-        "opacity": 0,
-        "pointerEvents": "none",
         "position": "absolute",
-        "top": 0,
       }
     }
   >
