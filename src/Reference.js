@@ -11,18 +11,20 @@ export type ReferenceProps = {
 };
 
 type InnerReferenceProps = {
-  getReferenceRef?: (?HTMLElement) => void,
-}
+  setReferenceNode?: (?HTMLElement) => void,
+};
 
-class InnerReference extends React.Component<ReferenceProps & InnerReferenceProps> {
+class InnerReference extends React.Component<
+  ReferenceProps & InnerReferenceProps
+> {
   refHandler = (node: ?HTMLElement) => {
     safeInvoke(this.props.innerRef, node);
-    safeInvoke(this.props.getReferenceRef, node);
-  }
+    safeInvoke(this.props.setReferenceNode, node);
+  };
 
   render() {
     warning(
-      this.props.getReferenceRef,
+      this.props.setReferenceNode,
       '`Reference` should not be used outside of a `Manager` component.'
     );
     return unwrapArray(this.props.children)({ ref: this.refHandler });
@@ -32,7 +34,9 @@ class InnerReference extends React.Component<ReferenceProps & InnerReferenceProp
 export default function Reference(props: ReferenceProps) {
   return (
     <ManagerContext.Consumer>
-      {({ getReferenceRef }) => <InnerReference getReferenceRef={getReferenceRef} {...props} />}
+      {({ setReferenceNode }) => (
+        <InnerReference setReferenceNode={setReferenceNode} {...props} />
+      )}
     </ManagerContext.Consumer>
   );
 }
