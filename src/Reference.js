@@ -24,7 +24,7 @@ class InnerReference extends React.Component<
 
   render() {
     warning(
-      this.props.setReferenceNode,
+      Boolean(this.props.setReferenceNode),
       '`Reference` should not be used outside of a `Manager` component.'
     );
     return unwrapArray(this.props.children)({ ref: this.refHandler });
