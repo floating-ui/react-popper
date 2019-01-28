@@ -31,10 +31,15 @@ export default class Manager extends React.Component<
     };
   }
 
-  setReferenceNode = (referenceNode: ?HTMLElement) =>
+  setReferenceNode = (referenceNode: ?HTMLElement) => {
+    if (!referenceNode || this.state.context.referenceNode === referenceNode) {
+      return;
+    }
+
     this.setState(({ context }) => ({
       context: { ...context, referenceNode },
     }));
+  };
 
   render() {
     return (
