@@ -22,6 +22,10 @@ class InnerReference extends React.Component<
     safeInvoke(this.props.setReferenceNode, node);
   };
 
+  componentWillUnmount() {
+    safeInvoke(this.props.innerRef, null);
+  }
+
   render() {
     warning(
       Boolean(this.props.setReferenceNode),
