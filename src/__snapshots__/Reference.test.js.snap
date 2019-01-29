@@ -11,6 +11,12 @@ exports[`Arrow component renders the expected markup 1`] = `
             <div />,
           ],
         ],
+        "results": Array [
+          Object {
+            "type": "return",
+            "value": undefined,
+          },
+        ],
       },
     }
   }
@@ -24,6 +30,12 @@ exports[`Arrow component renders the expected markup 1`] = `
               Array [
                 <div />,
               ],
+            ],
+            "results": Array [
+              Object {
+                "type": "return",
+                "value": undefined,
+              },
             ],
           }
         }
