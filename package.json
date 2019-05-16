@@ -60,6 +60,7 @@
   "dependencies": {
     "@babel/runtime": "^7.1.2",
     "create-react-context": "<=0.2.2",
+    "fast-deep-equal": "^2.0.1",
     "popper.js": "^1.14.4",
     "prop-types": "^15.6.1",
     "typed-styles": "^0.0.7",
