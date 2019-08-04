@@ -9,7 +9,7 @@
 
 React wrapper around [Popper.js](https://popper.js.org).
 
-**important note:** popper.js is **not** a tooltip library, it's a *positioning engine* to be used to build features such as (but not restricted to) tooltips.
+**important note:** popper.js is **not** a tooltip library, it's a _positioning engine_ to be used to build features such as (but not restricted to) tooltips.
 
 ## Install
 
@@ -61,8 +61,8 @@ const Example = () => (
 familiar with it, please read more [on the official React documentation](https://reactjs.org/docs/render-props.html).
 
 > Using React <=15 or Preact? The components created with them don't support to return
-[fragments](https://reactjs.org/docs/fragments.html), this means that you will need to
-wrap `<Reference />` and `<Popper />` into a single, common, `<div />` to make `react-popper` work.
+> [fragments](https://reactjs.org/docs/fragments.html), this means that you will need to
+> wrap `<Reference />` and `<Popper />` into a single, common, `<div />` to make `react-popper` work.
 
 ### API documentation
 
@@ -99,27 +99,21 @@ children: ({|
 |}) => Node
 ```
 
-A function (render prop) that takes as argument an object containing the properties
-`ref`, `style`, `placement`, and`arrowProps`.
+A function (render prop) that takes as argument an object containing the following properties:
 
-The first 3 properties are the `ref` property that is going to be used to retrieve the [React refs](https://reactjs.org/docs/refs-and-the-dom.html) of the **popper** element, the `style` property,
-which contains the CSS styles (React CSS properties) computed by Popper.js and needed to style
-the **popper** element so that it gets positioned in the desired way.  
-These styles should be applied to your React component using the `style` prop or with any CSS-in-JS
-library of your choice.
-
-The `placement` property describes the placement of your popper after Popper.js has applied all the modifiers
-that may have flipped or altered the originally provided `placement` property. You can use this to alter the
-style of the popper and or of the arrow according to the definitive placement. For instance, you can use this
-property to orient the arrow to the right direction.
-
-`scheduleUpdate` is a function you can call to schedule a Popper.js position update. It will directly call the [Popper#scheduleUpdate](https://popper.js.org/popper-documentation.html#Popper.scheduleUpdate) method.
-
-The `arrowProps` argument is an object, containing a `style` and `ref` properties that are identical to the
-ones provided as first and second argument of `children`, but are relative to the **arrow** element rather than
-the popper. Use them to, accordingly, retrieve the ref of the **arrow** element and style it.
+- **`ref`**: used to retrieve the [React refs](https://reactjs.org/docs/refs-and-the-dom.html) of the **popper** element.
+- **`style`**: contains the necessary CSS styles (React CSS properties) which are computed by Popper.js to correctly position the **popper** element.
+- **`placement`**: describes the placement of your popper after Popper.js has applied all the modifiers
+  that may have flipped or altered the originally provided `placement` property. You can use this to alter the
+  style of the popper and or of the arrow according to the definitive placement. For instance, you can use this
+  property to orient the arrow to the right direction.
+- **`outOfBoundaries`**: a boolean signifying if the popper element is overflowing its boundaries.
+- **`scheduleUpdate`**: a function you can call to schedule a Popper.js position update. It will directly call the [Popper#scheduleUpdate](https://popper.js.org/popper-documentation.html#Popper.scheduleUpdate) method.
+- **`arrowProps`**: an object, containing `style` and `ref` properties that are identical to the
+  ones provided as the first and second arguments of `children`, but relative to the **arrow** element. The `style` property contains `left` and `top` offset values, which are used to center the arrow within the popper. These values can be merged with further custom styling and positioning. See [the demo](https://github.com/FezVrasta/react-popper/blob/8994933c430e48ab62e71495be71e4f440b48a5a/demo/styles.js#L100) for an example.
 
 ##### `innerRef`
+
 ```js
 innerRef?: (?HTMLElement) => void
 ```
