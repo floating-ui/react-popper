@@ -1,29 +1,29 @@
 import * as React from "react";
 import * as PopperJS from "popper.js";
 
-interface ManagerProps {
+export interface ManagerProps {
   children: React.ReactNode;
 }
 export class Manager extends React.Component<ManagerProps, {}> { }
 
-type RefHandler = (ref: HTMLElement | null) => void;
+export type RefHandler = (ref: HTMLElement | null) => void;
 
-interface ReferenceChildrenProps {
+export interface ReferenceChildrenProps {
   ref: RefHandler;
 }
 
-interface ReferenceProps {
+export interface ReferenceProps {
   children: (props: ReferenceChildrenProps) => React.ReactNode;
   innerRef?: RefHandler;
 }
 export class Reference extends React.Component<ReferenceProps, {}> { }
 
-interface PopperArrowProps {
+export interface PopperArrowProps {
   ref: RefHandler;
   style: React.CSSProperties;
 }
 
-interface PopperChildrenProps {
+export interface PopperChildrenProps {
   arrowProps: PopperArrowProps;
   outOfBoundaries: boolean | null;
   placement: PopperJS.Placement;
@@ -32,7 +32,7 @@ interface PopperChildrenProps {
   style: React.CSSProperties;
 }
 
-interface PopperProps {
+export interface PopperProps {
   children: (props: PopperChildrenProps) => React.ReactNode;
   eventsEnabled?: boolean;
   innerRef?: RefHandler;
