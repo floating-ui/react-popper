@@ -62,13 +62,13 @@
   "dependencies": {
     "@babel/runtime": "^7.1.2",
     "create-react-context": "^0.3.0",
-    "popper.js": "^1.14.4",
     "prop-types": "^15.6.1",
     "typed-styles": "^0.0.7",
     "warning": "^4.0.2"
   },
   "devDependencies": {
     "@babel/cli": "^7.1.2",
+    "popper.js": "1.15.0",
     "@babel/core": "^7.1.2",
     "@babel/plugin-external-helpers": "^7.0.0",
     "@babel/plugin-proposal-class-properties": "^7.1.0",
