@@ -6,7 +6,7 @@ interface ManagerProps {
 }
 export class Manager extends React.Component<ManagerProps, {}> { }
 
-type RefHandler = (ref: HTMLElement | null) => void;
+type RefHandler = (ref: HTMLElement | SVGElement | null) => void;
 
 interface ReferenceChildrenProps {
   ref: RefHandler;
