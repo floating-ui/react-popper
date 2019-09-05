@@ -18,12 +18,12 @@ interface ReferenceProps {
 }
 export class Reference extends React.Component<ReferenceProps, {}> { }
 
-interface PopperArrowProps {
+export interface PopperArrowProps {
   ref: RefHandler;
   style: React.CSSProperties;
 }
 
-interface PopperChildrenProps {
+export interface PopperChildrenProps {
   arrowProps: PopperArrowProps;
   outOfBoundaries: boolean | null;
   placement: PopperJS.Placement;
@@ -32,7 +32,7 @@ interface PopperChildrenProps {
   style: React.CSSProperties;
 }
 
-interface PopperProps {
+export interface PopperProps {
   children: (props: PopperChildrenProps) => React.ReactNode;
   eventsEnabled?: boolean;
   innerRef?: RefHandler;
