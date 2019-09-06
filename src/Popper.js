@@ -164,7 +164,8 @@ export class InnerPopper extends React.Component<PopperProps, PopperState> {
     if (
       this.props.placement !== prevProps.placement ||
       this.props.referenceElement !== prevProps.referenceElement ||
-      this.props.positionFixed !== prevProps.positionFixed
+      this.props.positionFixed !== prevProps.positionFixed ||
+      this.props.modifiers !== prevProps.modifiers
     ) {
       this.updatePopperInstance();
     } else if (
