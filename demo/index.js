@@ -3,7 +3,7 @@ import React, { Fragment } from 'react';
 import ReactDOM from 'react-dom';
 import { injectGlobal } from 'react-emotion';
 import { compose, withState } from 'recompose';
-import { Transition } from 'react-spring';
+import { Transition } from 'react-spring/renderprops';
 import { Manager, Reference, Popper } from '../src';
 import {
   Main,
