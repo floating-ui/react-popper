@@ -96,21 +96,27 @@ export class InnerPopper extends React.Component<PopperProps, PopperState> {
     },
   };
 
-  getOptions = () => ({
-    placement: this.props.placement,
-    eventsEnabled: this.props.eventsEnabled,
-    positionFixed: this.props.positionFixed,
-    modifiers: {
-      ...this.props.modifiers,
-      arrow: {
-        ...(this.props.modifiers && this.props.modifiers.arrow),
-        enabled: !!this.arrowNode,
-        element: this.arrowNode,
+  getOptions = () => {
+    const modifiers = {...this.props.modifiers};
+    if (!modifiers.arrow) {
+      Object.assign(modifiers, {
+        arrow: {
+          enabled: !!this.arrowNode,
+          element: this.arrowNode
+        },
+        applyStyle: { enabled: false },
+      })
+    }
+    return {
+      placement: this.props.placement,
+      eventsEnabled: this.props.eventsEnabled,
+      positionFixed: this.props.positionFixed,
+      modifiers: {
+        ...modifiers,
+        updateStateModifier: this.updateStateModifier,
       },
-      applyStyle: { enabled: false },
-      updateStateModifier: this.updateStateModifier,
-    },
-  });
+    }
+  };
 
   getPopperStyle = () =>
     !this.popperNode || !this.state.data
