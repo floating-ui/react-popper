@@ -6,20 +6,18 @@ interface ManagerProps {
 }
 export class Manager extends React.Component<ManagerProps, {}> { }
 
-type RefHandler = (ref: HTMLElement | SVGElement | null) => void;
-
 interface ReferenceChildrenProps {
-  ref: RefHandler;
+  ref: React.Ref<HTMLElement | SVGElement | null>;
 }
 
 interface ReferenceProps {
   children: (props: ReferenceChildrenProps) => React.ReactNode;
-  innerRef?: RefHandler;
+  innerRef?: React.Ref<HTMLElement | SVGElement | null>;
 }
 export class Reference extends React.Component<ReferenceProps, {}> { }
 
 export interface PopperArrowProps {
-  ref: RefHandler;
+  ref: React.Ref<HTMLElement | SVGElement | null>;
   style: React.CSSProperties;
 }
 
@@ -27,7 +25,7 @@ export interface PopperChildrenProps {
   arrowProps: PopperArrowProps;
   outOfBoundaries: boolean | null;
   placement: PopperJS.Placement;
-  ref: RefHandler;
+  ref: React.Ref<HTMLElement | SVGElement | null>;
   scheduleUpdate: () => void;
   style: React.CSSProperties;
 }
@@ -35,7 +33,7 @@ export interface PopperChildrenProps {
 export interface PopperProps {
   children: (props: PopperChildrenProps) => React.ReactNode;
   eventsEnabled?: boolean;
-  innerRef?: RefHandler;
+  innerRef?: React.Ref<HTMLElement | SVGElement | null>;
   modifiers?: PopperJS.Modifiers;
   placement?: PopperJS.Placement;
   positionFixed?: boolean;

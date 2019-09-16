@@ -2,12 +2,13 @@
 import * as React from 'react';
 import warning from 'warning';
 import { ManagerContext } from './Manager';
-import { safeInvoke, unwrapArray } from './utils';
+import { safeInvoke, unwrapArray, setRef } from './utils';
+import { type Ref } from "./RefTypes";
 
-export type ReferenceChildrenProps = { ref: (?HTMLElement) => void };
+export type ReferenceChildrenProps = { ref: Ref };
 export type ReferenceProps = {
   children: ReferenceChildrenProps => React.Node,
-  innerRef?: (?HTMLElement) => void,
+  innerRef?: Ref,
 };
 
 type InnerReferenceProps = {
@@ -18,12 +19,12 @@ class InnerReference extends React.Component<
   ReferenceProps & InnerReferenceProps
 > {
   refHandler = (node: ?HTMLElement) => {
-    safeInvoke(this.props.innerRef, node);
+    setRef(this.props.innerRef, node)
     safeInvoke(this.props.setReferenceNode, node);
   };
 
   componentWillUnmount() {
-    safeInvoke(this.props.innerRef, null);
+    setRef(this.props.innerRef, node)
   }
 
   render() {
