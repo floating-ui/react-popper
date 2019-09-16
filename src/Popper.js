@@ -167,6 +167,31 @@ export class InnerPopper extends React.Component<PopperProps, PopperState> {
       this.props.positionFixed !== prevProps.positionFixed ||
       this.props.modifiers !== prevProps.modifiers
     ) {
+
+      // develop only check that modifiers isn't being updated needlessly
+      if(process.env.NODE_ENV === "development" && this.props.modifiers !== prevProps.modifiers && this.props.modifiers != null && prevProps.modifiers != null) {
+        let needlessChange = false;
+
+        var prevKeys = Object.keys(prevProps.modifiers);
+        var nowKeys = Object.keys(this.props.modifiers);
+
+        if (nowKeys.length !== prevKeys.len) {
+          needlessChange = true;
+        }
+
+        for (var i = 0; i < nowKeys.len; i++) {
+          var key = prevKeys[i];
+
+          if (this.props.modifiers[key] !== prevProps.modifiers[key]) {
+            needlessChange = true;
+          }
+        }
+
+        if (needlessChange === true) {
+          console.warn("'modifiers' prop reference updated even though all values appear the same.\nConsider memoizing the 'modifiers' object to avoid needless rendering.");
+        }
+      }
+
       this.updatePopperInstance();
     } else if (
       this.props.eventsEnabled !== prevProps.eventsEnabled &&
