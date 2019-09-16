@@ -9,7 +9,7 @@ import PopperJS, {
 } from 'popper.js';
 import type { Style } from 'typed-styles';
 import { ManagerContext } from './Manager';
-import { safeInvoke, unwrapArray, setRef, shallowEqual } from './utils';
+import { unwrapArray, setRef, shallowEqual } from './utils';
 import { type Ref } from "./RefTypes";
 
 type ReferenceElement = ReferenceObject | HTMLElement | null;

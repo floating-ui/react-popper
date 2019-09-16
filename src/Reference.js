@@ -24,7 +24,7 @@ class InnerReference extends React.Component<
   };
 
   componentWillUnmount() {
-    setRef(this.props.innerRef, node)
+    setRef(this.props.innerRef, null)
   }
 
   render() {
