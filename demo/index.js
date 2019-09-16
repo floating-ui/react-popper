@@ -112,12 +112,13 @@ const Demo = enhance(
             )}
           </Reference>
           <Transition
+            items={isPopper2Open}
             from={{ opacity: 0, rotation: '180deg', scale: 0.5, top: -20 }}
             enter={{ opacity: 1, rotation: '0deg', scale: 1, top: 0 }}
             leave={{ opacity: 0, rotation: '180deg', scale: 0.5, top: -20 }}
           >
-            {isPopper2Open
-              ? ({ rotation, scale, opacity, top: topOffset }) => (
+            {show =>
+              show ? ({ rotation, scale, opacity, top: topOffset }) => (
                   <Popper
                     placement="bottom"
                     modifiers={{
