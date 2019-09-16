@@ -175,11 +175,11 @@ export class InnerPopper extends React.Component<PopperProps, PopperState> {
         var prevKeys = Object.keys(prevProps.modifiers);
         var nowKeys = Object.keys(this.props.modifiers);
 
-        if (nowKeys.length !== prevKeys.len) {
+        if (nowKeys.length !== prevKeys.length) {
           needlessChange = true;
         }
 
-        for (var i = 0; i < nowKeys.len; i++) {
+        for (var i = 0; i < nowKeys.length; i++) {
           var key = prevKeys[i];
 
           if (this.props.modifiers[key] !== prevProps.modifiers[key]) {
