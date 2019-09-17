@@ -8,6 +8,7 @@
   "main": "lib/cjs/index.js",
   "module": "lib/esm/index.js",
   "typings": "typings/react-popper.d.ts",
+  "sideEffects": false,
   "files": [
     "/dist",
     "/lib",
