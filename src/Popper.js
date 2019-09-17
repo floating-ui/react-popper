@@ -9,7 +9,7 @@ import PopperJS, {
 } from 'popper.js';
 import type { Style } from 'typed-styles';
 import { ManagerContext } from './Manager';
-import { safeInvoke, unwrapArray } from './utils';
+import { safeInvoke, unwrapArray, shallowEqual } from './utils';
 
 type getRefFn = (?HTMLElement) => void;
 type ReferenceElement = ReferenceObject | HTMLElement | null;
@@ -169,27 +169,14 @@ export class InnerPopper extends React.Component<PopperProps, PopperState> {
     ) {
 
       // develop only check that modifiers isn't being updated needlessly
-      if(process.env.NODE_ENV === "development" && this.props.modifiers !== prevProps.modifiers && this.props.modifiers != null && prevProps.modifiers != null) {
-        let needlessChange = false;
-
-        var prevKeys = Object.keys(prevProps.modifiers);
-        var nowKeys = Object.keys(this.props.modifiers);
-
-        if (nowKeys.length !== prevKeys.length) {
-          needlessChange = true;
-        }
-
-        for (var i = 0; i < nowKeys.length; i++) {
-          var key = prevKeys[i];
-
-          if (this.props.modifiers[key] !== prevProps.modifiers[key]) {
-            needlessChange = true;
-          }
-        }
-
-        if (needlessChange === true) {
-          console.warn("'modifiers' prop reference updated even though all values appear the same.\nConsider memoizing the 'modifiers' object to avoid needless rendering.");
-        }
+      if (
+        process.env.NODE_ENV === "development" &&
+        this.props.modifiers !== prevProps.modifiers &&
+        this.props.modifiers != null &&
+        prevProps.modifiers != null &&
+        shallowEqual(this.props.modifiers, prevProps.modifiers)
+      ) {
+        console.warn("'modifiers' prop reference updated even though all values appear the same.\nConsider memoizing the 'modifiers' object to avoid needless rendering.");
       }
 
       this.updatePopperInstance();
