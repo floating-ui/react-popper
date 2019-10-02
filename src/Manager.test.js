@@ -79,6 +79,32 @@ describe('Managed Reference', () => {
     const PopperInstance = wrapper.find(InnerPopper);
     expect(PopperInstance.prop('referenceElement')).toBe(referenceElement);
   });
+
+  it('cleans up the referenceNode in context when unmounted', () => {
+    let referenceElement;
+    let ReferenceComp = ({ innerRef }) => (
+      <div
+        ref={node => {
+          // We just want to invoke this once so that we have access to the referenceElement in the upper scope.
+          if (referenceElement) return;
+          innerRef(node);
+          referenceElement = node;
+        }}
+      >
+        hello
+      </div>
+    );
+    const wrapper = mount(
+      <Manager>
+        <Reference>{({ ref }) => <ReferenceComp innerRef={ref} />}</Reference>
+        <Popper referenceElement={undefined}>{() => null}</Popper>
+      </Manager>
+    );
+
+    expect(wrapper.instance().contextObj.referenceNode).toBe(referenceElement);
+    wrapper.instance().componentWillUnmount();
+    expect(wrapper.instance().contextObj.referenceNode).toBeNull();
+  });
 });
 
 describe('ReferenceNodeContext', () => {
