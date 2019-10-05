@@ -7,7 +7,7 @@ import { mount } from 'enzyme';
 import { Reference } from '.';
 
 // Private API
-import { ManagerContext } from './Manager';
+import { ManagerReferenceNodeSetterContext } from './Manager';
 
 jest.mock('warning');
 
@@ -22,33 +22,27 @@ describe('Arrow component', () => {
     // HACK: wrapping DIV needed to make Enzyme happy for now
     const wrapper = mount(
       <div>
-        <ManagerContext.Provider
-          value={{
-            setReferenceNode,
-            referenceNode: undefined,
-          }}
+        <ManagerReferenceNodeSetterContext.Provider
+          value={setReferenceNode}
         >
           <Reference>{({ ref }) => <div ref={ref} />}</Reference>
-        </ManagerContext.Provider>
+        </ManagerReferenceNodeSetterContext.Provider>
       </div>
     );
     expect(wrapper.children()).toMatchSnapshot();
   });
 
-  it('consumes the ManagerContext from Manager', () => {
+  it('consumes the ManagerReferenceNodeSetterContext from Manager', () => {
     const setReferenceNode = jest.fn();
 
     // HACK: wrapping DIV needed to make Enzyme happy for now
     mount(
       <div>
-        <ManagerContext.Provider
-          value={{
-            setReferenceNode,
-            referenceNode: undefined,
-          }}
+        <ManagerReferenceNodeSetterContext.Provider
+          value={setReferenceNode}
         >
           <Reference>{({ ref }) => <div ref={ref} />}</Reference>
-        </ManagerContext.Provider>
+        </ManagerReferenceNodeSetterContext.Provider>
       </div>
     );
     expect(setReferenceNode).toHaveBeenCalled();
@@ -60,14 +54,11 @@ describe('Arrow component', () => {
     // HACK: wrapping DIV needed to make Enzyme happy for now
     mount(
       <div>
-        <ManagerContext.Provider
-          value={{
-            setReferenceNode,
-            referenceNode: undefined,
-          }}
+        <ManagerReferenceNodeSetterContext.Provider
+          value={setReferenceNode}
         >
           <Reference>{({ ref }) => <div ref={ref} />}</Reference>
-        </ManagerContext.Provider>
+        </ManagerReferenceNodeSetterContext.Provider>
       </div>
     );
     expect(warning).toHaveBeenCalledWith(
@@ -80,13 +71,11 @@ describe('Arrow component', () => {
     // HACK: wrapping DIV needed to make Enzyme happy for now
     mount(
       <div>
-        <ManagerContext.Provider
-          value={{
-            referenceNode: undefined,
-          }}
+        <ManagerReferenceNodeSetterContext.Provider
+          value={undefined}
         >
           <Reference>{({ ref }) => <div ref={ref} />}</Reference>
-        </ManagerContext.Provider>
+        </ManagerReferenceNodeSetterContext.Provider>
       </div>
     );
     expect(warning).toHaveBeenCalledWith(

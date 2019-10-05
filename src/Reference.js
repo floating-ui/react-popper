@@ -1,7 +1,7 @@
 // @flow
 import * as React from 'react';
 import warning from 'warning';
-import { ManagerContext } from './Manager';
+import { ManagerReferenceNodeSetterContext } from './Manager';
 import { safeInvoke, unwrapArray } from './utils';
 
 export type ReferenceChildrenProps = { ref: (?HTMLElement) => void };
@@ -37,10 +37,10 @@ class InnerReference extends React.Component<
 
 export default function Reference(props: ReferenceProps) {
   return (
-    <ManagerContext.Consumer>
-      {({ setReferenceNode }) => (
+    <ManagerReferenceNodeSetterContext.Consumer>
+      {(setReferenceNode) => (
         <InnerReference setReferenceNode={setReferenceNode} {...props} />
       )}
-    </ManagerContext.Consumer>
+    </ManagerReferenceNodeSetterContext.Consumer>
   );
 }

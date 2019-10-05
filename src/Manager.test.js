@@ -8,7 +8,7 @@ import { Manager, Popper, Reference } from '.';
 import { InnerPopper } from './Popper';
 
 // Private API
-import { ManagerContext } from './Manager';
+import { ManagerReferenceNodeContext, ManagerReferenceNodeSetterContext } from './Manager';
 
 describe('Manager component', () => {
   it('renders the expected markup', () => {
@@ -27,14 +27,18 @@ describe('Manager component', () => {
 
     const wrapper = mount(
       <Manager>
-        <ManagerContext.Consumer>
-          {({ setReferenceNode, referenceNode }) => (
-            <Reference
-              setReferenceNode={setReferenceNode}
-              referenceNode={referenceNode}
-            />
+        <ManagerReferenceNodeSetterContext.Consumer>
+          {(setReferenceNode) => (
+            <ManagerReferenceNodeContext.Consumer>
+              {(referenceNode) => (
+                <Reference
+                  setReferenceNode={setReferenceNode}
+                  referenceNode={referenceNode}
+                />
+              )}
+            </ManagerReferenceNodeContext.Consumer>
           )}
-        </ManagerContext.Consumer>
+        </ManagerReferenceNodeSetterContext.Consumer>
       </Manager>
     );
 
@@ -101,9 +105,9 @@ describe('Managed Reference', () => {
       </Manager>
     );
 
-    expect(wrapper.instance().contextObj.referenceNode).toBe(referenceElement);
+    expect(wrapper.instance().referenceNode).toBe(referenceElement);
     wrapper.instance().componentWillUnmount();
-    expect(wrapper.instance().contextObj.referenceNode).toBeNull();
+    expect(wrapper.instance().referenceNode).toBeNull();
   });
 });
 
@@ -112,14 +116,18 @@ describe('ReferenceNodeContext', () => {
     const Reference = () => null;
     const wrapper = mount(
       <div>
-        <ManagerContext.Consumer>
-          {({ setReferenceNode, referenceNode }) => (
-            <Reference
-              setReferenceNode={setReferenceNode}
-              referenceNode={referenceNode}
-            />
+        <ManagerReferenceNodeSetterContext.Consumer>
+          {(setReferenceNode) => (
+            <ManagerReferenceNodeContext.Consumer>
+              {(referenceNode) => (
+                <Reference
+                  setReferenceNode={setReferenceNode}
+                  referenceNode={referenceNode}
+                />
+              )}
+            </ManagerReferenceNodeContext.Consumer>
           )}
-        </ManagerContext.Consumer>
+        </ManagerReferenceNodeSetterContext.Consumer>
       </div>
     );
 
