@@ -1,11 +1,10 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Arrow component renders the expected markup 1`] = `
-<Provider
-  value={
-    Object {
-      "referenceNode": undefined,
-      "setReferenceNode": [MockFunction] {
+<Reference>
+  <InnerReference
+    setReferenceNode={
+      [MockFunction] {
         "calls": Array [
           Array [
             <div />,
@@ -17,32 +16,10 @@ exports[`Arrow component renders the expected markup 1`] = `
             "value": undefined,
           },
         ],
-      },
+      }
     }
-  }
->
-  <Reference>
-    <Consumer>
-      <InnerReference
-        setReferenceNode={
-          [MockFunction] {
-            "calls": Array [
-              Array [
-                <div />,
-              ],
-            ],
-            "results": Array [
-              Object {
-                "type": "return",
-                "value": undefined,
-              },
-            ],
-          }
-        }
-      >
-        <div />
-      </InnerReference>
-    </Consumer>
-  </Reference>
-</Provider>
+  >
+    <div />
+  </InnerReference>
+</Reference>
 `;
