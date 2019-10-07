@@ -84,7 +84,7 @@ describe('Managed Reference', () => {
     expect(PopperInstance.prop('referenceElement')).toBe(referenceElement);
   });
 
-  it('cleans up the referenceNode in context when unmounted', () => {
+  it('updates the referenceNode if setReferenceNode is called with a new value', () => {
     let referenceElement;
     let ReferenceComp = ({ innerRef }) => (
       <div
@@ -106,7 +106,7 @@ describe('Managed Reference', () => {
     );
 
     expect(wrapper.instance().referenceNode).toBe(referenceElement);
-    wrapper.instance().componentWillUnmount();
+    wrapper.instance().setReferenceNode(null);
     expect(wrapper.instance().referenceNode).toBeNull();
   });
 });
