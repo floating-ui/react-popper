@@ -169,14 +169,15 @@ export class InnerPopper extends React.Component<PopperProps, PopperState> {
     ) {
 
       // develop only check that modifiers isn't being updated needlessly
-      if (
-        process.env.NODE_ENV === "development" &&
-        this.props.modifiers !== prevProps.modifiers &&
-        this.props.modifiers != null &&
-        prevProps.modifiers != null &&
-        shallowEqual(this.props.modifiers, prevProps.modifiers)
-      ) {
-        console.warn("'modifiers' prop reference updated even though all values appear the same.\nConsider memoizing the 'modifiers' object to avoid needless rendering.");
+      if (process.env.NODE_ENV === "development") {
+        if (
+          this.props.modifiers !== prevProps.modifiers &&
+          this.props.modifiers != null &&
+          prevProps.modifiers != null &&
+          shallowEqual(this.props.modifiers, prevProps.modifiers)
+        ) {
+          console.warn("'modifiers' prop reference updated even though all values appear the same.\nConsider memoizing the 'modifiers' object to avoid needless rendering.");
+        }
       }
 
       this.updatePopperInstance();
