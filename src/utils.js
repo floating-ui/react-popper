@@ -15,3 +15,26 @@ export const safeInvoke = (fn: ?Function, ...args: *) => {
     return fn(...args);
   }
 }
+
+/**
+ * Does a shallow equality check of two objects by comparing the reference
+ * equality of each value.
+ */
+export const shallowEqual = (objA: { [key: string]: any}, objB: { [key: string]: any}): boolean => {
+  var aKeys = Object.keys(objA);
+  var bKeys = Object.keys(objB);
+
+  if (bKeys.length !== aKeys.length) {
+    return false;
+  }
+
+  for (var i = 0; i < bKeys.length; i++) {
+    var key = aKeys[i];
+
+    if (objA[key] !== objB[key]) {
+      return false;
+    }
+  }
+
+  return true;
+}

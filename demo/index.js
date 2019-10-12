@@ -53,6 +53,16 @@ const modifiers = {
   hide: { enabled: false },
 };
 
+const animatedModifiers = {
+  ...modifiers,
+  // We disable the built-in gpuAcceleration so that
+  // Popper.js will return us easy to interpolate values
+  // (top, left instead of transform: translate3d)
+  // We'll then use these values to generate the needed
+  // css tranform values blended with the react-spring values
+  computeStyle: { gpuAcceleration: false },
+}
+
 const Demo = enhance(
   ({ activePlacement, setActivePlacement, isPopper2Open, togglePopper2 }) => (
     <Fragment>
@@ -121,15 +131,7 @@ const Demo = enhance(
               show ? ({ rotation, scale, opacity, top: topOffset }) => (
                   <Popper
                     placement="bottom"
-                    modifiers={{
-                      ...modifiers,
-                      // We disable the built-in gpuAcceleration so that
-                      // Popper.js will return us easy to interpolate values
-                      // (top, left instead of transform: translate3d)
-                      // We'll then use these values to generate the needed
-                      // css tranform values blended with the react-spring values
-                      computeStyle: { gpuAcceleration: false },
-                    }}
+                    modifiers={animatedModifiers}
                   >
                     {({
                       ref,
