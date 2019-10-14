@@ -9,7 +9,7 @@ import PopperJS, {
 } from 'popper.js';
 import type { Style } from 'typed-styles';
 import { ManagerReferenceNodeContext } from './Manager';
-import { safeInvoke, unwrapArray } from './utils';
+import { safeInvoke, unwrapArray, shallowEqual } from './utils';
 
 type getRefFn = (?HTMLElement) => void;
 type ReferenceElement = ReferenceObject | HTMLElement | null;
@@ -164,8 +164,22 @@ export class InnerPopper extends React.Component<PopperProps, PopperState> {
     if (
       this.props.placement !== prevProps.placement ||
       this.props.referenceElement !== prevProps.referenceElement ||
-      this.props.positionFixed !== prevProps.positionFixed
+      this.props.positionFixed !== prevProps.positionFixed ||
+      this.props.modifiers !== prevProps.modifiers
     ) {
+
+      // develop only check that modifiers isn't being updated needlessly
+      if (process.env.NODE_ENV === "development") {
+        if (
+          this.props.modifiers !== prevProps.modifiers &&
+          this.props.modifiers != null &&
+          prevProps.modifiers != null &&
+          shallowEqual(this.props.modifiers, prevProps.modifiers)
+        ) {
+          console.warn("'modifiers' prop reference updated even though all values appear the same.\nConsider memoizing the 'modifiers' object to avoid needless rendering.");
+        }
+      }
+
       this.updatePopperInstance();
     } else if (
       this.props.eventsEnabled !== prevProps.eventsEnabled &&
