@@ -6,20 +6,21 @@ interface ManagerProps {
 }
 export class Manager extends React.Component<ManagerProps, {}> { }
 
-type RefHandler = (ref: HTMLElement | SVGElement | null) => void;
-
 interface ReferenceChildrenProps {
-  ref: RefHandler;
+  // React refs are supposed to be contravariant (allows a more general type to be passed rather than a more specific one)
+  // However, Typescript currently can't infer that fact for refs
+  // See https://github.com/microsoft/TypeScript/issues/30748 for more information
+  ref: React.Ref<any>;
 }
 
 interface ReferenceProps {
   children: (props: ReferenceChildrenProps) => React.ReactNode;
-  innerRef?: RefHandler;
+  innerRef?: React.Ref<any>;
 }
 export class Reference extends React.Component<ReferenceProps, {}> { }
 
 export interface PopperArrowProps {
-  ref: RefHandler;
+  ref: React.Ref<any>;
   style: React.CSSProperties;
 }
 
@@ -27,7 +28,7 @@ export interface PopperChildrenProps {
   arrowProps: PopperArrowProps;
   outOfBoundaries: boolean | null;
   placement: PopperJS.Placement;
-  ref: RefHandler;
+  ref: React.Ref<any>;
   scheduleUpdate: () => void;
   style: React.CSSProperties;
 }
@@ -35,7 +36,7 @@ export interface PopperChildrenProps {
 export interface PopperProps {
   children: (props: PopperChildrenProps) => React.ReactNode;
   eventsEnabled?: boolean;
-  innerRef?: RefHandler;
+  innerRef?: React.Ref<any>;
   modifiers?: PopperJS.Modifiers;
   placement?: PopperJS.Placement;
   positionFixed?: boolean;

@@ -9,19 +9,19 @@ import PopperJS, {
 } from 'popper.js';
 import type { Style } from 'typed-styles';
 import { ManagerContext } from './Manager';
-import { safeInvoke, unwrapArray, shallowEqual } from './utils';
+import { unwrapArray, setRef, shallowEqual } from './utils';
+import { type Ref } from "./RefTypes";
 
-type getRefFn = (?HTMLElement) => void;
 type ReferenceElement = ReferenceObject | HTMLElement | null;
 type StyleOffsets = { top: number, left: number };
 type StylePosition = { position: 'absolute' | 'fixed' };
 
 export type PopperArrowProps = {
-  ref: getRefFn,
+  ref: Ref,
   style: StyleOffsets & Style,
 };
 export type PopperChildrenProps = {|
-  ref: getRefFn,
+  ref: Ref,
   style: StyleOffsets & StylePosition & Style,
   placement: Placement,
   outOfBoundaries: ?boolean,
@@ -33,7 +33,7 @@ export type PopperChildren = PopperChildrenProps => React.Node;
 export type PopperProps = {
   children: PopperChildren,
   eventsEnabled?: boolean,
-  innerRef?: getRefFn,
+  innerRef?: Ref,
   modifiers?: Modifiers,
   placement?: Placement,
   positionFixed?: boolean,
@@ -76,7 +76,7 @@ export class InnerPopper extends React.Component<PopperProps, PopperState> {
   setPopperNode = (popperNode: ?HTMLElement) => {
     if (!popperNode || this.popperNode === popperNode) return;
 
-    safeInvoke(this.props.innerRef, popperNode);
+    setRef(this.props.innerRef, popperNode);
     this.popperNode = popperNode;
 
     this.updatePopperInstance();
@@ -200,7 +200,7 @@ export class InnerPopper extends React.Component<PopperProps, PopperState> {
   }
 
   componentWillUnmount() {
-    safeInvoke(this.props.innerRef, null);
+    setRef(this.props.innerRef, null)
     this.destroyPopperInstance();
   }
 
