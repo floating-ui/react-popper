@@ -8,7 +8,7 @@ import PopperJS, {
   type ReferenceObject,
 } from 'popper.js';
 import type { Style } from 'typed-styles';
-import { ManagerContext } from './Manager';
+import { ManagerReferenceNodeContext } from './Manager';
 import { unwrapArray, setRef, shallowEqual } from './utils';
 import { type Ref } from "./RefTypes";
 
@@ -224,8 +224,8 @@ export { placements };
 
 export default function Popper({ referenceElement, ...props }: PopperProps) {
   return (
-    <ManagerContext.Consumer>
-      {({ referenceNode }) => (
+    <ManagerReferenceNodeContext.Consumer>
+      {(referenceNode) => (
         <InnerPopper
           referenceElement={
             referenceElement !== undefined ? referenceElement : referenceNode
@@ -233,6 +233,6 @@ export default function Popper({ referenceElement, ...props }: PopperProps) {
           {...props}
         />
       )}
-    </ManagerContext.Consumer>
+    </ManagerReferenceNodeContext.Consumer>
   );
 }

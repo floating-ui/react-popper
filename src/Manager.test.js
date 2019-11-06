@@ -8,7 +8,7 @@ import { Manager, Popper, Reference } from '.';
 import { InnerPopper } from './Popper';
 
 // Private API
-import { ManagerContext } from './Manager';
+import { ManagerReferenceNodeContext, ManagerReferenceNodeSetterContext } from './Manager';
 
 describe('Manager component', () => {
   it('renders the expected markup', () => {
@@ -27,14 +27,18 @@ describe('Manager component', () => {
 
     const wrapper = mount(
       <Manager>
-        <ManagerContext.Consumer>
-          {({ setReferenceNode, referenceNode }) => (
-            <Reference
-              setReferenceNode={setReferenceNode}
-              referenceNode={referenceNode}
-            />
+        <ManagerReferenceNodeSetterContext.Consumer>
+          {(setReferenceNode) => (
+            <ManagerReferenceNodeContext.Consumer>
+              {(referenceNode) => (
+                <Reference
+                  setReferenceNode={setReferenceNode}
+                  referenceNode={referenceNode}
+                />
+              )}
+            </ManagerReferenceNodeContext.Consumer>
           )}
-        </ManagerContext.Consumer>
+        </ManagerReferenceNodeSetterContext.Consumer>
       </Manager>
     );
 
@@ -79,6 +83,32 @@ describe('Managed Reference', () => {
     const PopperInstance = wrapper.find(InnerPopper);
     expect(PopperInstance.prop('referenceElement')).toBe(referenceElement);
   });
+
+  it('updates the referenceNode if setReferenceNode is called with a new value', () => {
+    let referenceElement;
+    let ReferenceComp = ({ innerRef }) => (
+      <div
+        ref={node => {
+          // We just want to invoke this once so that we have access to the referenceElement in the upper scope.
+          if (referenceElement) return;
+          innerRef(node);
+          referenceElement = node;
+        }}
+      >
+        hello
+      </div>
+    );
+    const wrapper = mount(
+      <Manager>
+        <Reference>{({ ref }) => <ReferenceComp innerRef={ref} />}</Reference>
+        <Popper referenceElement={undefined}>{() => null}</Popper>
+      </Manager>
+    );
+
+    expect(wrapper.instance().referenceNode).toBe(referenceElement);
+    wrapper.instance().setReferenceNode(null);
+    expect(wrapper.instance().referenceNode).toBeNull();
+  });
 });
 
 describe('ReferenceNodeContext', () => {
@@ -86,14 +116,18 @@ describe('ReferenceNodeContext', () => {
     const Reference = () => null;
     const wrapper = mount(
       <div>
-        <ManagerContext.Consumer>
-          {({ setReferenceNode, referenceNode }) => (
-            <Reference
-              setReferenceNode={setReferenceNode}
-              referenceNode={referenceNode}
-            />
+        <ManagerReferenceNodeSetterContext.Consumer>
+          {(setReferenceNode) => (
+            <ManagerReferenceNodeContext.Consumer>
+              {(referenceNode) => (
+                <Reference
+                  setReferenceNode={setReferenceNode}
+                  referenceNode={referenceNode}
+                />
+              )}
+            </ManagerReferenceNodeContext.Consumer>
           )}
-        </ManagerContext.Consumer>
+        </ManagerReferenceNodeSetterContext.Consumer>
       </div>
     );
 

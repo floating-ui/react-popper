@@ -2,50 +2,32 @@
 import * as React from 'react';
 import createContext, { type Context } from 'create-react-context';
 
-export const ManagerContext: Context<{
-  setReferenceNode?: (?HTMLElement) => void,
-  referenceNode?: ?HTMLElement,
-}> = createContext({ setReferenceNode: undefined, referenceNode: undefined });
+export const ManagerReferenceNodeContext: Context<?HTMLElement> = createContext();
+export const ManagerReferenceNodeSetterContext: Context<void | (?HTMLElement) => void> = createContext();
 
 export type ManagerProps = {
   children: React.Node,
 };
-type ManagerState = {
-  context: {
-    setReferenceNode?: (?HTMLElement) => void,
-    referenceNode?: ?HTMLElement,
-  },
-};
 
-export default class Manager extends React.Component<
-  ManagerProps,
-  ManagerState
-> {
-  constructor() {
-    super();
-    this.state = {
-      context: {
-        setReferenceNode: this.setReferenceNode,
-        referenceNode: undefined,
-      },
-    };
-  }
+export default class Manager extends React.Component<ManagerProps> {
+  referenceNode: ?HTMLElement;
 
-  setReferenceNode = (referenceNode: ?HTMLElement) => {
-    if (!referenceNode || this.state.context.referenceNode === referenceNode) {
-      return;
+  setReferenceNode = (newReferenceNode: ?HTMLElement) => {
+    if (this.referenceNode !== newReferenceNode) {
+      this.referenceNode = newReferenceNode;
+      this.forceUpdate();
     }
-
-    this.setState(({ context }) => ({
-      context: { ...context, referenceNode },
-    }));
   };
 
   render() {
     return (
-      <ManagerContext.Provider value={this.state.context}>
-        {this.props.children}
-      </ManagerContext.Provider>
+      <ManagerReferenceNodeContext.Provider value={this.referenceNode}>
+        <ManagerReferenceNodeSetterContext.Provider
+          value={this.setReferenceNode}
+        >
+          {this.props.children}
+        </ManagerReferenceNodeSetterContext.Provider>
+      </ManagerReferenceNodeContext.Provider>
     );
   }
 }
