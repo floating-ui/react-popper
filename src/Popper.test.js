@@ -86,6 +86,40 @@ describe('Popper component', () => {
     ).not.toThrow();
   });
 
+  it('accepts a ref function', () => {
+    const myRef = jest.fn();
+    const referenceElement = document.createElement('div');
+    mount(
+      <InnerPopper referenceElement={referenceElement} innerRef={myRef}>
+        {({ ref, style, placement}) => (
+          <div
+            ref={ref}
+            style={style}
+            data-placement={placement}
+          />
+        )}
+      </InnerPopper>
+    )
+    expect(myRef).toBeCalled();
+  });
+
+  it('accepts a ref object', () => {
+    const myRef = (React: any).createRef();
+    const referenceElement = document.createElement('div');
+    mount(
+      <InnerPopper referenceElement={referenceElement} innerRef={myRef}>
+        {({ ref, style, placement}) => (
+          <div
+            ref={ref}
+            style={style}
+            data-placement={placement}
+          />
+        )}
+      </InnerPopper>
+    )
+    expect(myRef.current).toBeDefined();
+  });
+
   it('accepts a `referenceElement` property', () => {
     class VirtualReference {
       getBoundingClientRect() {
