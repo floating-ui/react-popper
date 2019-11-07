@@ -65,8 +65,6 @@ describe('Managed Reference', () => {
     let ReferenceComp = ({ innerRef }) => (
       <div
         ref={node => {
-          // We just want to invoke this once so that we have access to the referenceElement in the upper scope.
-          if (referenceElement) return;
           innerRef(node);
           referenceElement = node;
         }}
@@ -89,8 +87,6 @@ describe('Managed Reference', () => {
     let ReferenceComp = ({ innerRef }) => (
       <div
         ref={node => {
-          // We just want to invoke this once so that we have access to the referenceElement in the upper scope.
-          if (referenceElement) return;
           innerRef(node);
           referenceElement = node;
         }}
@@ -106,7 +102,7 @@ describe('Managed Reference', () => {
     );
 
     expect(wrapper.instance().referenceNode).toBe(referenceElement);
-    wrapper.instance().setReferenceNode(null);
+    wrapper.instance().componentWillUnmount()
     expect(wrapper.instance().referenceNode).toBeNull();
   });
 });
