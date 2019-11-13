@@ -5,18 +5,18 @@ import { ManagerReferenceNodeSetterContext } from './Manager';
 import { safeInvoke, unwrapArray, setRef } from './utils';
 import { type Ref } from "./RefTypes";
 
-export type ReferenceChildrenProps = { ref: Ref };
-export type ReferenceProps = {
+export type ReferenceChildrenProps = {| ref: Ref |};
+export type ReferenceProps = {|
   children: ReferenceChildrenProps => React.Node,
   innerRef?: Ref,
-};
+|};
 
-type InnerReferenceProps = {
+type InnerReferenceProps = {|
   setReferenceNode?: (?HTMLElement) => void,
-};
+|};
 
 class InnerReference extends React.Component<
-  ReferenceProps & InnerReferenceProps
+  {| ...ReferenceProps, ...InnerReferenceProps |}
 > {
   refHandler = (node: ?HTMLElement) => {
     setRef(this.props.innerRef, node)

@@ -30,7 +30,7 @@ export type PopperChildrenProps = {|
 |};
 export type PopperChildren = PopperChildrenProps => React.Node;
 
-export type PopperProps = {
+export type PopperProps = {|
   children: PopperChildren,
   eventsEnabled?: boolean,
   innerRef?: Ref,
@@ -38,12 +38,12 @@ export type PopperProps = {
   placement?: Placement,
   positionFixed?: boolean,
   referenceElement?: ReferenceElement,
-};
+|};
 
-type PopperState = {
+type PopperState = {|
   data: ?Data,
   placement: ?Placement,
-};
+|};
 
 const initialStyle = {
   position: 'absolute',
@@ -116,8 +116,8 @@ export class InnerPopper extends React.Component<PopperProps, PopperState> {
     !this.popperNode || !this.state.data
       ? initialStyle
       : {
-          position: this.state.data.offsets.popper.position,
           ...this.state.data.styles,
+          position: this.state.data.offsets.popper.position,
         };
 
   getPopperPlacement = () =>
