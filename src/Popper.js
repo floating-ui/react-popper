@@ -1,4 +1,5 @@
 // @flow
+import deepEqual from "deep-equal";
 import * as React from 'react';
 import PopperJS, {
   type Placement,
@@ -165,7 +166,7 @@ export class InnerPopper extends React.Component<PopperProps, PopperState> {
       this.props.placement !== prevProps.placement ||
       this.props.referenceElement !== prevProps.referenceElement ||
       this.props.positionFixed !== prevProps.positionFixed ||
-      this.props.modifiers !== prevProps.modifiers
+      !deepEqual(this.props.modifiers, prevProps.modifiers, {strict: true})
     ) {
 
       // develop only check that modifiers isn't being updated needlessly
