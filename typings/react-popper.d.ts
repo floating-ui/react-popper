@@ -1,5 +1,6 @@
 import * as React from "react";
 import * as PopperJS from "popper.js";
+export * from "popper.js";
 
 interface ManagerProps {
   children: React.ReactNode;
