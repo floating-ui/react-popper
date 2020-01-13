@@ -130,6 +130,8 @@ One of the accepted placement values listed in the [Popper.js documentation](htt
 Your popper is going to be placed according to the value of this property.  
 Defaults to `bottom`.
 
+##### `outOfBoundaries`
+
 ```js
 outOfBoundaries: ?boolean;
 ```
