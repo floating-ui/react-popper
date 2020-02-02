@@ -108,7 +108,7 @@ describe('Popper component', () => {
   });
 
   it('accepts a ref object', () => {
-    const myRef = (React: any).createRef();
+    const myRef = React.createRef();
     const referenceElement = document.createElement('div');
     mount(
       <InnerPopper referenceElement={referenceElement} innerRef={myRef}>
