@@ -108,7 +108,7 @@ describe('Popper component', () => {
   });
 
   it('accepts a ref object', () => {
-    const myRef = React.createRef();
+    const myRef = (React: any).createRef();
     const referenceElement = document.createElement('div');
     mount(
       <InnerPopper referenceElement={referenceElement} innerRef={myRef}>
@@ -125,8 +125,8 @@ describe('Popper component', () => {
   });
 
   it('accepts a `referenceElement` property', async () => {
-    class VirtualReference {
-      getBoundingClientRect() {
+    const virtualReferenceElement = {
+      getBoundingClientRect(): any {
         return {
           top: 10,
           left: 10,
@@ -136,17 +136,7 @@ describe('Popper component', () => {
           height: 10,
         };
       }
-
-      get clientWidth() {
-        return this.getBoundingClientRect().width;
-      }
-
-      get clientHeight() {
-        return this.getBoundingClientRect().height;
-      }
-    }
-
-    const virtualReferenceElement = new VirtualReference();
+    };
     const wrapper = await mountPopper({ referenceElement: virtualReferenceElement });
 
     expect(wrapper.instance().popperInstance.state.elements.reference).toBe(

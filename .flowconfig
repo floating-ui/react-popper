@@ -1,12 +1,10 @@
 [ignore]
-.*/node_modules/config-chain/.*
 /lib/.*
 .*/.cache
 
 [include]
 
 [libs]
-node_modules/popper.js/index.js.flow
 
 [lints]
 
@@ -14,3 +12,6 @@ node_modules/popper.js/index.js.flow
 suppress_comment=\\(.\\|\n\\)*\\$FlowExpectError
 
 [strict]
+
+[declarations]
+<PROJECT_ROOT>/node_modules

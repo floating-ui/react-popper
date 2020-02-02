@@ -11,23 +11,20 @@ import {
   type Modifier,
   type ModifierArguments,
 } from '@popperjs/core/lib';
-import type { Style } from 'typed-styles';
 import { ManagerReferenceNodeContext } from './Manager';
 import { unwrapArray, setRef, shallowEqual } from './utils';
 import { type Ref } from "./RefTypes";
 
-type ReferenceElement = VirtualElement | HTMLElement | null;
-type StyleOffsets = { top: number, left: number };
-type StylePosition = { position: 'absolute' | 'fixed' };
+type ReferenceElement = ?(VirtualElement | HTMLElement);
 type Modifiers = Array<$Shape<Modifier<any>>>
 
-export type PopperArrowProps = {
+export type PopperArrowProps = {|
   ref: Ref,
-  style: StyleOffsets & Style,
-};
+  style: CSSStyleDeclaration,
+|};
 export type PopperChildrenProps = {|
   ref: Ref,
-  style: StyleOffsets & StylePosition & Style,
+  style: CSSStyleDeclaration,
 
   placement: Placement,
   isReferenceHidden: ?boolean,
@@ -38,7 +35,7 @@ export type PopperChildrenProps = {|
 |};
 export type PopperChildren = PopperChildrenProps => React.Node;
 
-export type PopperProps = {
+export type PopperProps = {|
   children: PopperChildren,
   innerRef?: Ref,
   modifiers?: Modifiers,
@@ -46,17 +43,17 @@ export type PopperProps = {
   strategy?: PositioningStrategy,
   referenceElement?: ReferenceElement,
   onFirstUpdate?: ($Shape<State>) => void
-};
+|};
 
-type PopperState = {
+type PopperState = {|
   placement: ?Placement,
   styles: ?{
-    popper: Style,
-    arrow: Style,
+    popper: CSSStyleDeclaration,
+    arrow: CSSStyleDeclaration,
   },
   isReferenceHidden: ?boolean,
   hasPopperEscaped: ?boolean,
-};
+|};
 
 const initialPopperStyle = {
   position: 'absolute',
@@ -76,9 +73,11 @@ export class InnerPopper extends React.Component<PopperProps, PopperState> {
     referenceElement: undefined,
   };
 
-  state = {
-    data: undefined,
+  state: PopperState = {
     placement: undefined,
+    styles: undefined,
+    isReferenceHidden: undefined,
+    hasPopperEscaped: undefined,
   };
 
   popperInstance: ?Instance;
@@ -123,13 +122,14 @@ export class InnerPopper extends React.Component<PopperProps, PopperState> {
   };
 
   getOptions = () => {
-    const arrowModifier = this.props.modifiers.find(modifier => modifier.name === 'arrow');
+    const { modifiers = [] } = this.props;
+    const arrowModifier = modifiers.find(modifier => modifier.name === 'arrow');
 
     return {
       placement: this.props.placement,
       strategy: this.props.strategy,
       modifiers: [
-        ...this.props.modifiers.filter(modifier => modifier.name !== 'arrow'),
+        ...modifiers.filter(modifier => modifier.name !== 'arrow'),
         {
           name: 'arrow',
           enabled: !!this.arrowNode,
@@ -180,7 +180,7 @@ export class InnerPopper extends React.Component<PopperProps, PopperState> {
     );
   };
 
-  update = () => {
+  update = (): Promise<null | $Shape<State>> => {
     if (this.popperInstance) {
       return this.popperInstance.update();
     } else {
@@ -258,7 +258,12 @@ export default function Popper({ referenceElement, ...props }: PopperProps) {
           referenceElement={
             referenceElement !== undefined ? referenceElement : referenceNode
           }
-          {...props}
+          children={props.children}
+          innerRef={props.innerRef}
+          modifiers={props.modifiers}
+          placement={props.placement}
+          strategy={props.strategy}
+          onFirstUpdate={props.onFirstUpdate}
         />
       )}
     </ManagerReferenceNodeContext.Consumer>
