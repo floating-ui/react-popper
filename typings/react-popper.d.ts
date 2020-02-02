@@ -1,5 +1,5 @@
 import * as React from "react";
-import * as PopperJS from "popper.js";
+import * as PopperJS from "@popperjs/core";
 
 interface ManagerProps {
   children: React.ReactNode;
@@ -25,21 +25,24 @@ export interface PopperArrowProps {
 }
 
 export interface PopperChildrenProps {
-  arrowProps: PopperArrowProps;
-  outOfBoundaries: boolean | null;
-  placement: PopperJS.Placement;
   ref: React.Ref<any>;
-  scheduleUpdate: () => void;
   style: React.CSSProperties;
+
+  placement: PopperJS.Placement;
+  isReferenceHidden?: boolean,
+  hasPopperEscaped?: boolean,
+
+  update: () => Promise<null | Partial<PopperJS.State>>;
+  arrowProps: PopperArrowProps;
 }
 
 export interface PopperProps {
   children: (props: PopperChildrenProps) => React.ReactNode;
-  eventsEnabled?: boolean;
   innerRef?: React.Ref<any>;
-  modifiers?: PopperJS.Modifiers;
+  modifiers?: Array<Partial<PopperJS.Modifier<any>>>;
   placement?: PopperJS.Placement;
-  positionFixed?: boolean;
-  referenceElement?: PopperJS.ReferenceObject;
+  strategy?: PopperJS.PositioningStrategy;
+  referenceElement?: HTMLElement | PopperJS.VirtualElement | null;
+  onFirstUpdate?: (state: Partial<PopperJS.State>) => void
 }
 export class Popper extends React.Component<PopperProps, {}> { }

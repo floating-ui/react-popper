@@ -15,7 +15,7 @@
     "/typings/react-popper.d.ts"
   ],
   "scripts": {
-    "build": "npm run build:clean && npm run build:esm && npm run build:cjs && npm run build:umd && npm run build:flow",
+    "build": "yarn build:clean && yarn build:esm && yarn build:cjs && yarn build:umd && yarn build:flow",
     "build:clean": "rimraf dist/ && rimraf lib/",
     "build:umd": "rollup -c && rimraf dist/index.esm.js",
     "build:esm": "cross-env BABEL_ENV=esm babel src --out-dir lib/esm",
@@ -24,12 +24,12 @@
     "demo:dev": "parcel --out-dir demo/dist demo/index.html",
     "demo:build": "parcel build --out-dir demo/dist demo/index.html --public-url=/react-popper",
     "demo:deploy": "yarn demo:build && gh-pages -d demo/dist",
-    "test": "npm run test:eslint && npm run test:flow && npm run test:ts && npm run test:jest",
+    "test": "yarn test:eslint && yarn test:flow && yarn test:ts && yarn test:jest",
     "test:ts": "tsc --project ./typings/tests",
     "test:flow": "flow check",
     "test:jest": "jest",
     "test:eslint": "eslint src",
-    "prepare": "npm run build",
+    "prepare": "yarn build",
     "precommit": "pretty-quick --staged && test",
     "prepublishOnly": "git-branch-is master"
   },
@@ -58,13 +58,13 @@
     "popover"
   ],
   "peerDependencies": {
+    "@popperjs/core": "^2.0.0",
     "react": "0.14.x || ^15.0.0 || ^16.0.0"
   },
   "dependencies": {
     "@babel/runtime": "^7.1.2",
     "create-react-context": "^0.3.0",
     "deep-equal": "^1.1.1",
-    "popper.js": "^1.14.4",
     "prop-types": "^15.6.1",
     "typed-styles": "^0.0.7",
     "warning": "^4.0.2"
@@ -76,10 +76,12 @@
     "@babel/plugin-proposal-class-properties": "^7.1.0",
     "@babel/plugin-transform-modules-commonjs": "^7.1.0",
     "@babel/plugin-transform-runtime": "^7.1.0",
+    "@babel/polyfill": "^7.8.3",
     "@babel/preset-env": "^7.1.0",
     "@babel/preset-flow": "^7.0.0",
     "@babel/preset-react": "^7.0.0",
     "@babel/preset-stage-2": "^7.0.0",
+    "@popperjs/core": "^2.0.4",
     "@types/react": "^16.1.0",
     "babel-eslint": "^10.0.1",
     "babel-jest": "^24.0.0",

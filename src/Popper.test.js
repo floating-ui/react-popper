@@ -5,33 +5,34 @@ import { mount } from 'enzyme';
 // Private API
 import { InnerPopper } from './Popper';
 
-const mountPopper = props =>
-  mount(
-    <InnerPopper {...props}>
-      {({ ref, style, placement, arrowProps }) => (
+const mountPopper = props => new Promise(resolve => {
+  const wrapper = mount(
+    <InnerPopper onFirstUpdate={() => resolve(wrapper.update())} {...props}>
+      {({ref, style, placement, arrowProps}) => (
         <div ref={ref} style={style} data-placement={placement}>
           <div {...arrowProps} />
         </div>
       )}
     </InnerPopper>
-  );
+  )
+});
 
 describe('Popper component', () => {
-  it('renders the expected markup', () => {
+  it('renders the expected markup', async () => {
     const referenceElement = document.createElement('div');
-    const wrapper = mountPopper({ referenceElement });
+    const wrapper = await mountPopper({ referenceElement });
     expect(wrapper).toMatchSnapshot();
   });
 
-  it('initializes the Popper.js instance on first update', () => {
+  it('initializes the Popper.js instance on first update', async () => {
     const referenceElement = document.createElement('div');
-    const wrapper = mountPopper({ referenceElement });
+    const wrapper = await mountPopper({ referenceElement });
     expect(wrapper.instance().popperInstance).toBeDefined();
   });
 
-  it("doesn't update Popper.js instance on props update if not needed by Popper.js", () => {
+  it("doesn't update Popper.js instance on props update if not needed by Popper.js", async () => {
     const referenceElement = document.createElement('div');
-    const wrapper = mountPopper({ referenceElement, placement: 'bottom' });
+    const wrapper = await mountPopper({ referenceElement, placement: 'bottom' });
     const instance = wrapper.instance().popperInstance;
 
     expect(instance).toBeDefined();
@@ -41,30 +42,33 @@ describe('Popper component', () => {
     expect(wrapper.instance().popperInstance).toBe(instance);
   });
 
-  it('updates Popper.js on explicitly listed props change', () => {
+  it('updates Popper.js on explicitly listed props change', async () => {
     const referenceElement = document.createElement('div');
-    const wrapper = mountPopper({ referenceElement });
+    const wrapper = await mountPopper({ referenceElement });
     const instance = wrapper.instance().popperInstance;
     wrapper.setProps({ placement: 'top' });
     wrapper.update();
-    expect(wrapper.instance().popperInstance).not.toBe(instance);
+    expect(wrapper.instance().popperInstance).toBe(instance);
+
+    await wrapper.instance().popperInstance.update();
+    expect(wrapper.instance().popperInstance.state.placement).toBe('top');
   });
 
-  it('does not update Popper.js on generic props change', () => {
+  it('does not update Popper.js on generic props change', async () => {
     const referenceElement = document.createElement('div');
-    const wrapper = mountPopper({ referenceElement });
+    const wrapper = await mountPopper({ referenceElement });
     const instance = wrapper.instance().popperInstance;
     wrapper.setProps({ foo: 'bar' });
     wrapper.update();
     expect(wrapper.instance().popperInstance).toBe(instance);
   });
 
-  it('destroys Popper.js instance on unmount', () => {
+  it('destroys Popper.js instance on unmount', async () => {
     const referenceElement = document.createElement('div');
-    const wrapper = mountPopper({ referenceElement });
-    const instance = wrapper.instance().popperInstance;
+    const wrapper = await mountPopper({ referenceElement });
+    const component = wrapper.instance();
     wrapper.unmount();
-    expect(instance.state.isDestroyed).toBe(true);
+    expect(component.popperInstance).toBeNull();
   });
 
   it('handles changing refs gracefully', () => {
@@ -104,7 +108,7 @@ describe('Popper component', () => {
   });
 
   it('accepts a ref object', () => {
-    const myRef = (React: any).createRef();
+    const myRef = React.createRef();
     const referenceElement = document.createElement('div');
     mount(
       <InnerPopper referenceElement={referenceElement} innerRef={myRef}>
@@ -120,7 +124,7 @@ describe('Popper component', () => {
     expect(myRef.current).toBeDefined();
   });
 
-  it('accepts a `referenceElement` property', () => {
+  it('accepts a `referenceElement` property', async () => {
     class VirtualReference {
       getBoundingClientRect() {
         return {
@@ -143,28 +147,35 @@ describe('Popper component', () => {
     }
 
     const virtualReferenceElement = new VirtualReference();
-    const wrapper = mountPopper({ referenceElement: virtualReferenceElement });
+    const wrapper = await mountPopper({ referenceElement: virtualReferenceElement });
 
-    expect(wrapper.instance().popperInstance.reference).toBe(
+    expect(wrapper.instance().popperInstance.state.elements.reference).toBe(
       virtualReferenceElement
     );
   });
 
-  it(`should render 3 times when placement is changed`, () => {
+  it(`should render 3 times when placement is changed`, async () => {
     const referenceElement = document.createElement('div');
     let renderCounter = 0;
-    const wrapper = mount(
-      <InnerPopper placement="top" referenceElement={referenceElement}>
-        {({ ref, style, placement }) => {
-          renderCounter++;
-          return <div ref={ref} style={style} data-placement={placement} />;
-        }}
-      </InnerPopper>
-    );
+    const wrapper = await new Promise(resolve => {
+      const wrapper = mount(
+        <InnerPopper
+          placement="top"
+          referenceElement={referenceElement}
+          onFirstUpdate={() => resolve(wrapper.update())}
+        >
+          {({ref, style, placement}) => {
+            renderCounter++;
+            return <div ref={ref} style={style} data-placement={placement}/>;
+          }}
+        </InnerPopper>
+      )
+    });
     expect(renderCounter).toBe(3);
-    renderCounter = 0;
 
+    renderCounter = 0;
     wrapper.setProps({ placement: 'bottom' });
+    await wrapper.instance().popperInstance.update();
     expect(renderCounter).toBe(3);
   });
 });

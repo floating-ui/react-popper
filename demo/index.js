@@ -47,21 +47,66 @@ const enhance = compose(
   withState('isPopper2Open', 'togglePopper2', false)
 );
 
-const modifiers = {
-  flip: { enabled: false },
-  preventOverflow: { enabled: false },
-  hide: { enabled: false },
-};
+const modifiers = [
+  {
+    name: 'flip',
+    enabled: false,
+  },
+  {
+    name: 'preventOverflow',
+    enabled: false,
+  },
+  {
+    name: 'hide',
+    enabled: false,
+  },
+];
 
-const animatedModifiers = {
+const popperModifiers = [
   ...modifiers,
+  {
+    name: 'offset',
+    options: {
+      offset: [0, 14],
+    },
+  },
+];
+
+const dotModifiers = [
+  ...modifiers,
+  {
+    name: 'offset',
+    options: {
+      offset: [0, 56],
+    },
+  }
+];
+
+const mainModifiers = [
+  ...popperModifiers,
+  // We can't use adaptive styles with CSS transitions
+  {
+    name: 'computeStyles',
+    options: {
+      adaptive: false,
+    }
+  },
+];
+
+const animatedModifiers = [
+  ...popperModifiers,
   // We disable the built-in gpuAcceleration so that
   // Popper.js will return us easy to interpolate values
   // (top, left instead of transform: translate3d)
   // We'll then use these values to generate the needed
-  // css tranform values blended with the react-spring values
-  computeStyle: { gpuAcceleration: false },
-}
+  // css transform values blended with the react-spring values
+  {
+    name: 'computeStyles',
+    options: {
+      gpuAcceleration: false,
+    }
+  },
+];
 
 const Demo = enhance(
   ({ activePlacement, setActivePlacement, isPopper2Open, togglePopper2 }) => (
@@ -81,7 +126,7 @@ const Demo = enhance(
             )}
           </Reference>
           <PoppersContainer>
-            <Popper placement={activePlacement} modifiers={modifiers}>
+            <Popper placement={activePlacement} modifiers={mainModifiers}>
               {({ ref, style, placement, arrowProps }) => (
                 <TransitionedPopperBox innerRef={ref} style={style}>
                   {placement}
@@ -94,7 +139,7 @@ const Demo = enhance(
               )}
             </Popper>
             {placements.filter(p => p !== activePlacement).map(p => (
-              <Popper placement={p} key={p} modifiers={modifiers}>
+              <Popper placement={p} key={p} modifiers={dotModifiers}>
                 {({ ref, style }) => (
                   <PopperDot
                     innerRef={ref}
@@ -148,7 +193,7 @@ const Demo = enhance(
                           position,
                           padding: '1em',
                           width: '10em',
-                          transform: `translate3d(${left}px, ${top +
+                          transform: `translate3d(${left}, ${parseInt(top) +
                             topOffset}px, 0) scale(${scale}) rotate(${rotation})`,
                           transformOrigin: 'top center',
                         }}
