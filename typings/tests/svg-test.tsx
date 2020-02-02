@@ -10,23 +10,24 @@ export const Test = () => (
       <Reference>{({ ref }) => <g ref={ref} />}</Reference>
     </svg>
     <Popper
-      eventsEnabled
-      positionFixed
-      modifiers={{ flip: { enabled: false } }}
+      placement="top"
+      strategy="fixed"
+      modifiers={[{ name: 'flip', enabled: false }]}
     >
       {({
         ref,
         style,
         placement,
-        outOfBoundaries,
-        scheduleUpdate,
+        isReferenceHidden,
+        hasPopperEscaped,
+        update,
         arrowProps,
       }) => (
         <div
           ref={ref}
-          style={{ ...style, opacity: outOfBoundaries ? 0 : 1 }}
+          style={{ ...style, opacity: (isReferenceHidden || hasPopperEscaped) ? 0 : 1 }}
           data-placement={placement}
-          onClick={() => scheduleUpdate()}
+          onClick={() => update()}
         >
           Popper
           <div ref={arrowProps.ref} style={arrowProps.style} />
