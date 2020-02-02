@@ -12,10 +12,10 @@ export const Test = () => (
     <Reference />
     <Reference>{({ ref }) => <div ref={ref} />}</Reference>
     <Popper
-      // $FlowExpectError: should be boolean
+      // $FlowExpectError: should be one of allowed placements
       placement="custom"
       placement="top"
-      // $FlowExpectError: should be boolean
+      // $FlowExpectError: should be absolute or fixed
       strategy="custom"
       strategy="fixed"
       // $FlowExpectError: enabled should be boolean, order number
