@@ -42,7 +42,7 @@ export interface PopperProps {
   modifiers?: Array<Partial<PopperJS.Modifier<any>>>;
   placement?: PopperJS.Placement;
   strategy?: PopperJS.PositioningStrategy;
-  referenceElement?: HTMLElement | PopperJS.VirtualElement | null;
+  referenceElement?: HTMLElement | PopperJS.VirtualElement;
   onFirstUpdate?: (state: Partial<PopperJS.State>) => void
 }
 export class Popper extends React.Component<PopperProps, {}> { }
