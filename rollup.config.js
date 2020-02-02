@@ -9,7 +9,7 @@ const input = './src/index.js';
 
 const umdGlobals = {
   react: 'React',
-  'popper.js': 'Popper',
+  '@popperjs/core': 'Popper',
 };
 
 const getBabelOptions = () => ({
