@@ -53,10 +53,6 @@ const modifiers = [
     enabled: false,
   },
   {
-    name: 'preventOverflow',
-    enabled: false,
-  },
-  {
     name: 'hide',
     enabled: false,
   },
@@ -64,6 +60,12 @@ const modifiers = [
 
 const popperModifiers = [
   ...modifiers,
+  {
+    name: 'arrow',
+    options: {
+      padding: 5,
+    },
+  },
   {
     name: 'offset',
     options: {

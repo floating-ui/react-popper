@@ -122,26 +122,31 @@ export class InnerPopper extends React.Component<PopperProps, PopperState> {
     },
   };
 
-  getOptions = () => ({
-    placement: this.props.placement,
-    strategy: this.props.strategy,
-    modifiers: [
-      ...this.props.modifiers,
-      {
-        name: 'arrow',
-        enabled: !!this.arrowNode,
-        options: {
-          element: this.arrowNode,
+  getOptions = () => {
+    const arrowModifier = this.props.modifiers.find(modifier => modifier.name === 'arrow');
+
+    return {
+      placement: this.props.placement,
+      strategy: this.props.strategy,
+      modifiers: [
+        ...this.props.modifiers.filter(modifier => modifier.name !== 'arrow'),
+        {
+          name: 'arrow',
+          enabled: !!this.arrowNode,
+          options: {
+            ...(arrowModifier && arrowModifier.options),
+            element: this.arrowNode,
+          },
         },
-      },
-      {
-        name: 'applyStyles',
-        enabled: false
-      },
-      this.updateStateModifier,
-    ],
-    onFirstUpdate: this.props.onFirstUpdate
-  });
+        {
+          name: 'applyStyles',
+          enabled: false
+        },
+        this.updateStateModifier,
+      ],
+      onFirstUpdate: this.props.onFirstUpdate
+    };
+  };
 
   getPopperStyle = () =>
     !this.popperNode || !this.state.styles
@@ -223,7 +228,7 @@ export class InnerPopper extends React.Component<PopperProps, PopperState> {
   }
 
   componentWillUnmount() {
-    setRef(this.props.innerRef, null)
+    setRef(this.props.innerRef, null);
     this.destroyPopperInstance();
   }
 
