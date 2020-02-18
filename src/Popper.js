@@ -123,7 +123,6 @@ export class InnerPopper extends React.Component<PopperProps, PopperState> {
           position: this.state.data.offsets.popper.position,
           ...this.state.data.styles,
         };
-      
       }
   getPopperPlacement = () =>
     !this.state.data ? undefined : this.state.placement;
