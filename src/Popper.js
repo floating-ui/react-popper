@@ -47,7 +47,6 @@ type PopperState = {
 };
 
 const initialStyle = {
-  position: 'absolute',
   top: 0,
   left: 0,
   opacity: 0,
@@ -113,14 +112,18 @@ export class InnerPopper extends React.Component<PopperProps, PopperState> {
     },
   });
 
-  getPopperStyle = () =>
-    !this.popperNode || !this.state.data
-      ? initialStyle
+  getPopperStyle = () => {
+    const computedInitialStyle = {
+      ...initialStyle,
+      position: this.props.positionFixed ? 'fixed' : 'absolute',
+    }
+    return !this.popperNode || !this.state.data
+      ? computedInitialStyle
       : {
           position: this.state.data.offsets.popper.position,
           ...this.state.data.styles,
         };
-
+      }
   getPopperPlacement = () =>
     !this.state.data ? undefined : this.state.placement;
 
