@@ -96,7 +96,7 @@ It's generally easiest to let the `Manager` and `Target` components handle passi
 Handling DOM Elements from React can be complicated. The `Manager` and `Target` components handle these complexities for you, so their use is strongly recommended when using DOM Elements.
 
 ```js
-import { PureComonent } from 'react'
+import { PureComponent } from 'react'
 import { Popper, Arrow } from 'react-popper'
 
 class StandaloneExample extends PureComponent {
