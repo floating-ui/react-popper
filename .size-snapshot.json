@@ -1,13 +1,13 @@
 {
   "dist/index.umd.js": {
-    "bundled": 84707,
-    "minified": 30865,
-    "gzipped": 9397
+    "bundled": 84846,
+    "minified": 30911,
+    "gzipped": 9420
   },
   "dist/index.umd.min.js": {
-    "bundled": 49444,
-    "minified": 19994,
-    "gzipped": 6457
+    "bundled": 49580,
+    "minified": 20040,
+    "gzipped": 6478
   },
   "dist/index.esm.js": {
     "bundled": 13500,
