@@ -150,13 +150,15 @@ export class InnerPopper extends React.Component<PopperProps, PopperState> {
   getPopperStyle = () => {
     const computedInitialStyle = {
       ...initialPopperStyle,
-      position: this.props.positionFixed ? 'fixed' : 'absolute',
-    }
+      position: this.props.strategy === 'fixed'
+        ? 'fixed'
+        : 'absolute',
+    };
 
     return !this.popperNode || !this.state.styles
       ? computedInitialStyle
       : this.state.styles.popper;
-  }
+  };
 
   getArrowStyle = () =>
     !this.arrowNode || !this.state.styles
