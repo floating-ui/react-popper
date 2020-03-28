@@ -56,7 +56,6 @@ type PopperState = {|
 |};
 
 const initialPopperStyle = {
-  position: 'absolute',
   top: 0,
   left: 0,
   opacity: 0,
@@ -148,10 +147,16 @@ export class InnerPopper extends React.Component<PopperProps, PopperState> {
     };
   };
 
-  getPopperStyle = () =>
-    !this.popperNode || !this.state.styles
-      ? initialPopperStyle
+  getPopperStyle = () => {
+    const computedInitialStyle = {
+      ...initialPopperStyle,
+      position: this.props.positionFixed ? 'fixed' : 'absolute',
+    }
+
+    return !this.popperNode || !this.state.styles
+      ? computedInitialStyle
       : this.state.styles.popper;
+  }
 
   getArrowStyle = () =>
     !this.arrowNode || !this.state.styles
