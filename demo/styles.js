@@ -60,7 +60,6 @@ export const PopperBox = styled('div')`
   background-color: #232323;
   color: #ffffff;
   border-radius: 10px;
-  margin: 0.9em;
   padding: 0.5em;
   text-align: center;
   ${props => props.popperStyle};
@@ -93,7 +92,6 @@ export const PopperDot = styled('button')`
   height: 1em;
   border-radius: 50%;
   background-color: #232323;
-  margin: 3.5em;
   animation: ${pulse} 2s ease infinite;
 `;
 

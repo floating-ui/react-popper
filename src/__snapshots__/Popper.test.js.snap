@@ -2,21 +2,34 @@
 
 exports[`Popper component renders the expected markup 1`] = `
 <InnerPopper
-  eventsEnabled={true}
+  modifiers={Array []}
+  onFirstUpdate={[Function]}
   placement="bottom"
-  positionFixed={false}
   referenceElement={<div />}
+  strategy="absolute"
 >
   <div
     data-placement="bottom"
     style={
       Object {
+        "bottom": "auto",
+        "left": "0",
         "position": "absolute",
+        "right": "auto",
+        "top": "0",
+        "transform": "translate(0px, 0px)",
       }
     }
   >
     <div
-      style={Object {}}
+      style={
+        Object {
+          "left": "0",
+          "position": "absolute",
+          "top": "",
+          "transform": "translate(0px, 0px)",
+        }
+      }
     />
   </div>
 </InnerPopper>

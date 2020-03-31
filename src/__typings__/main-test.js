@@ -12,29 +12,30 @@ export const Test = () => (
     <Reference />
     <Reference>{({ ref }) => <div ref={ref} />}</Reference>
     <Popper
-      // $FlowExpectError: should be boolean
-      eventsEnabled="foo"
-      eventsEnabled
-      // $FlowExpectError: should be boolean
-      positionFixed={2}
-      positionFixed
+      // $FlowExpectError: should be one of allowed placements
+      placement="custom"
+      placement="top"
+      // $FlowExpectError: should be absolute or fixed
+      strategy="custom"
+      strategy="fixed"
       // $FlowExpectError: enabled should be boolean, order number
-      modifiers={{ flip: { enabled: 'bar', order: 'foo' } }}
-      modifiers={{ flip: { enabled: false } }}
+      modifiers={[{ name: 'flip', enabled: 'bar', order: 'foo' }]}
+      modifiers={[{ name: 'flip', enabled: false }]}
     >
       {({
         ref,
         style,
         placement,
-        outOfBoundaries,
-        scheduleUpdate,
+        isReferenceHidden,
+        hasPopperEscaped,
+        update,
         arrowProps,
       }) => (
         <div
           ref={ref}
-          style={{ ...style, opacity: outOfBoundaries ? 0 : 1 }}
+          style={{ ...style, opacity: (isReferenceHidden || hasPopperEscaped) ? 0 : 1 }}
           data-placement={placement}
-          onClick={() => scheduleUpdate()}
+          onClick={() => update()}
         >
           Popper
           <div ref={arrowProps.ref} style={arrowProps.style} />
