@@ -1,8 +1,7 @@
 // @flow
-import React, { Fragment } from 'react';
+import React, { useState } from 'react';
 import ReactDOM from 'react-dom';
-import { injectGlobal } from 'react-emotion';
-import { compose, withState } from 'recompose';
+import { Global, css } from '@emotion/core';
 import { Transition } from 'react-spring/renderprops';
 import { Manager, Reference, Popper } from '../src';
 import {
@@ -16,36 +15,9 @@ import {
   PopperDot,
 } from './styles';
 
-injectGlobal`
-  *, *:before, *:after {
-    box-sizing: border-box;
-    min-width: 0;
-    min-height: 0;
-  }
-
-  html, body {
-    margin: 0;
-    background-color: #171d23;
-    font-family: Lato, sans-serif;
-  }
-
-  a {
-    color: white;
-  }
-`;
-
 const Null = () => null;
 
 const placements = ['top', 'right', 'bottom', 'left'];
-
-const enhance = compose(
-  withState(
-    'activePlacement',
-    'setActivePlacement',
-    placements[Math.floor(Math.random() * placements.length)]
-  ),
-  withState('isPopper2Open', 'togglePopper2', false)
-);
 
 const modifiers = [
   {
@@ -81,7 +53,7 @@ const dotModifiers = [
     options: {
       offset: [0, 56],
     },
-  }
+  },
 ];
 
 const mainModifiers = [
@@ -91,7 +63,7 @@ const mainModifiers = [
     name: 'computeStyles',
     options: {
       adaptive: false,
-    }
+    },
   },
 ];
 
@@ -106,13 +78,41 @@ const animatedModifiers = [
     name: 'computeStyles',
     options: {
       gpuAcceleration: false,
-    }
+    },
   },
 ];
 
-const Demo = enhance(
-  ({ activePlacement, setActivePlacement, isPopper2Open, togglePopper2 }) => (
-    <Fragment>
+const Demo = () => {
+  const [activePlacement, setActivePlacement] = useState(
+    placements[Math.floor(Math.random() * placements.length)]
+  );
+  const [isPopper2Open, togglePopper2] = useState(false);
+
+  return (
+    <>
+      <Global
+        styles={css`
+          *,
+          *:before,
+          *:after {
+            box-sizing: border-box;
+            min-width: 0;
+            min-height: 0;
+          }
+
+          html,
+          body {
+            margin: 0;
+            background-color: #171d23;
+            font-family: Lato, sans-serif;
+          }
+
+          a {
+            color: white;
+          }
+        `}
+      />
+
       <Main gradient="purple">
         <Manager>
           <Reference>
@@ -140,18 +140,20 @@ const Demo = enhance(
                 </TransitionedPopperBox>
               )}
             </Popper>
-            {placements.filter(p => p !== activePlacement).map(p => (
-              <Popper placement={p} key={p} modifiers={dotModifiers}>
-                {({ ref, style }) => (
-                  <PopperDot
-                    innerRef={ref}
-                    style={style}
-                    onClick={() => setActivePlacement(p)}
-                    title={p}
-                  />
-                )}
-              </Popper>
-            ))}
+            {placements
+              .filter((p) => p !== activePlacement)
+              .map((p) => (
+                <Popper placement={p} key={p} modifiers={dotModifiers}>
+                  {({ ref, style }) => (
+                    <PopperDot
+                      innerRef={ref}
+                      style={style}
+                      onClick={() => setActivePlacement(p)}
+                      title={p}
+                    />
+                  )}
+                </Popper>
+              ))}
           </PoppersContainer>
         </Manager>
       </Main>
@@ -174,55 +176,55 @@ const Demo = enhance(
             enter={{ opacity: 1, rotation: '0deg', scale: 1, top: 0 }}
             leave={{ opacity: 0, rotation: '180deg', scale: 0.5, top: -20 }}
           >
-            {show =>
-              show ? ({ rotation, scale, opacity, top: topOffset }) => (
-                  <Popper
-                    placement="bottom"
-                    modifiers={animatedModifiers}
-                  >
-                    {({
-                      ref,
-                      style: { top, left, position },
-                      placement,
-                      arrowProps,
-                    }) => (
-                      <PopperBox
-                        innerRef={ref}
-                        style={{
-                          opacity,
-                          top: 0,
-                          left: 0,
-                          position,
-                          padding: '1em',
-                          width: '10em',
-                          transform: `translate3d(${left}, ${parseInt(top) +
-                            topOffset}px, 0) scale(${scale}) rotate(${rotation})`,
-                          transformOrigin: 'top center',
-                        }}
-                      >
-                        <a
-                          href="https://github.com/drcmda/react-spring"
-                          target="_blank"
+            {(show) =>
+              show
+                ? ({ rotation, scale, opacity, top: topOffset }) => (
+                    <Popper placement="bottom" modifiers={animatedModifiers}>
+                      {({
+                        ref,
+                        style: { top, left, position },
+                        placement,
+                        arrowProps,
+                      }) => (
+                        <PopperBox
+                          innerRef={ref}
+                          style={{
+                            opacity,
+                            top: 0,
+                            left: 0,
+                            position,
+                            padding: '1em',
+                            width: '10em',
+                            transform: `translate3d(${left}, ${
+                              parseInt(top) + topOffset
+                            }px, 0) scale(${scale}) rotate(${rotation})`,
+                            transformOrigin: 'top center',
+                          }}
                         >
-                          react-spring
-                        </a>
-                        animated
-                        <Arrow
-                          innerRef={arrowProps.ref}
-                          data-placement={placement}
-                          style={arrowProps.style}
-                        />
-                      </PopperBox>
-                    )}
-                  </Popper>
-                )
-              : Null}
+                          <a
+                            href="https://github.com/drcmda/react-spring"
+                            target="_blank"
+                          >
+                            react-spring
+                          </a>
+                          animated
+                          <Arrow
+                            innerRef={arrowProps.ref}
+                            data-placement={placement}
+                            style={arrowProps.style}
+                          />
+                        </PopperBox>
+                      )}
+                    </Popper>
+                  )
+                : Null
+            }
           </Transition>
         </Manager>
       </Main>
-    </Fragment>
-  )
-);
+    </>
+  );
+};
 
 const rootNode = document.querySelector('#root');
 

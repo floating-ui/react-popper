@@ -1,4 +1,5 @@
-import styled, { keyframes } from 'react-emotion';
+import styled from '@emotion/styled';
+import { keyframes } from '@emotion/core';
 
 const gradients = {
   purple: 'linear-gradient(to right, #9d50bb, #6e48aa)',
@@ -16,7 +17,7 @@ export const Main = styled('main')`
   justify-content: center;
   align-items: center;
   height: 100vh;
-  background-image: ${props => gradients[props.gradient]};
+  background-image: ${(props) => gradients[props.gradient]};
   color: #ffffff;
   clip-path: polygon(99% 1%, 99% 95%, 50% 99%, 1% 95%, 1% 1%, 50% 5%);
   &:first-child {
@@ -62,7 +63,7 @@ export const PopperBox = styled('div')`
   border-radius: 10px;
   padding: 0.5em;
   text-align: center;
-  ${props => props.popperStyle};
+  ${(props) => props.popperStyle};
 `;
 
 export const TransitionedPopperBox = styled(PopperBox)`
