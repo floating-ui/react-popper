@@ -21,6 +21,8 @@ npm install react-popper --save
 yarn add react-popper
 ```
 
+**Note:** `@popperjs/core` must be installed in your project in order for `react-popper` to work.
+
 Via `script` tag (UMD library exposed as `ReactPopper`):
 
 ```html
