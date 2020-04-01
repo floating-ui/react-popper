@@ -16,9 +16,9 @@ React wrapper around [Popper.js](https://popper.js.org).
 Via package managers:
 
 ```bash
-npm install react-popper --save
+npm install react-popper @popperjs/core --save
 # or
-yarn add react-popper
+yarn add react-popper @popperjs/core
 ```
 
 **Note:** `@popperjs/core` must be installed in your project in order for `react-popper` to work.
