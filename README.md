@@ -78,7 +78,7 @@ The `Popper` component accepts the properties `children`, `placement`, `modifier
   innerRef={(node) => this.popperNode = node}
   placement="right"
   modifiers={[{ name: 'preventOverflow', enabled: false }]}
-  strategy={'absolute'}
+  strategy="fixed"
 >
     { props => [...] }
 </Popper>
