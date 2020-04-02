@@ -71,15 +71,14 @@ familiar with it, please read more [on the official React documentation](https:/
 The `Manager` component is a simple wrapper that needs to surround all the other `react-popper` components in order
 to make them communicate with each others.
 
-The `Popper` component accepts the properties `children`, `placement`, `modifiers`, `eventsEnabled` and `positionFixed`.
+The `Popper` component accepts the properties `children`, `placement`, `modifiers` and `strategy`.
 
 ```jsx
 <Popper
   innerRef={(node) => this.popperNode = node}
   placement="right"
-  modifiers={{ preventOverflow: { enabled: false } }}
-  eventsEnabled={true}
-  positionFixed={false}
+  modifiers={[{ name: 'preventOverflow', enabled: false }]}
+  strategy="fixed"
 >
     { props => [...] }
 </Popper>
@@ -92,8 +91,9 @@ children: ({|
   ref: (?HTMLElement) => void,
   style: { [string]: string | number },
   placement: ?Placement,
-  outOfBoundaries: ?boolean,
-  scheduleUpdate: () => void,
+  isReferenceHidden: ?boolean,
+  hasPopperEscaped: ?boolean,
+  update: () => void,
   arrowProps: {
     ref: (?HTMLElement) => void,
     style: { [string]: string | number },
@@ -109,8 +109,9 @@ A function (render prop) that takes as argument an object containing the followi
   that may have flipped or altered the originally provided `placement` property. You can use this to alter the
   style of the popper and or of the arrow according to the definitive placement. For instance, you can use this
   property to orient the arrow to the right direction.
-- **`outOfBoundaries`**: a boolean signifying if the popper element is overflowing its boundaries.
-- **`scheduleUpdate`**: a function you can call to schedule a Popper.js position update. It will directly call the [Popper#scheduleUpdate](https://popper.js.org/popper-documentation.html#Popper.scheduleUpdate) method.
+- **`isReferenceHidden`**: a boolean signifying the reference element is fully clipped and hidden from view.
+- **`hasPopperEscaped`**: a boolean signifying the popper escapes the reference element's boundary (and so it appears detached).
+- **`update`**: a function you can ask Popper to recompute your tooltip's position . It will directly call the [Popper#update](https://popper.js.org/docs/v2/lifecycle/#manual-update) method.
 - **`arrowProps`**: an object, containing `style` and `ref` properties that are identical to the
   ones provided as the first and second arguments of `children`, but relative to the **arrow** element. The `style` property contains `left` and `top` offset values, which are used to center the arrow within the popper. These values can be merged with further custom styling and positioning. See [the demo](https://github.com/FezVrasta/react-popper/blob/8994933c430e48ab62e71495be71e4f440b48a5a/demo/styles.js#L100) for an example.
 
@@ -132,28 +133,9 @@ One of the accepted placement values listed in the [Popper.js documentation](htt
 Your popper is going to be placed according to the value of this property.  
 Defaults to `bottom`.
 
-##### `outOfBoundaries`
+##### `strategy`
 
-```js
-outOfBoundaries: ?boolean;
-```
-
-A boolean that can be used to hide the popper element in case it's overflowing
-from its boundaries. [Read more](https://popper.js.org/popper-documentation.html#modifiers..hide).
-
-##### `eventsEnabled`
-
-```js
-eventsEnabled?: boolean;
-```
-
-Tells `react-popper` to enable or disable the [Popper.js event listeners](https://popper.js.org/popper-documentation.html#Popper.Defaults.eventsEnabled). `true` by default.
-
-##### `positionFixed`
-
-Set this property to `true` to tell Popper.js to use the `position: fixed` strategy
-to position the popper element. By default it's false, meaning that it will use the
-`position: absolute` strategy.
+Describes the positioning strategy to use. By default, it is `absolute`, which in the simplest cases does not require repositioning of the popper. If your reference element is in a `fixed` container, use the `fixed` strategy. [Read More](https://popper.js.org/docs/v2/constructors/#strategy)
 
 ##### `modifiers`
 
@@ -161,7 +143,7 @@ to position the popper element. By default it's false, meaning that it will use 
 modifiers?: PopperJS$Modifiers;
 ```
 
-An object containing custom settings for the [Popper.js modifiers](https://popper.js.org/popper-documentation.html#modifiers).  
+An object containing custom settings for the [Popper.js modifiers](https://popper.js.org/docs/v2/modifiers/).  
 You can use this property to override their settings or to inject your custom ones.
 
 ## Usage with `ReactDOM.createPortal`
@@ -205,7 +187,7 @@ const Example = () => (
 
 Whenever you need to position a popper based on some arbitrary coordinates, you can provide `Popper` with a `referenceElement` property that is going to be used in place of the `referenceProps.getRef` React ref.
 
-The `referenceElement` property must be an object with an interface compatible with an `HTMLElement` as described in the [Popper.js referenceObject documentation](https://popper.js.org/popper-documentation.html#referenceObject), this implies that you may also provide a real HTMLElement if needed.
+The `referenceElement` property must be an object with an interface compatible with an `HTMLElement` as described in the [Popper.js virtualElement documentation](https://popper.js.org/docs/v2/virtual-elements/), this implies that you may also provide a real HTMLElement if needed.
 
 If `referenceElement` is defined, it will take precedence over any `referenceProps.ref` provided refs.
 
@@ -222,14 +204,6 @@ class VirtualReference {
       width: 90,
       height: 10,
     };
-  }
-
-  get clientWidth() {
-    return this.getBoundingClientRect().width;
-  }
-
-  get clientHeight() {
-    return this.getBoundingClientRect().height;
   }
 }
 
