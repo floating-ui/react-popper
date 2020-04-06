@@ -1270,25 +1270,10 @@
     "@parcel/utils" "^1.11.0"
     physical-cpu-count "^2.0.0"
 
-"@popperjs/core@^2.1.1":
-  version "2.1.1"
-  resolved "https://registry.yarnpkg.com/@popperjs/core/-/core-2.1.1.tgz#12c572ab88ef7345b43f21883fca26631c223085"
-  integrity sha512-sLqWxCzC5/QHLhziXSCAksBxHfOnQlhPRVgPK0egEw+ktWvG75T2k+aYWVjVh9+WKeT3tlG3ZNbZQvZLmfuOIw==
-
-"@rollup/plugin-replace@^2.3.1":
-  version "2.3.1"
-  resolved "https://registry.yarnpkg.com/@rollup/plugin-replace/-/plugin-replace-2.3.1.tgz#16fb0563628f9e6c6ef9e05d48d3608916d466f5"
-  integrity sha512-qDcXj2VOa5+j0iudjb+LiwZHvBRRgWbHPhRmo1qde2KItTjuxDVQO21rp9/jOlzKR5YO0EsgRQoyox7fnL7y/A==
-  dependencies:
-    "@rollup/pluginutils" "^3.0.4"
-    magic-string "^0.25.5"
-
-"@rollup/pluginutils@^3.0.4":
-  version "3.0.8"
-  resolved "https://registry.yarnpkg.com/@rollup/pluginutils/-/pluginutils-3.0.8.tgz#4e94d128d94b90699e517ef045422960d18c8fde"
-  integrity sha512-rYGeAc4sxcZ+kPG/Tw4/fwJODC3IXHYDH4qusdN/b6aLw5LPUbzpecYbEJh4sVQGPFJxd2dBU4kc1H3oy9/bnw==
-  dependencies:
-    estree-walker "^1.0.1"
+"@popperjs/core@^2.2.1":
+  version "2.2.1"
+  resolved "https://registry.yarnpkg.com/@popperjs/core/-/core-2.2.1.tgz#d7d1d7fbdc1f2aa24e62f4ef4b001be7727340c5"
+  integrity sha512-BChdj3idQiLi+7vPhE6gEDiPzpozvSrUqbSMoSTlRbOQkU0p6u4si0UBydegTyphsYSZC2AUHGYYICP0gqmEVg==
 
 "@sinonjs/commons@^1.7.0":
   version "1.7.1"
