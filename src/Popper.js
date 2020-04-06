@@ -249,6 +249,7 @@ export class InnerPopper extends React.Component<PopperProps, PopperState> {
       isReferenceHidden,
       hasPopperEscaped,
       update: this.update,
+      forceUpdate: this.popperInstance ? this.popperInstance.forceUpdate : null,
       arrowProps: {
         ref: this.setArrowNode,
         style: this.getArrowStyle(),

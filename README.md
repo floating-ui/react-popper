@@ -94,6 +94,7 @@ children: ({|
   isReferenceHidden: ?boolean,
   hasPopperEscaped: ?boolean,
   update: () => void,
+  forceUpdate: () => void,
   arrowProps: {
     ref: (?HTMLElement) => void,
     style: { [string]: string | number },
