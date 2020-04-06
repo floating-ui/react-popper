@@ -1,5 +1,5 @@
 // @flow
-import deepEqual from "deep-equal";
+import deepEqual from 'deep-equal';
 import * as React from 'react';
 import { createPopper } from '@popperjs/core';
 import {
@@ -13,10 +13,10 @@ import {
 } from '@popperjs/core/lib';
 import { ManagerReferenceNodeContext } from './Manager';
 import { unwrapArray, setRef, shallowEqual } from './utils';
-import { type Ref } from "./RefTypes";
+import { type Ref } from './RefTypes';
 
 type ReferenceElement = ?(VirtualElement | HTMLElement);
-type Modifiers = Array<$Shape<Modifier<any>>>
+type Modifiers = Array<$Shape<Modifier<any>>>;
 
 export type PopperArrowProps = {|
   ref: Ref,
@@ -31,9 +31,10 @@ export type PopperChildrenProps = {|
   hasPopperEscaped: ?boolean,
 
   update: () => Promise<null | $Shape<State>>,
+  forceUpdate: () => $Shape<State>,
   arrowProps: PopperArrowProps,
 |};
-export type PopperChildren = PopperChildrenProps => React.Node;
+export type PopperChildren = (PopperChildrenProps) => React.Node;
 
 export type PopperProps = {|
   children: PopperChildren,
@@ -42,7 +43,7 @@ export type PopperProps = {|
   placement?: Placement,
   strategy?: PositioningStrategy,
   referenceElement?: ReferenceElement,
-  onFirstUpdate?: ($Shape<State>) => void
+  onFirstUpdate?: ($Shape<State>) => void,
 |};
 
 type PopperState = {|
@@ -122,13 +123,15 @@ export class InnerPopper extends React.Component<PopperProps, PopperState> {
 
   getOptions = () => {
     const { modifiers = [] } = this.props;
-    const arrowModifier = modifiers.find(modifier => modifier.name === 'arrow');
+    const arrowModifier = modifiers.find(
+      (modifier) => modifier.name === 'arrow'
+    );
 
     return {
       placement: this.props.placement,
       strategy: this.props.strategy,
       modifiers: [
-        ...modifiers.filter(modifier => modifier.name !== 'arrow'),
+        ...modifiers.filter((modifier) => modifier.name !== 'arrow'),
         {
           name: 'arrow',
           enabled: !!this.arrowNode,
@@ -139,20 +142,18 @@ export class InnerPopper extends React.Component<PopperProps, PopperState> {
         },
         {
           name: 'applyStyles',
-          enabled: false
+          enabled: false,
         },
         this.updateStateModifier,
       ],
-      onFirstUpdate: this.props.onFirstUpdate
+      onFirstUpdate: this.props.onFirstUpdate,
     };
   };
 
   getPopperStyle = () => {
     const computedInitialStyle = {
       ...initialPopperStyle,
-      position: this.props.strategy === 'fixed'
-        ? 'fixed'
-        : 'absolute',
+      position: this.props.strategy === 'fixed' ? 'fixed' : 'absolute',
     };
 
     return !this.popperNode || !this.state.styles
@@ -205,23 +206,24 @@ export class InnerPopper extends React.Component<PopperProps, PopperState> {
     if (
       this.props.placement !== prevProps.placement ||
       this.props.strategy !== prevProps.strategy ||
-      !deepEqual(this.props.modifiers, prevProps.modifiers, {strict: true})
+      !deepEqual(this.props.modifiers, prevProps.modifiers, { strict: true })
     ) {
-
       // develop only check that modifiers isn't being updated needlessly
-      if (process.env.NODE_ENV === "development") {
+      if (process.env.NODE_ENV === 'development') {
         if (
           this.props.modifiers !== prevProps.modifiers &&
           this.props.modifiers != null &&
           prevProps.modifiers != null &&
           shallowEqual(this.props.modifiers, prevProps.modifiers)
         ) {
-          console.warn("'modifiers' prop reference updated even though all values appear the same.\nConsider memoizing the 'modifiers' object to avoid needless rendering.");
+          console.warn(
+            "'modifiers' prop reference updated even though all values appear the same.\nConsider memoizing the 'modifiers' object to avoid needless rendering."
+          );
         }
       }
 
       if (this.popperInstance) {
-        this.popperInstance.setOptions(this.getOptions())
+        this.popperInstance.setOptions(this.getOptions());
       }
     }
 

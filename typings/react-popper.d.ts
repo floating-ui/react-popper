@@ -29,10 +29,11 @@ export interface PopperChildrenProps {
   style: React.CSSProperties;
 
   placement: PopperJS.Placement;
-  isReferenceHidden?: boolean,
-  hasPopperEscaped?: boolean,
+  isReferenceHidden?: boolean;
+  hasPopperEscaped?: boolean;
 
   update: () => Promise<null | Partial<PopperJS.State>>;
+  forceUpdate: () => Partial<PopperJS.State>;
   arrowProps: PopperArrowProps;
 }
 
