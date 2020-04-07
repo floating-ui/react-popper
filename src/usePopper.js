@@ -1,5 +1,5 @@
 // @flow
-import { useLayoutEffect, useRef, useState, useMemo } from 'react';
+import * as React from 'react';
 import {
   createPopper as defaultCreatePopper,
   type Options as PopperOptions,
@@ -25,29 +25,14 @@ export const usePopper = (
   popperElement: ?HTMLElement,
   options: Options = {}
 ) => {
-  const popperOptions = useMemo(() => {
-    // eslint-disable-next-line no-unused-vars
-    const { createPopper, ...popperOptions } = options;
-    return {
-      ...popperOptions,
-      placement: popperOptions.placement || 'bottom',
-      strategy: popperOptions.strategy || 'absolute',
-    };
-  }, [options]);
-
-  const popperInstanceRef = useRef();
-  const [state, setState] = useState<State>({
+  const [state, setState] = React.useState<State>({
     styles: {
-      popper: { position: popperOptions.strategy, left: '0', top: '0' },
+      popper: { position: options.strategy, left: '0', top: '0' },
     },
     attributes: {},
   });
-  const createPopper = useMemo(
-    () => options.createPopper || defaultCreatePopper,
-    [options.createPopper]
-  );
 
-  const updateStateModifier = useMemo(
+  const updateStateModifier = React.useMemo(
     () => ({
       name: 'updateState',
       enabled: true,
@@ -69,7 +54,28 @@ export const usePopper = (
     [setState]
   );
 
-  useLayoutEffect(() => {
+  const popperOptions = React.useMemo(() => {
+    // eslint-disable-next-line no-unused-vars
+    const { createPopper, ...popperOptions } = options;
+    return {
+      ...popperOptions,
+      placement: popperOptions.placement || 'bottom',
+      strategy: popperOptions.strategy || 'absolute',
+      modifiers: [
+        ...popperOptions.modifiers,
+        updateStateModifier,
+        { name: 'applyStyles', enabled: false },
+      ],
+    };
+  }, [options]);
+
+  const popperInstanceRef = React.useRef();
+  const createPopper = React.useMemo(
+    () => options.createPopper || defaultCreatePopper,
+    [options.createPopper]
+  );
+
+  React.useLayoutEffect(() => {
     let popperInstance = null;
     if (referenceElement != null && popperElement != null) {
       popperInstance = createPopper(referenceElement, popperElement, {
@@ -86,14 +92,17 @@ export const usePopper = (
 
     return () => {
       popperInstance != null && popperInstance.destroy();
+      popperInstanceRef.current = null;
     };
   }, [referenceElement, popperElement]);
 
-  useLayoutEffect(() => {
+  React.useLayoutEffect(() => {
     if (popperInstanceRef.current) {
       popperInstanceRef.current.setOptions(popperOptions);
     }
   }, [popperOptions]);
+
+  console.log(state);
 
   return {
     state: popperInstanceRef.current ? popperInstanceRef.current.state : null,
