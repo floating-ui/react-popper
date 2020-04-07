@@ -3,6 +3,7 @@ import { useLayoutEffect, useRef, useState, useMemo } from 'react';
 import {
   createPopper as defaultCreatePopper,
   type Options as PopperOptions,
+  type VirtualElement,
 } from '@popperjs/core';
 
 type Options = $Shape<{
@@ -20,8 +21,8 @@ type State = {
 };
 
 export const usePopper = (
-  referenceElement: Element,
-  popperElement: HTMLElement,
+  referenceElement: ?(Element | VirtualElement),
+  popperElement: ?HTMLElement,
   options: Options = {}
 ) => {
   const popperOptions = useMemo(() => {
@@ -95,6 +96,7 @@ export const usePopper = (
   }, [popperOptions]);
 
   return {
+    state: popperInstanceRef.current ? popperInstanceRef.current.state : null,
     styles: state.styles,
     attributes: state.attributes,
     update: popperInstanceRef.current ? popperInstanceRef.current.update : null,
