@@ -5,8 +5,6 @@ import { mount } from 'enzyme';
 // Public API
 import { Manager, Popper, Reference } from '.';
 
-import { InnerPopper } from './Popper';
-
 // Private API
 import { ManagerReferenceNodeContext, ManagerReferenceNodeSetterContext } from './Manager';
 
@@ -57,7 +55,7 @@ describe('Managed Reference', () => {
         <Popper referenceElement={element}>{() => null}</Popper>
       </Manager>
     );
-    const PopperInstance = wrapper.find(InnerPopper);
+    const PopperInstance = wrapper.find(Popper);
     expect(PopperInstance.prop('referenceElement')).toBe(element);
   });
   it('If the referenceElement prop is undefined, use the referenceNode from context', () => {
@@ -78,7 +76,7 @@ describe('Managed Reference', () => {
         <Popper referenceElement={undefined}>{() => null}</Popper>
       </Manager>
     );
-    const PopperInstance = wrapper.find(InnerPopper);
+    const PopperInstance = wrapper.find(Popper);
     expect(PopperInstance.prop('referenceElement')).toBe(referenceElement);
   });
 
