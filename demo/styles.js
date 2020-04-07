@@ -20,10 +20,10 @@ export const Main = styled('main')`
   background-image: ${(props) => gradients[props.gradient]};
   color: #ffffff;
   clip-path: polygon(99% 1%, 99% 95%, 50% 99%, 1% 95%, 1% 1%, 50% 5%);
-  &:first-child {
+  &:first-of-type {
     clip-path: polygon(99% 2%, 99% 97%, 50% 100%, 1% 97%, 1% 2%);
   }
-  &:last-child {
+  &:last-of-type {
     height: calc(100vh - 0.5em);
     clip-path: polygon(99% 0%, 99% 98%, 50% 98%, 1% 98%, 1% 0%, 50% 3%);
   }
