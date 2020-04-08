@@ -5,7 +5,7 @@ import {
   type Options as PopperOptions,
   type VirtualElement,
 } from '@popperjs/core';
-import { fromEntries } from './utils';
+import { fromEntries, useIsomorphicLayoutEffect } from './utils';
 
 type Options = $Shape<{
   ...PopperOptions,
@@ -93,7 +93,7 @@ export const usePopper = (
     [options.createPopper]
   );
 
-  React.useLayoutEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     let popperInstance = null;
     if (referenceElement != null && popperElement != null) {
       popperInstance = createPopper(
@@ -112,7 +112,7 @@ export const usePopper = (
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [referenceElement, popperElement, createPopper]);
 
-  React.useLayoutEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     if (popperInstanceRef.current) {
       popperInstanceRef.current.setOptions(popperOptions);
     }

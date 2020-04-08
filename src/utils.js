@@ -1,5 +1,5 @@
 // @flow
-
+import * as React from 'react';
 import { type Ref } from './RefTypes';
 
 /**
@@ -40,3 +40,13 @@ export const fromEntries = (entries: Array<[string, any]>) =>
     acc[key] = value;
     return acc;
   }, {});
+
+/**
+ * Small wrapper around `useLayoutEffect` to get rid of the warning on SSR envs
+ */
+export const useIsomorphicLayoutEffect =
+  typeof window !== 'undefined' &&
+  window.document &&
+  window.document.createElement
+    ? React.useLayoutEffect
+    : React.useEffect;
