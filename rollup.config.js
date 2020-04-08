@@ -3,6 +3,7 @@ import commonjs from 'rollup-plugin-commonjs';
 import babel from 'rollup-plugin-babel';
 import replace from 'rollup-plugin-replace';
 import { uglify } from 'rollup-plugin-uglify';
+import bundleSize from '@atomico/rollup-plugin-sizes';
 
 const input = './src/index.js';
 
@@ -30,6 +31,7 @@ export default [
       commonjs({ include: '**/node_modules/**' }),
       babel(getBabelOptions()),
       replace({ 'process.env.NODE_ENV': JSON.stringify('development') }),
+      bundleSize(),
     ],
   },
 
@@ -54,7 +56,7 @@ export default [
   {
     input,
     output: { file: 'dist/index.esm.js', format: 'esm' },
-    external: id =>
+    external: (id) =>
       !id.startsWith('\0') && !id.startsWith('.') && !id.startsWith('/'),
     plugins: [babel(getBabelOptions())],
   },
