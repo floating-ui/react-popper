@@ -55,14 +55,12 @@ export const usePopper = (
   );
 
   const popperOptions = React.useMemo(() => {
-    // eslint-disable-next-line no-unused-vars
-    const { createPopper, ...popperOptions } = options;
     return {
-      ...popperOptions,
-      placement: popperOptions.placement || 'bottom',
-      strategy: popperOptions.strategy || 'absolute',
+      onFirstUpdate: options.onFirstUpdate,
+      placement: options.placement || 'bottom',
+      strategy: options.strategy || 'absolute',
       modifiers: [
-        ...popperOptions.modifiers,
+        ...options.modifiers,
         updateStateModifier,
         { name: 'applyStyles', enabled: false },
       ],
@@ -78,14 +76,17 @@ export const usePopper = (
   React.useLayoutEffect(() => {
     let popperInstance = null;
     if (referenceElement != null && popperElement != null) {
-      popperInstance = createPopper(referenceElement, popperElement, {
-        ...popperOptions,
-        modifiers: [
-          ...popperOptions.modifiers,
-          updateStateModifier,
-          { name: 'applyStyles', enabled: false },
-        ],
-      });
+      popperInstance = createPopper(
+        referenceElement,
+        popperElement,
+        Object.assign({}, popperOptions, {
+          modifiers: [
+            ...popperOptions.modifiers,
+            updateStateModifier,
+            { name: 'applyStyles', enabled: false },
+          ],
+        })
+      );
 
       popperInstanceRef.current = popperInstance;
     }

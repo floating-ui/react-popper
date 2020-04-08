@@ -19,25 +19,6 @@ export const safeInvoke = (fn: ?Function, ...args: *) => {
 }
 
 /**
- * Does a shallow equality check of two objects by comparing the reference
- * equality of each value.
- */
-export const shallowEqual = (objA: any[], objB: any[]): boolean => {
-
-  if (objA.length !== objB.length) {
-    return false;
-  }
-
-  for (var i = 0; i < objB.length; i++) {
-    if (objA[i] !== objB[i]) {
-      return false;
-    }
-  }
-
-  return true;
-}
-
-/**
  * Sets a ref using either a ref callback or a ref object
  */
 export const setRef = (ref: ?Ref, node: ?HTMLElement) => {
