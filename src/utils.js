@@ -1,6 +1,6 @@
 // @flow
 
-import { type Ref } from "./RefTypes";
+import { type Ref } from './RefTypes';
 
 /**
  * Takes an argument and if it's an array, returns the first item in the array,
@@ -13,21 +13,30 @@ export const unwrapArray = (arg: *): * => (Array.isArray(arg) ? arg[0] : arg);
  * only if it is defined.
  */
 export const safeInvoke = (fn: ?Function, ...args: *) => {
-  if (typeof fn === "function") {
+  if (typeof fn === 'function') {
     return fn(...args);
   }
-}
+};
 
 /**
  * Sets a ref using either a ref callback or a ref object
  */
 export const setRef = (ref: ?Ref, node: ?HTMLElement) => {
   // if its a function call it
-  if (typeof ref === "function") {
+  if (typeof ref === 'function') {
     return safeInvoke(ref, node);
   }
   // otherwise we should treat it as a ref object
   else if (ref != null) {
     ref.current = node;
   }
-}
+};
+
+/**
+ * Simple ponyfill for Object.fromEntries
+ */
+export const fromEntries = (entries: Array<[string, any]>) =>
+  entries.reduce((acc, [key, value]) => {
+    acc[key] = value;
+    return acc;
+  }, {});

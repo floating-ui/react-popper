@@ -10,14 +10,14 @@ export type ManagerProps = {
   children: React.Node,
 };
 
-export default function Manager({ children }: ManagerProps) {
+export function Manager({ children }: ManagerProps) {
   const [referenceNode, setReferenceNode] = React.useState<?Element>(null);
 
   React.useEffect(
     () => () => {
       setReferenceNode(null);
     },
-    []
+    [setReferenceNode]
   );
 
   return (

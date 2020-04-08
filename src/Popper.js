@@ -9,8 +9,8 @@ import {
 } from '@popperjs/core/lib';
 import { ManagerReferenceNodeContext } from './Manager';
 import type { Ref } from './RefTypes';
-import { unwrapArray } from './utils';
-import usePopper from './usePopper';
+import { unwrapArray, setRef } from './utils';
+import { usePopper } from './usePopper';
 
 type ReferenceElement = ?(VirtualElement | HTMLElement);
 type Modifiers = Array<$Shape<Modifier<any>>>;
@@ -45,19 +45,26 @@ export type PopperProps = {|
 
 const NOOP = () => void 0;
 const NOOP_PROMISE = () => Promise.resolve(null);
+const EMPTY_MODIFIERS = [];
 
-export default function Popper({
+export function Popper({
   placement = 'bottom',
   strategy = 'absolute',
-  modifiers = [],
+  modifiers = EMPTY_MODIFIERS,
   referenceElement,
   onFirstUpdate,
+  innerRef,
   children,
 }: PopperProps) {
   const referenceNode = React.useContext(ManagerReferenceNodeContext);
 
   const [popperElement, setPopperElement] = React.useState(null);
   const [arrowElement, setArrowElement] = React.useState(null);
+
+  React.useEffect(() => setRef(innerRef, popperElement), [
+    innerRef,
+    popperElement,
+  ]);
 
   const options = React.useMemo(
     () => ({

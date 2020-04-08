@@ -5,6 +5,7 @@ import {
   type Options as PopperOptions,
   type VirtualElement,
 } from '@popperjs/core';
+import { fromEntries } from './utils';
 
 type Options = $Shape<{
   ...PopperOptions,
@@ -20,14 +21,27 @@ type State = {
   },
 };
 
+const EMPTY_MODIFIERS = [];
+
 export const usePopper = (
   referenceElement: ?(Element | VirtualElement),
   popperElement: ?HTMLElement,
   options: Options = {}
 ) => {
+  const optionsWithDefaults = {
+    onFirstUpdate: options.onFirstUpdate,
+    placement: options.placement || 'bottom',
+    strategy: options.strategy || 'absolute',
+    modifiers: options.modifiers || EMPTY_MODIFIERS,
+  };
+
   const [state, setState] = React.useState<State>({
     styles: {
-      popper: { position: options.strategy, left: '0', top: '0' },
+      popper: {
+        position: optionsWithDefaults.strategy || 'absolute',
+        left: '0',
+        top: '0',
+      },
     },
     attributes: {},
   });
@@ -41,10 +55,10 @@ export const usePopper = (
         const elements = Object.keys(state.elements);
 
         setState({
-          styles: Object.fromEntries(
+          styles: fromEntries(
             elements.map((element) => [element, state.styles[element] || {}])
           ),
-          attributes: Object.fromEntries(
+          attributes: fromEntries(
             elements.map((element) => [element, state.attributes[element]])
           ),
         });
@@ -56,16 +70,22 @@ export const usePopper = (
 
   const popperOptions = React.useMemo(() => {
     return {
-      onFirstUpdate: options.onFirstUpdate,
-      placement: options.placement || 'bottom',
-      strategy: options.strategy || 'absolute',
+      onFirstUpdate: optionsWithDefaults.onFirstUpdate,
+      placement: optionsWithDefaults.placement || 'bottom',
+      strategy: optionsWithDefaults.strategy || 'absolute',
       modifiers: [
-        ...options.modifiers,
+        ...optionsWithDefaults.modifiers,
         updateStateModifier,
         { name: 'applyStyles', enabled: false },
       ],
     };
-  }, [options, updateStateModifier]);
+  }, [
+    optionsWithDefaults.onFirstUpdate,
+    optionsWithDefaults.placement,
+    optionsWithDefaults.strategy,
+    optionsWithDefaults.modifiers,
+    updateStateModifier,
+  ]);
 
   const popperInstanceRef = React.useRef();
   const createPopper = React.useMemo(
@@ -108,5 +128,3 @@ export const usePopper = (
       : null,
   };
 };
-
-export default usePopper;

@@ -1,130 +1,39 @@
 // @flow
 import React from 'react';
-import { mount } from 'enzyme';
+import { render, waitFor } from '@testing-library/react';
+import * as Popperjs from '@popperjs/core';
 
 // Public API
-import { Manager, Popper, Reference } from '.';
-
-// Private API
-import { ManagerReferenceNodeContext, ManagerReferenceNodeSetterContext } from './Manager';
+import { Manager, Reference, Popper } from '.';
 
 describe('Manager component', () => {
   it('renders the expected markup', () => {
-    const wrapper = mount(
+    const { asFragment } = render(
       <Manager>
         <div id="reference" />
         <div id="popper" />
       </Manager>
     );
-    expect(wrapper).toMatchSnapshot();
+    expect(asFragment()).toMatchSnapshot();
   });
 
-  it('provides the related context', () => {
-    const Reference = () => null;
-    const referenceNode = document.createElement('div');
+  it('connects Popper and Reference', async () => {
+    const spy = jest.spyOn(Popperjs, 'createPopper');
 
-    const wrapper = mount(
+    render(
       <Manager>
-        <ManagerReferenceNodeSetterContext.Consumer>
-          {(setReferenceNode) => (
-            <ManagerReferenceNodeContext.Consumer>
-              {(referenceNode) => (
-                <Reference
-                  setReferenceNode={setReferenceNode}
-                  referenceNode={referenceNode}
-                />
-              )}
-            </ManagerReferenceNodeContext.Consumer>
-          )}
-        </ManagerReferenceNodeSetterContext.Consumer>
+        <Reference>{({ ref }) => <div ref={ref} />}</Reference>
+        <Popper>{({ ref }) => <div ref={ref} />}</Popper>
       </Manager>
     );
 
-    wrapper.find(Reference).prop('setReferenceNode')(referenceNode);
-    wrapper.update();
-    expect(wrapper.find(Reference).prop('referenceNode')).toBe(referenceNode);
-  });
-});
-
-describe('Managed Reference', () => {
-  it('If passed a referenceElement prop value, uses the referenceElement prop value', () => {
-    const element = document.createElement('div');
-    const wrapper = mount(
-      <Manager>
-        <Reference>{({ ref }) => <div ref={ref}>hello</div>}</Reference>
-        <Popper referenceElement={element}>{() => null}</Popper>
-      </Manager>
-    );
-    const PopperInstance = wrapper.find(Popper);
-    expect(PopperInstance.prop('referenceElement')).toBe(element);
-  });
-  it('If the referenceElement prop is undefined, use the referenceNode from context', () => {
-    let referenceElement;
-    let ReferenceComp = ({ innerRef }) => (
-      <div
-        ref={node => {
-          innerRef(node);
-          referenceElement = node;
-        }}
-      >
-        hello
-      </div>
-    );
-    const wrapper = mount(
-      <Manager>
-        <Reference>{({ ref }) => <ReferenceComp innerRef={ref} />}</Reference>
-        <Popper referenceElement={undefined}>{() => null}</Popper>
-      </Manager>
-    );
-    const PopperInstance = wrapper.find(Popper);
-    expect(PopperInstance.prop('referenceElement')).toBe(referenceElement);
-  });
-
-  it('updates the referenceNode if setReferenceNode is called with a new value', () => {
-    let referenceElement;
-    let ReferenceComp = ({ innerRef }) => (
-      <div
-        ref={node => {
-          innerRef(node);
-          referenceElement = node;
-        }}
-      >
-        hello
-      </div>
-    );
-    const wrapper = mount(
-      <Manager>
-        <Reference>{({ ref }) => <ReferenceComp innerRef={ref} />}</Reference>
-        <Popper referenceElement={undefined}>{() => null}</Popper>
-      </Manager>
-    );
-
-    expect(wrapper.instance().referenceNode).toBe(referenceElement);
-    wrapper.instance().componentWillUnmount()
-    expect(wrapper.instance().referenceNode).toBeNull();
-  });
-});
-
-describe('ReferenceNodeContext', () => {
-  it('provides proper default values', () => {
-    const Reference = () => null;
-    const wrapper = mount(
-      <div>
-        <ManagerReferenceNodeSetterContext.Consumer>
-          {(setReferenceNode) => (
-            <ManagerReferenceNodeContext.Consumer>
-              {(referenceNode) => (
-                <Reference
-                  setReferenceNode={setReferenceNode}
-                  referenceNode={referenceNode}
-                />
-              )}
-            </ManagerReferenceNodeContext.Consumer>
-          )}
-        </ManagerReferenceNodeSetterContext.Consumer>
-      </div>
-    );
-
-    expect(wrapper.find(Reference).prop('setReferenceNode')).toBeUndefined();
+    await waitFor(() => {
+      expect(spy.mock.calls[0].slice(0, 2)).toMatchInlineSnapshot(`
+      Array [
+        <div />,
+        <div />,
+      ]
+    `);
+    });
   });
 });

@@ -11,7 +11,7 @@ export type ReferenceProps = {|
   innerRef?: Ref,
 |};
 
-export default function Reference({ children, innerRef }: ReferenceProps) {
+export function Reference({ children, innerRef }: ReferenceProps) {
   const setReferenceNode = React.useContext(ManagerReferenceNodeSetterContext);
 
   const refHandler = React.useCallback(
