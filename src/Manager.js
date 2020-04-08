@@ -1,38 +1,30 @@
 // @flow
 import * as React from 'react';
 
-export const ManagerReferenceNodeContext = React.createContext<?HTMLElement>();
+export const ManagerReferenceNodeContext = React.createContext<?Element>();
 export const ManagerReferenceNodeSetterContext = React.createContext<
-  void | ((?HTMLElement) => void)
+  void | ((?Element) => void)
 >();
 
 export type ManagerProps = {
   children: React.Node,
 };
 
-export default class Manager extends React.Component<ManagerProps> {
-  referenceNode: ?HTMLElement;
+export default function Manager({ children }: ManagerProps) {
+  const [referenceNode, setReferenceNode] = React.useState<?Element>(null);
 
-  setReferenceNode = (newReferenceNode: ?HTMLElement) => {
-    if (newReferenceNode && this.referenceNode !== newReferenceNode) {
-      this.referenceNode = newReferenceNode;
-      this.forceUpdate();
-    }
-  };
+  React.useEffect(
+    () => () => {
+      setReferenceNode(null);
+    },
+    []
+  );
 
-  componentWillUnmount() {
-    this.referenceNode = null;
-  }
-
-  render() {
-    return (
-      <ManagerReferenceNodeContext.Provider value={this.referenceNode}>
-        <ManagerReferenceNodeSetterContext.Provider
-          value={this.setReferenceNode}
-        >
-          {this.props.children}
-        </ManagerReferenceNodeSetterContext.Provider>
-      </ManagerReferenceNodeContext.Provider>
-    );
-  }
+  return (
+    <ManagerReferenceNodeContext.Provider value={referenceNode}>
+      <ManagerReferenceNodeSetterContext.Provider value={setReferenceNode}>
+        {children}
+      </ManagerReferenceNodeSetterContext.Provider>
+    </ManagerReferenceNodeContext.Provider>
+  );
 }
