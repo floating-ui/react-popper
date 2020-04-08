@@ -65,7 +65,7 @@ export const usePopper = (
         { name: 'applyStyles', enabled: false },
       ],
     };
-  }, [options]);
+  }, [options, updateStateModifier]);
 
   const popperInstanceRef = React.useRef();
   const createPopper = React.useMemo(
@@ -79,13 +79,7 @@ export const usePopper = (
       popperInstance = createPopper(
         referenceElement,
         popperElement,
-        Object.assign({}, popperOptions, {
-          modifiers: [
-            ...popperOptions.modifiers,
-            updateStateModifier,
-            { name: 'applyStyles', enabled: false },
-          ],
-        })
+        popperOptions
       );
 
       popperInstanceRef.current = popperInstance;
@@ -95,15 +89,14 @@ export const usePopper = (
       popperInstance != null && popperInstance.destroy();
       popperInstanceRef.current = null;
     };
-  }, [referenceElement, popperElement]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [referenceElement, popperElement, createPopper]);
 
   React.useLayoutEffect(() => {
     if (popperInstanceRef.current) {
       popperInstanceRef.current.setOptions(popperOptions);
     }
   }, [popperOptions]);
-
-  console.log(state);
 
   return {
     state: popperInstanceRef.current ? popperInstanceRef.current.state : null,

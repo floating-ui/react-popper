@@ -4,7 +4,8 @@ module.exports = {
   env: {
     browser: true,
   },
-  plugins: ['react'],
+  extends: ['plugin:react-hooks/recommended'],
+  plugins: ['react', 'react-hooks'],
   rules: {
     'no-unused-vars': 'error',
     'react/jsx-uses-vars': 'error',

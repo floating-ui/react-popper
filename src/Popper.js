@@ -87,12 +87,14 @@ export default function Popper({
       ref: setPopperElement,
       style: styles.popper,
       placement: state ? state.placement : placement,
-      hasPopperEscaped: state
-        ? state.modifiersData.hide.hasPopperEscaped
-        : null,
-      isReferenceHidden: state
-        ? state.modifiersData.hide.isReferenceHidden
-        : null,
+      hasPopperEscaped:
+        state && state.modifiersData.hide
+          ? state.modifiersData.hide.hasPopperEscaped
+          : null,
+      isReferenceHidden:
+        state && state.modifiersData.hide
+          ? state.modifiersData.hide.isReferenceHidden
+          : null,
       arrowProps: {
         style: styles.arrow,
         ref: setArrowElement,
@@ -100,7 +102,15 @@ export default function Popper({
       forceUpdate: forceUpdate || NOOP,
       update: update || NOOP_PROMISE,
     }),
-    [setPopperElement]
+    [
+      setPopperElement,
+      setArrowElement,
+      placement,
+      state,
+      styles,
+      update,
+      forceUpdate,
+    ]
   );
 
   return unwrapArray(children)(childrenProps);
