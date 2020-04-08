@@ -1,5 +1,5 @@
 // @flow
-import deepEqual from 'deep-equal';
+import deepEqual from 'react-fast-compare';
 import * as React from 'react';
 import { createPopper } from '@popperjs/core';
 import {
@@ -206,7 +206,7 @@ export class InnerPopper extends React.Component<PopperProps, PopperState> {
     if (
       this.props.placement !== prevProps.placement ||
       this.props.strategy !== prevProps.strategy ||
-      !deepEqual(this.props.modifiers, prevProps.modifiers, { strict: true })
+      !deepEqual(this.props.modifiers, prevProps.modifiers)
     ) {
       // develop only check that modifiers isn't being updated needlessly
       if (process.env.NODE_ENV === 'development') {
