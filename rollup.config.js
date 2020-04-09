@@ -1,8 +1,8 @@
-import nodeResolve from 'rollup-plugin-node-resolve';
-import commonjs from 'rollup-plugin-commonjs';
+import nodeResolve from '@rollup/plugin-node-resolve';
+import commonjs from '@rollup/plugin-commonjs';
 import babel from 'rollup-plugin-babel';
-import replace from 'rollup-plugin-replace';
-import { uglify } from 'rollup-plugin-uglify';
+import replace from '@rollup/plugin-replace';
+import { terser } from 'rollup-plugin-terser';
 import bundleSize from '@atomico/rollup-plugin-sizes';
 
 const input = './src/index.js';
@@ -49,7 +49,7 @@ export default [
       commonjs({ include: '**/node_modules/**' }),
       babel(getBabelOptions()),
       replace({ 'process.env.NODE_ENV': JSON.stringify('production') }),
-      uglify(),
+      terser(),
     ],
   },
 
