@@ -45,13 +45,12 @@ basic understanding of how the
 [React Hooks](https://reactjs.org/docs/hooks-overview.html) work.
 
 ```jsx
-import { useState } from 'react';
 import { usePopper } from 'react-popper';
 
 const Example = () => {
-  const [referenceElement, setReferenceElement] = useState(null);
-  const [popperElement, setPopperElement] = useState(null);
-  const [arrowElement, setArrowElement] = useState(null);
+  const [referenceElement, setReferenceElement] = React.useState(null);
+  const [popperElement, setPopperElement] = React.useState(null);
+  const [arrowElement, setArrowElement] = React.useState(null);
   const { styles, attributes } = usePopper(referenceElement, popperElement, {
     modifiers: [{ name: 'arrow', options: { element: arrowElement } }],
   });
