@@ -5,6 +5,7 @@ import {
   type Options as PopperOptions,
   type VirtualElement,
 } from '@popperjs/core';
+import isEqual from 'react-fast-compare';
 import { fromEntries, useIsomorphicLayoutEffect } from './utils';
 
 type Options = $Shape<{
@@ -17,7 +18,7 @@ type State = {
     [key: string]: $Shape<CSSStyleDeclaration>,
   },
   attributes: {
-    [key: string]: { [key: string]: string | boolean },
+    [key: string]: { [key: string]: string },
   },
 };
 
@@ -28,6 +29,8 @@ export const usePopper = (
   popperElement: ?HTMLElement,
   options: Options = {}
 ) => {
+  const prevOptions = React.useRef<?PopperOptions>(null);
+
   const optionsWithDefaults = {
     onFirstUpdate: options.onFirstUpdate,
     placement: options.placement || 'bottom',
@@ -69,7 +72,7 @@ export const usePopper = (
   );
 
   const popperOptions = React.useMemo(() => {
-    return {
+    const newOptions = {
       onFirstUpdate: optionsWithDefaults.onFirstUpdate,
       placement: optionsWithDefaults.placement || 'bottom',
       strategy: optionsWithDefaults.strategy || 'absolute',
@@ -79,6 +82,13 @@ export const usePopper = (
         { name: 'applyStyles', enabled: false },
       ],
     };
+
+    if (isEqual(prevOptions.current, newOptions)) {
+      return prevOptions.current || newOptions;
+    } else {
+      prevOptions.current = newOptions;
+      return newOptions;
+    }
   }, [
     optionsWithDefaults.onFirstUpdate,
     optionsWithDefaults.placement,

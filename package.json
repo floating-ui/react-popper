@@ -62,6 +62,7 @@
     "react": "^16.8.0"
   },
   "dependencies": {
+    "react-fast-compare": "^3.0.1",
     "warning": "^4.0.2"
   },
   "devDependencies": {
