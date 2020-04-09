@@ -17,8 +17,10 @@ engine_ to be used to build features such as (but not restricted to) tooltips.
 Via package managers:
 
 ```bash
-npm install react-popper @popperjs/core --save
-# or
+# With npm
+npm i react-popper @popperjs/core
+
+# With Yarn
 yarn add react-popper @popperjs/core
 ```
 
@@ -262,34 +264,37 @@ This means that you can use
 React 16 alternative) to move the popper component somewhere else in the DOM.
 
 This can be useful if you want to position a tooltip inside an
-`overflow: hidden` container that you want to make overflow. Please note that
-you can also try the `positionFixed` strategy to obtain a similar effect with
-less hassle.
+`overflow: hidden` container that you want to make overflow.
+
+**Please note that you can also try `strategy="fixed"` to obtain a similar
+effect with less hassle.**
 
 ```jsx
-import { Manager, Reference, Popper } from 'react-popper';
+import { usePopper } from 'react-popper';
 
-const Example = () => (
-  <Manager>
-    <Reference>
-      {({ ref }) => (
-        <button type="button" ref={ref}>
-          Reference
-        </button>
+const Example = () => {
+  const [referenceElement, setReferenceElement] = React.useState(null);
+  const [popperElement, setPopperElement] = React.useState(null);
+  const { styles, attributes } = usePopper(referenceElement, popperElement);
+
+  return (
+    <>
+      <button type="button" ref={setReferenceElement}>
+        Reference
+      </button>
+      {ReactDOM.createPortal(
+        <div
+          ref={setPopperElement}
+          style={styles.popper}
+          {...attributes.popper}
+        >
+          Popper
+        </div>,
+        document.querySelector('#destination')
       )}
-    </Reference>
-    {ReactDOM.createPortal(
-      <Popper>
-        {({ placement, ref, style }) => (
-          <div ref={ref} style={style} data-placement={placement}>
-            Popper
-          </div>
-        )}
-      </Popper>,
-      document.querySelector('#destination')
-    )}
-  </Manager>
-);
+    </>
+  );
+};
 ```
 
 ## Usage without a reference `HTMLElement`
@@ -307,9 +312,12 @@ If `referenceElement` is defined, it will take precedence over any
 `referenceProps.ref` provided refs.
 
 ```jsx
-import { Popper } from 'react-popper';
+import { usePopper } from 'react-popper';
 
-class VirtualReference {
+// This is going to create a virtual reference element
+// positioned 10px from top and left of the document
+// 90px wide and 10px high
+const virtualReference = {
   getBoundingClientRect() {
     return {
       top: 10,
@@ -319,26 +327,21 @@ class VirtualReference {
       width: 90,
       height: 10,
     };
-  }
-}
-
-// This is going to create a virtual reference element
-// positioned 10px from top and left of the document
-// 90px wide and 10px high
-const virtualReferenceElement = new VirtualReference();
+  },
+};
 
 // This popper will be positioned relatively to the
 // virtual reference element defined above
-const Example = () => (
-  <Popper referenceElement={virtualReferenceElement}>
-    {({ ref, style, placement, arrowProps }) => (
-      <div ref={ref} style={style} data-placement={placement}>
-        Popper element
-        <div ref={arrowProps.ref} style={arrowProps.style} />
-      </div>
-    )}
-  </Popper>
-);
+const Example = () => {
+  const [popperElement, setPopperElement] = React.useState(null);
+  const { styles, attributes } = usePopper(virtualReference, popperElement);
+
+  return (
+    <div ref={setPopperElement} style={styles.popper} {...attributes.popper}>
+      Popper element
+    </div>
+  );
+};
 ```
 
 ## Flow and TypeScript types
