@@ -117,7 +117,7 @@ const Demo = () => {
         <Manager>
           <Reference>
             {({ ref }) => (
-              <ReferenceBox innerRef={ref}>
+              <ReferenceBox ref={ref}>
                 <a
                   href="https://github.com/FezVrasta/react-popper"
                   target="_blank"
@@ -130,10 +130,10 @@ const Demo = () => {
           <PoppersContainer>
             <Popper placement={activePlacement} modifiers={mainModifiers}>
               {({ ref, style, placement, arrowProps }) => (
-                <TransitionedPopperBox innerRef={ref} style={style}>
+                <TransitionedPopperBox ref={ref} style={style}>
                   {placement}
                   <Arrow
-                    innerRef={arrowProps.ref}
+                    ref={arrowProps.ref}
                     data-placement={placement}
                     style={arrowProps.style}
                   />
@@ -146,7 +146,7 @@ const Demo = () => {
                 <Popper placement={p} key={p} modifiers={dotModifiers}>
                   {({ ref, style }) => (
                     <PopperDot
-                      innerRef={ref}
+                      ref={ref}
                       style={style}
                       onClick={() => setActivePlacement(p)}
                       title={p}
@@ -163,7 +163,7 @@ const Demo = () => {
             {({ ref }) => (
               <ClickableReferenceBox
                 tabIndex={0}
-                innerRef={ref}
+                ref={ref}
                 onClick={() => togglePopper2(!isPopper2Open)}
               >
                 Click to toggle

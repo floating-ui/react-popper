@@ -4,33 +4,16 @@
     "@babel/flow",
     "@babel/react"
   ],
-  "plugins": [
-    "@babel/proposal-class-properties"
-  ],
   "env": {
     "esm": {
-      "plugins": [
-        "@babel/transform-runtime"
-      ],
-      "ignore": [
-        "**/*.test.js",
-        "**/__mocks__/**"
-      ]
+      "ignore": ["**/*.test.js", "**/__mocks__/**"]
     },
     "cjs": {
-      "plugins": [
-        "@babel/transform-runtime",
-        "@babel/transform-modules-commonjs"
-      ],
-      "ignore": [
-        "**/*.test.js",
-        "**/__mocks__/**"
-      ]
+      "plugins": [["@babel/transform-modules-commonjs", { "noInterop": true }]],
+      "ignore": ["**/*.test.js", "**/__mocks__/**"]
     },
     "test": {
-      "plugins": [
-        "@babel/transform-modules-commonjs"
-      ]
+      "plugins": ["@babel/transform-modules-commonjs"]
     }
   }
 }

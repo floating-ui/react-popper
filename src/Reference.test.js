@@ -1,7 +1,7 @@
 // @flow
 import React from 'react';
 import warning from 'warning';
-import { mount } from 'enzyme';
+import { render } from '@testing-library/react';
 
 // Public API
 import { Reference } from '.';
@@ -19,31 +19,21 @@ describe('Arrow component', () => {
   it('renders the expected markup', () => {
     const setReferenceNode = jest.fn();
 
-    // HACK: wrapping DIV needed to make Enzyme happy for now
-    const wrapper = mount(
-      <div>
-        <ManagerReferenceNodeSetterContext.Provider
-          value={setReferenceNode}
-        >
-          <Reference>{({ ref }) => <div ref={ref} />}</Reference>
-        </ManagerReferenceNodeSetterContext.Provider>
-      </div>
+    const { asFragment } = render(
+      <ManagerReferenceNodeSetterContext.Provider value={setReferenceNode}>
+        <Reference>{({ ref }) => <div ref={ref} />}</Reference>
+      </ManagerReferenceNodeSetterContext.Provider>
     );
-    expect(wrapper.children()).toMatchSnapshot();
+    expect(asFragment()).toMatchSnapshot();
   });
 
   it('consumes the ManagerReferenceNodeSetterContext from Manager', () => {
     const setReferenceNode = jest.fn();
 
-    // HACK: wrapping DIV needed to make Enzyme happy for now
-    mount(
-      <div>
-        <ManagerReferenceNodeSetterContext.Provider
-          value={setReferenceNode}
-        >
-          <Reference>{({ ref }) => <div ref={ref} />}</Reference>
-        </ManagerReferenceNodeSetterContext.Provider>
-      </div>
+    render(
+      <ManagerReferenceNodeSetterContext.Provider value={setReferenceNode}>
+        <Reference>{({ ref }) => <div ref={ref} />}</Reference>
+      </ManagerReferenceNodeSetterContext.Provider>
     );
     expect(setReferenceNode).toHaveBeenCalled();
   });
@@ -51,15 +41,10 @@ describe('Arrow component', () => {
   it('warns when setReferenceNode is present', () => {
     const setReferenceNode = jest.fn();
 
-    // HACK: wrapping DIV needed to make Enzyme happy for now
-    mount(
-      <div>
-        <ManagerReferenceNodeSetterContext.Provider
-          value={setReferenceNode}
-        >
-          <Reference>{({ ref }) => <div ref={ref} />}</Reference>
-        </ManagerReferenceNodeSetterContext.Provider>
-      </div>
+    render(
+      <ManagerReferenceNodeSetterContext.Provider value={setReferenceNode}>
+        <Reference>{({ ref }) => <div ref={ref} />}</Reference>
+      </ManagerReferenceNodeSetterContext.Provider>
     );
     expect(warning).toHaveBeenCalledWith(
       true,
@@ -68,15 +53,10 @@ describe('Arrow component', () => {
   });
 
   it('does not warn when setReferenceNode is not present', () => {
-    // HACK: wrapping DIV needed to make Enzyme happy for now
-    mount(
-      <div>
-        <ManagerReferenceNodeSetterContext.Provider
-          value={undefined}
-        >
-          <Reference>{({ ref }) => <div ref={ref} />}</Reference>
-        </ManagerReferenceNodeSetterContext.Provider>
-      </div>
+    render(
+      <ManagerReferenceNodeSetterContext.Provider value={undefined}>
+        <Reference>{({ ref }) => <div ref={ref} />}</Reference>
+      </ManagerReferenceNodeSetterContext.Provider>
     );
     expect(warning).toHaveBeenCalledWith(
       false,

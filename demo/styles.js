@@ -20,10 +20,10 @@ export const Main = styled('main')`
   background-image: ${(props) => gradients[props.gradient]};
   color: #ffffff;
   clip-path: polygon(99% 1%, 99% 95%, 50% 99%, 1% 95%, 1% 1%, 50% 5%);
-  &:first-child {
+  &:first-of-type {
     clip-path: polygon(99% 2%, 99% 97%, 50% 100%, 1% 97%, 1% 2%);
   }
-  &:last-child {
+  &:last-of-type {
     height: calc(100vh - 0.5em);
     clip-path: polygon(99% 0%, 99% 98%, 50% 98%, 1% 98%, 1% 0%, 50% 3%);
   }
@@ -104,8 +104,6 @@ export const Arrow = styled('div')`
     top: 0;
     left: 0;
     margin-top: -0.9em;
-    width: 3em;
-    height: 1em;
     &::before {
       border-width: 0 1.5em 1em 1.5em;
       border-color: transparent transparent #232323 transparent;
@@ -114,9 +112,7 @@ export const Arrow = styled('div')`
   &[data-placement*='top'] {
     bottom: 0;
     left: 0;
-    margin-bottom: -0.9em;
-    width: 3em;
-    height: 1em;
+    margin-bottom: -2.9em;
     &::before {
       border-width: 1em 1.5em 0 1.5em;
       border-color: #232323 transparent transparent transparent;
@@ -124,9 +120,7 @@ export const Arrow = styled('div')`
   }
   &[data-placement*='right'] {
     left: 0;
-    margin-left: -0.9em;
-    height: 3em;
-    width: 1em;
+    margin-left: -1.9em;
     &::before {
       border-width: 1.5em 1em 1.5em 0;
       border-color: transparent #232323 transparent transparent;
@@ -134,9 +128,7 @@ export const Arrow = styled('div')`
   }
   &[data-placement*='left'] {
     right: 0;
-    margin-right: -0.9em;
-    height: 3em;
-    width: 1em;
+    margin-right: -1.9em;
     &::before {
       border-width: 1.5em 0 1.5em 1em;
       border-color: transparent transparent transparent#232323;

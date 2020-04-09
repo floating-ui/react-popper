@@ -3,49 +3,34 @@ import * as React from 'react';
 import warning from 'warning';
 import { ManagerReferenceNodeSetterContext } from './Manager';
 import { safeInvoke, unwrapArray, setRef } from './utils';
-import { type Ref } from "./RefTypes";
+import { type Ref } from './RefTypes';
 
 export type ReferenceChildrenProps = { ref: Ref };
 export type ReferenceProps = {|
-  children: ReferenceChildrenProps => React.Node,
+  children: (ReferenceChildrenProps) => React.Node,
   innerRef?: Ref,
 |};
 
-type InnerReferenceProps = {
-  children: ReferenceChildrenProps => React.Node,
-  innerRef?: Ref,
-  setReferenceNode?: (?HTMLElement) => void,
-};
+export function Reference({ children, innerRef }: ReferenceProps) {
+  const setReferenceNode = React.useContext(ManagerReferenceNodeSetterContext);
 
-class InnerReference extends React.Component<InnerReferenceProps> {
-  refHandler = (node: ?HTMLElement) => {
-    setRef(this.props.innerRef, node)
-    safeInvoke(this.props.setReferenceNode, node);
-  };
+  const refHandler = React.useCallback(
+    (node: ?HTMLElement) => {
+      setRef(innerRef, node);
+      safeInvoke(setReferenceNode, node);
+    },
+    [innerRef, setReferenceNode]
+  );
 
-  componentWillUnmount() {
-    setRef(this.props.innerRef, null)
-  }
+  // ran on unmount
+  React.useEffect(() => () => setRef(innerRef, null));
 
-  render() {
+  React.useEffect(() => {
     warning(
-      Boolean(this.props.setReferenceNode),
+      Boolean(setReferenceNode),
       '`Reference` should not be used outside of a `Manager` component.'
     );
-    return unwrapArray(this.props.children)({ ref: this.refHandler });
-  }
-}
+  }, [setReferenceNode]);
 
-export default function Reference(props: ReferenceProps) {
-  return (
-    <ManagerReferenceNodeSetterContext.Consumer>
-      {(setReferenceNode) => (
-        <InnerReference
-          setReferenceNode={setReferenceNode}
-          innerRef={props.innerRef}
-          children={props.children}
-        />
-      )}
-    </ManagerReferenceNodeSetterContext.Consumer>
-  );
+  return unwrapArray(children)({ ref: refHandler });
 }

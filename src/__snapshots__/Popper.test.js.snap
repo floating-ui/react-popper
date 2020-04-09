@@ -1,36 +1,14 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Popper component renders the expected markup 1`] = `
-<InnerPopper
-  modifiers={Array []}
-  onFirstUpdate={[Function]}
-  placement="bottom"
-  referenceElement={<div />}
-  strategy="absolute"
->
+<DocumentFragment>
   <div
     data-placement="bottom"
-    style={
-      Object {
-        "bottom": "auto",
-        "left": "0",
-        "position": "absolute",
-        "right": "auto",
-        "top": "0",
-        "transform": "translate(0px, 0px)",
-      }
-    }
+    style="position: absolute; left: 0px; top: 0px; transform: translate(0px, 0px);"
   >
     <div
-      style={
-        Object {
-          "left": "0",
-          "position": "absolute",
-          "top": "",
-          "transform": "translate(0px, 0px)",
-        }
-      }
+      style="position: absolute; left: 0px; transform: translate(0px, 0px);"
     />
   </div>
-</InnerPopper>
+</DocumentFragment>
 `;
