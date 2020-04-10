@@ -9,7 +9,7 @@
       "ignore": ["**/*.test.js", "**/__mocks__/**"]
     },
     "cjs": {
-      "plugins": [["@babel/transform-modules-commonjs", { "noInterop": true }]],
+      "plugins": [["@babel/transform-modules-commonjs"]],
       "ignore": ["**/*.test.js", "**/__mocks__/**"]
     },
     "test": {
