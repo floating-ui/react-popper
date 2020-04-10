@@ -40,7 +40,7 @@ Via `script` tag (UMD library exposed as `ReactPopper`):
 
 `react-popper` provides two different APIs to help consume it:
 
-### React Hooks
+### 1. React Hooks (recommended)
 
 The `usePopper` hook can be used to quickly initialize a Popper, it requires a
 basic understanding of how the
@@ -72,9 +72,9 @@ const Example = () => {
 };
 ```
 
-### Render Props
+### 2. Render Props (legacy)
 
-This is a legacy API for compatbility with v1.x users moving to Popper v2. We recommend using the Hook in new code.
+This is a legacy API for compatibility with v1.x users moving to Popper v2. We recommend using the `usePopper` Hook in new code.
 
 <details>
 <summary>View details</summary>
@@ -112,7 +112,7 @@ const Example = () => (
 
 ## API documentation
 
-### Hooks
+### `usePopper`
 
 The `usePopper` hook provides an API almost identical to the ones of
 [`createPopper`](https://popper.js.org/docs/v2/constructors/#createpopper)
@@ -159,7 +159,7 @@ has been destroyed.
 
 ### Render Props
 
-This is a legacy API for compatbility with v1.x users moving to Popper v2. We recommend using the Hook in new code.
+This is a legacy API for compatibility with v1.x users moving to Popper v2. We recommend using the `usePopper` Hook in new code.
 
 <details>
 <summary>View details</summary>
@@ -280,7 +280,7 @@ React 16 alternative) to move the popper component somewhere else in the DOM.
 This can be useful if you want to position a tooltip inside an
 `overflow: hidden` container that you want to make overflow.
 
-**Please note that you can also try `strategy="fixed"` to obtain a similar
+**Please note that you can also try `strategy: 'fixed'` to obtain a similar
 effect with less hassle.**
 
 ```jsx
