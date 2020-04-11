@@ -12,7 +12,7 @@ React wrapper around [Popper](https://popper.js.org).
 **important note:** Popper is **not** a tooltip library, it's a _positioning
 engine_ to be used to build features such as (but not restricted to) tooltips.
 
-# Install
+## Install
 
 Via package managers:
 
@@ -33,14 +33,14 @@ Via `script` tag (UMD library exposed as `ReactPopper`):
 <script src="https://unpkg.com/react-popper/dist/index.umd.js"></script>
 ```
 
-# Usage
+## Usage
 
 > Using `react-popper@0.x`? You can find its documentation
 > [clicking here](https://github.com/souporserious/react-popper/tree/v0.x)
 
 `react-popper` provides two different APIs to help consume it:
 
-## React Hooks
+### 1. React Hooks (recommended)
 
 The `usePopper` hook can be used to quickly initialize a Popper, it requires a
 basic understanding of how the
@@ -72,7 +72,12 @@ const Example = () => {
 };
 ```
 
-## Render Props
+### 2. Render Props (legacy)
+
+This is a legacy API for compatibility with v1.x users moving to Popper v2. We recommend using the `usePopper` Hook in new code.
+
+<details>
+<summary>View details</summary>
 
 The `Manager`, `Reference` and `Popper` render-props components offer an
 alternative API to initialize a Popper instance, they require a basic
@@ -103,9 +108,11 @@ const Example = () => (
 );
 ```
 
+</details>
+
 ## API documentation
 
-### Hooks
+### `usePopper`
 
 The `usePopper` hook provides an API almost identical to the ones of
 [`createPopper`](https://popper.js.org/docs/v2/constructors/#createpopper)
@@ -151,6 +158,11 @@ difference is that they can be `null` if Popper isn't yet been initialized or
 has been destroyed.
 
 ### Render Props
+
+This is a legacy API for compatibility with v1.x users moving to Popper v2. We recommend using the `usePopper` Hook in new code.
+
+<details>
+<summary>View details</summary>
 
 The `Manager` component is a simple wrapper that needs to surround all the other
 `react-popper` components in order to make them communicate with each others.
@@ -255,6 +267,8 @@ An object containing custom settings for the
 You can use this property to override their settings or to inject your custom
 ones.
 
+</details>
+
 ## Usage with `ReactDOM.createPortal`
 
 Popper.js is smart enough to work even if the **popper** and **reference**
@@ -266,7 +280,7 @@ React 16 alternative) to move the popper component somewhere else in the DOM.
 This can be useful if you want to position a tooltip inside an
 `overflow: hidden` container that you want to make overflow.
 
-**Please note that you can also try `strategy="fixed"` to obtain a similar
+**Please note that you can also try `strategy: 'fixed'` to obtain a similar
 effect with less hassle.**
 
 ```jsx
@@ -300,16 +314,7 @@ const Example = () => {
 ## Usage without a reference `HTMLElement`
 
 Whenever you need to position a popper based on some arbitrary coordinates, you
-can provide `Popper` with a `referenceElement` property that is going to be used
-in place of the `referenceProps.getRef` React ref.
-
-The `referenceElement` property must be an object with an interface compatible
-with an `HTMLElement` as described in the
-[Popper.js virtualElement documentation](https://popper.js.org/docs/v2/virtual-elements/),
-this implies that you may also provide a real HTMLElement if needed.
-
-If `referenceElement` is defined, it will take precedence over any
-`referenceProps.ref` provided refs.
+can provide Popper with a [virtual element](https://popper.js.org/docs/v2/virtual-elements/).
 
 ```jsx
 import { usePopper } from 'react-popper';
@@ -330,8 +335,6 @@ const virtualReference = {
   },
 };
 
-// This popper will be positioned relatively to the
-// virtual reference element defined above
 const Example = () => {
   const [popperElement, setPopperElement] = React.useState(null);
   const { styles, attributes } = usePopper(virtualReference, popperElement);
