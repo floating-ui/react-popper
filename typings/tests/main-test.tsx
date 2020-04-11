@@ -56,13 +56,23 @@ const HookTest = () => {
   const [arrowElement, setArrowElement] = React.useState<HTMLElement | null>(
     null
   );
-  const { styles, attributes } = usePopper(referenceElement, popperElement, {
-    modifiers: [{ name: 'arrow', options: { element: arrowElement } }],
-  });
+  const { styles, attributes, update } = usePopper(
+    referenceElement,
+    popperElement,
+    {
+      modifiers: [{ name: 'arrow', options: { element: arrowElement } }],
+    }
+  );
 
   return (
     <>
-      <button type="button" ref={setReferenceElement}>
+      <button
+        type="button"
+        ref={setReferenceElement}
+        onClick={() => {
+          update && update();
+        }}
+      >
         Reference element
       </button>
 

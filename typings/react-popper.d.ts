@@ -58,6 +58,6 @@ export function usePopper(
   styles: { [key: string]: React.CSSProperties };
   attributes: { [key: string]: { [key: string]: string } };
   state: PopperJS.State;
-  update: Pick<PopperJS.Instance, 'update'>;
-  forceUpdate: Pick<PopperJS.Instance, 'forceUpdate'>;
+  update: PopperJS.Instance['update'] | null;
+  forceUpdate: PopperJS.Instance['forceUpdate'] | null;
 };
