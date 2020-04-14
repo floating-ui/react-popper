@@ -1,7 +1,0 @@
-dist: xenial
-language: node_js
-node_js:
-  - '--lts'
-cache: yarn
-before_install:
-  yarn config set ignore-engines true
