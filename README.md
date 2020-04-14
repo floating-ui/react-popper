@@ -1,6 +1,6 @@
 # React Popper
 
-[![Build Status](https://travis-ci.org/popperjs/react-popper.svg?branch=master)](https://travis-ci.org/popperjs/react-popper)
+[![Unit Tests](https://github.com/popperjs/react-popper/workflows/Unit%20Tests/badge.svg)](https://github.com/popperjs/react-popper/actions?query=workflow%3A%22Unit+Tests%22)
 [![npm version](https://img.shields.io/npm/v/react-popper.svg)](https://www.npmjs.com/package/react-popper)
 [![npm downloads](https://img.shields.io/npm/dm/react-popper.svg)](https://www.npmjs.com/package/react-popper)
 [![Dependency Status](https://david-dm.org/souporserious/react-popper.svg)](https://david-dm.org/souporserious/react-popper)
@@ -74,7 +74,8 @@ const Example = () => {
 
 ### 2. Render Props (legacy)
 
-This is a legacy API for compatibility with v1.x users moving to Popper v2. We recommend using the `usePopper` Hook in new code.
+This is a legacy API for compatibility with v1.x users moving to Popper v2. We
+recommend using the `usePopper` Hook in new code.
 
 <details>
 <summary>View details</summary>
@@ -159,7 +160,8 @@ has been destroyed.
 
 ### Render Props
 
-This is a legacy API for compatibility with v1.x users moving to Popper v2. We recommend using the `usePopper` Hook in new code.
+This is a legacy API for compatibility with v1.x users moving to Popper v2. We
+recommend using the `usePopper` Hook in new code.
 
 <details>
 <summary>View details</summary>
@@ -314,7 +316,8 @@ const Example = () => {
 ## Usage without a reference `HTMLElement`
 
 Whenever you need to position a popper based on some arbitrary coordinates, you
-can provide Popper with a [virtual element](https://popper.js.org/docs/v2/virtual-elements/).
+can provide Popper with a
+[virtual element](https://popper.js.org/docs/v2/virtual-elements/).
 
 ```jsx
 import { usePopper } from 'react-popper';
