@@ -1,4 +1,4 @@
-import { renderHook } from '@testing-library/react-hooks';
+import { renderHook, act } from '@testing-library/react-hooks';
 import * as PopperJs from '@popperjs/core';
 
 // Public API
@@ -30,7 +30,9 @@ describe('userPopper', () => {
       { initialProps: { referenceElement, popperElement } }
     );
 
-    rerender({ referenceElement, popperElement });
+    await act(async () => {
+      await rerender({ referenceElement, popperElement });
+    });
 
     await wait(() => {
       expect(spy).toHaveBeenCalledTimes(1);

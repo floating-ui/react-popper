@@ -1,25 +1,31 @@
 // @flow
 import React from 'react';
-import { render, waitFor } from '@testing-library/react';
+import { render, waitFor, act } from '@testing-library/react';
 import * as PopperJs from '@popperjs/core';
 
 // Public API
 import { Popper } from '.';
 
-const renderPopper = (props) =>
-  render(
-    <Popper {...props}>
-      {({ ref, style, placement, arrowProps }) => (
-        <div ref={ref} style={style} data-placement={placement}>
-          <div {...arrowProps} />
-        </div>
-      )}
-    </Popper>
-  );
+const renderPopper = async (props): any => {
+  let result;
+  await act(async () => {
+    result = await render(
+      <Popper {...props}>
+        {({ ref, style, placement, arrowProps }) => (
+          <div ref={ref} style={style} data-placement={placement}>
+            <div {...arrowProps} />
+          </div>
+        )}
+      </Popper>
+    );
+  });
+  return result;
+};
 
 describe('Popper component', () => {
   it('renders the expected markup', async () => {
     const referenceElement = document.createElement('div');
+
     const { asFragment } = await renderPopper({ referenceElement });
 
     await waitFor(() => {
@@ -27,8 +33,9 @@ describe('Popper component', () => {
     });
   });
 
-  it('handles changing refs gracefully', () => {
+  it('handles changing refs gracefully', async () => {
     const referenceElement = document.createElement('div');
+
     expect(() =>
       render(
         <Popper referenceElement={referenceElement}>
@@ -44,18 +51,22 @@ describe('Popper component', () => {
         </Popper>
       )
     ).not.toThrow();
+
+    await waitFor(() => {});
   });
 
   it('accepts a ref function', async () => {
     const myRef = jest.fn();
     const referenceElement = document.createElement('div');
-    await render(
+
+    render(
       <Popper referenceElement={referenceElement} innerRef={myRef}>
         {({ ref, style, placement }) => (
           <div ref={ref} style={style} data-placement={placement} />
         )}
       </Popper>
     );
+
     await waitFor(() => {
       expect(myRef).toBeCalled();
     });
@@ -64,13 +75,15 @@ describe('Popper component', () => {
   it('accepts a ref object', async () => {
     const myRef = React.createRef();
     const referenceElement = document.createElement('div');
-    await render(
+
+    render(
       <Popper referenceElement={referenceElement} innerRef={myRef}>
         {({ ref, style, placement }) => (
           <div ref={ref} style={style} data-placement={placement} />
         )}
       </Popper>
     );
+
     await waitFor(() => {
       expect(myRef.current).toBeDefined();
     });
@@ -98,7 +111,7 @@ describe('Popper component', () => {
     });
   });
 
-  fit(`should update placement when property is changed`, async () => {
+  it(`should update placement when property is changed`, async () => {
     const referenceElement = document.createElement('div');
 
     const Component = ({ placement }) => (
@@ -116,13 +129,11 @@ describe('Popper component', () => {
       </Popper>
     );
 
-    const { rerender, getByTestId } = await render(
-      <Component placement="top" />
-    );
+    const { rerender, getByTestId } = render(<Component placement="top" />);
 
     expect(getByTestId('placement').textContent).toBe('top');
 
-    await rerender(<Component placement="bottom" />);
+    await waitFor(() => rerender(<Component placement="bottom" />));
 
     expect(getByTestId('placement').textContent).toBe('bottom');
   });
