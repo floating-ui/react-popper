@@ -68,7 +68,7 @@ export class Popper<Modifiers> extends React.Component<
 > {}
 
 export function usePopper(
-  referenceElement?: Element | null,
+  referenceElement?: Element | PopperJS.VirtualElement | null,
   popperElement?: HTMLElement | null,
   options?: Partial<PopperJS.Options> & {
     createPopper?: typeof PopperJS.createPopper;
