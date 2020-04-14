@@ -67,11 +67,12 @@ export class Popper<Modifiers> extends React.Component<
   {}
 > {}
 
-export function usePopper(
+export function usePopper<Modifiers>(
   referenceElement?: Element | PopperJS.VirtualElement | null,
   popperElement?: HTMLElement | null,
-  options?: Partial<PopperJS.Options> & {
+  options?: Omit<Partial<PopperJS.Options>, 'modifiers'> & {
     createPopper?: typeof PopperJS.createPopper;
+    modifiers?: ReadonlyArray<Modifier<Modifiers>>;
   }
 ): {
   styles: { [key: string]: React.CSSProperties };
