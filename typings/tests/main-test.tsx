@@ -60,7 +60,12 @@ const HookTest = () => {
     referenceElement,
     popperElement,
     {
-      modifiers: [{ name: 'arrow', options: { element: arrowElement } }],
+      modifiers: [
+        {
+          name: 'arrow',
+          options: { element: arrowElement as HTMLElement | undefined },
+        },
+      ],
     }
   );
 
