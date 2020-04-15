@@ -2,14 +2,16 @@
 import * as React from 'react';
 import {
   createPopper as defaultCreatePopper,
-  type Options as PopperOptions,
   type VirtualElement,
+  type Modifier,
+  type OptionsGeneric,
+  type StrictModifiers,
 } from '@popperjs/core';
 import isEqual from 'react-fast-compare';
 import { fromEntries, useIsomorphicLayoutEffect } from './utils';
 
-type Options = $Shape<{
-  ...PopperOptions,
+type Options<TModifiers> = $Shape<{
+  ...OptionsGeneric<TModifiers>,
   createPopper: typeof defaultCreatePopper,
 }>;
 
@@ -22,14 +24,20 @@ type State = {
   },
 };
 
+type UpdateStateModifier = Modifier<'updateState', {||}>;
+
 const EMPTY_MODIFIERS = [];
 
-export const usePopper = (
+export const usePopper = <
+  TModifiers: StrictModifiers | $Shape<Modifier<string, {}>>
+>(
   referenceElement: ?(Element | VirtualElement),
   popperElement: ?HTMLElement,
-  options: Options = {}
+  options: Options<TModifiers> = {}
 ) => {
-  const prevOptions = React.useRef<?PopperOptions>(null);
+  type TExtendedModifier = TModifiers | $Shape<UpdateStateModifier>;
+
+  const prevOptions = React.useRef<?OptionsGeneric<TExtendedModifier>>(null);
 
   const optionsWithDefaults = {
     onFirstUpdate: options.onFirstUpdate,
@@ -49,7 +57,7 @@ export const usePopper = (
     attributes: {},
   });
 
-  const updateStateModifier = React.useMemo(
+  const updateStateModifier = React.useMemo<UpdateStateModifier>(
     () => ({
       name: 'updateState',
       enabled: true,
@@ -71,7 +79,7 @@ export const usePopper = (
     []
   );
 
-  const popperOptions = React.useMemo(() => {
+  const popperOptions = React.useMemo<OptionsGeneric<TExtendedModifier>>(() => {
     const newOptions = {
       onFirstUpdate: optionsWithDefaults.onFirstUpdate,
       placement: optionsWithDefaults.placement,
@@ -83,8 +91,11 @@ export const usePopper = (
       ],
     };
 
-    if (isEqual(prevOptions.current, newOptions)) {
-      return prevOptions.current || newOptions;
+    if (
+      prevOptions.current != null &&
+      isEqual(prevOptions.current, newOptions)
+    ) {
+      return prevOptions.current;
     } else {
       prevOptions.current = newOptions;
       return newOptions;
