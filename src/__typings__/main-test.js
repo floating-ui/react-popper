@@ -5,6 +5,7 @@
 
 import React from 'react';
 import { Manager, Reference, Popper, usePopper } from '..';
+import type { Modifier, StrictModifiers } from '@popperjs/core';
 
 export const Test = () => (
   <Manager>
@@ -68,21 +69,43 @@ export const HookTest = () => {
       modifiers: [
         {
           name: 'arrow',
-          options: { element: arrowElement || undefined },
+          options: { element: arrowElement },
         },
       ],
     }
   );
 
-  usePopper(
+  usePopper(referenceElement, popperElement, {
+    modifiers: [
+      // $FlowExpectError: offset tuple accepts only numbers
+      {
+        name: 'offset',
+        options: { offset: [0, ''] },
+      },
+    ],
+  });
+
+  Number(2 + null);
+
+  type CustomModifier = $Shape<Modifier<'custom', { foo: boolean }>>;
+  usePopper<StrictModifiers | CustomModifier>(referenceElement, popperElement, {
+    modifiers: [
+      {
+        name: 'custom',
+        options: { foo: true },
+      },
+    ],
+  });
+
+  usePopper<StrictModifiers | CustomModifier>(
     referenceElement,
     popperElement,
-    // $FlowExpectError
+    // $FlowExpectError: foo should be boolean
     {
       modifiers: [
         {
-          name: 'offset',
-          options: { offset: [0, ''] },
+          name: 'custom',
+          options: { foo: 'str' },
         },
       ],
     }

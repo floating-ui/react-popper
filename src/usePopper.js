@@ -28,16 +28,16 @@ type UpdateStateModifier = Modifier<'updateState', {||}>;
 
 const EMPTY_MODIFIERS = [];
 
-export const usePopper = <
-  TModifiers: StrictModifiers | $Shape<Modifier<string, {}>>
->(
+type DefaultModifiers = StrictModifiers | $Shape<Modifier<any, any>>;
+
+export const usePopper = <Modifiers: DefaultModifiers = DefaultModifiers>(
   referenceElement: ?(Element | VirtualElement),
   popperElement: ?HTMLElement,
-  options: Options<TModifiers> = {}
+  options: Options<Modifiers> = {}
 ) => {
-  type TExtendedModifier = TModifiers | $Shape<UpdateStateModifier>;
+  type InternalModifiers = Modifiers | $Shape<UpdateStateModifier>;
 
-  const prevOptions = React.useRef<?OptionsGeneric<TExtendedModifier>>(null);
+  const prevOptions = React.useRef<?OptionsGeneric<InternalModifiers>>(null);
 
   const optionsWithDefaults = {
     onFirstUpdate: options.onFirstUpdate,
@@ -79,7 +79,7 @@ export const usePopper = <
     []
   );
 
-  const popperOptions = React.useMemo<OptionsGeneric<TExtendedModifier>>(() => {
+  const popperOptions = React.useMemo<OptionsGeneric<InternalModifiers>>(() => {
     const newOptions = {
       onFirstUpdate: optionsWithDefaults.onFirstUpdate,
       placement: optionsWithDefaults.placement,
@@ -97,6 +97,7 @@ export const usePopper = <
     ) {
       return prevOptions.current;
     } else {
+      // $FlowFixMe: Cannot assign `newOptions` to `prevOptions.current` because  string [1] is incompatible with  string literal `updateState` [2] in property `name` of array element of property `modifiers`
       prevOptions.current = newOptions;
       return newOptions;
     }
