@@ -19,11 +19,10 @@ because of the bug you found!
 ### Reproduction demo
 
 <!--
-Fork and/or modify this CodePen/CodeSandbox template to allow the contributors to easily reproduce your problem.  
-If the problem can't be reproduced using these templates, explain why in this section.
+Fork and/or modify this CodeSandbox template to allow the contributors to easily reproduce your problem.  
+If the problem can't be reproduced using these template, explain why in this section.
 
-- v0.x: https://codepen.io/FezVrasta/pen/KoxOJM
-- v1.x: https://codesandbox.io/s/7mwkynymlq
+https://codesandbox.io/s/7mwkynymlq
 
 -->
 
