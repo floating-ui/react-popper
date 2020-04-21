@@ -1,5 +1,6 @@
 module.exports = {
   root: true,
+  reportUnusedDisableDirectives: true,
   parser: 'babel-eslint',
   env: {
     browser: true,
