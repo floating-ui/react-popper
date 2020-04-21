@@ -97,7 +97,6 @@ export const usePopper = <Modifiers: DefaultModifiers = DefaultModifiers>(
     ) {
       return prevOptions.current;
     } else {
-      // $FlowFixMe: Cannot assign `newOptions` to `prevOptions.current` because  string [1] is incompatible with  string literal `updateState` [2] in property `name` of array element of property `modifiers`
       prevOptions.current = newOptions;
       return newOptions;
     }
@@ -123,7 +122,7 @@ export const usePopper = <Modifiers: DefaultModifiers = DefaultModifiers>(
     }
 
     const createPopper = options.createPopper || defaultCreatePopper;
-    const popperInstance = createPopper(
+    const popperInstance = createPopper<InternalModifiers>(
       referenceElement,
       popperElement,
       popperOptions

@@ -85,8 +85,6 @@ export const HookTest = () => {
     ],
   });
 
-  Number(2 + null);
-
   type CustomModifier = $Shape<Modifier<'custom', { foo: boolean }>>;
   usePopper<StrictModifiers | CustomModifier>(referenceElement, popperElement, {
     modifiers: [
