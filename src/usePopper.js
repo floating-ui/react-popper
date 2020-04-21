@@ -41,7 +41,7 @@ export const usePopper = (
   const [state, setState] = React.useState<State>({
     styles: {
       popper: {
-        position: optionsWithDefaults.strategy || 'absolute',
+        position: optionsWithDefaults.strategy,
         left: '0',
         top: '0',
       },
@@ -68,14 +68,14 @@ export const usePopper = (
       },
       requires: ['computeStyles'],
     }),
-    [setState]
+    []
   );
 
   const popperOptions = React.useMemo(() => {
     const newOptions = {
       onFirstUpdate: optionsWithDefaults.onFirstUpdate,
-      placement: optionsWithDefaults.placement || 'bottom',
-      strategy: optionsWithDefaults.strategy || 'absolute',
+      placement: optionsWithDefaults.placement,
+      strategy: optionsWithDefaults.strategy,
       modifiers: [
         ...optionsWithDefaults.modifiers,
         updateStateModifier,
@@ -98,35 +98,32 @@ export const usePopper = (
   ]);
 
   const popperInstanceRef = React.useRef();
-  const createPopper = React.useMemo(
-    () => options.createPopper || defaultCreatePopper,
-    [options.createPopper]
-  );
-
-  useIsomorphicLayoutEffect(() => {
-    let popperInstance = null;
-    if (referenceElement != null && popperElement != null) {
-      popperInstance = createPopper(
-        referenceElement,
-        popperElement,
-        popperOptions
-      );
-
-      popperInstanceRef.current = popperInstance;
-    }
-
-    return () => {
-      popperInstance != null && popperInstance.destroy();
-      popperInstanceRef.current = null;
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [referenceElement, popperElement, createPopper]);
 
   useIsomorphicLayoutEffect(() => {
     if (popperInstanceRef.current) {
       popperInstanceRef.current.setOptions(popperOptions);
     }
   }, [popperOptions]);
+
+  useIsomorphicLayoutEffect(() => {
+    if (referenceElement == null || popperElement == null) {
+      return;
+    }
+
+    const createPopper = options.createPopper || defaultCreatePopper;
+    const popperInstance = createPopper(
+      referenceElement,
+      popperElement,
+      popperOptions
+    );
+
+    popperInstanceRef.current = popperInstance;
+
+    return () => {
+      popperInstance.destroy();
+      popperInstanceRef.current = null;
+    };
+  }, [referenceElement, popperElement, options.createPopper]);
 
   return {
     state: popperInstanceRef.current ? popperInstanceRef.current.state : null,
