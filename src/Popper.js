@@ -5,6 +5,7 @@ import {
   type Placement,
   type PositioningStrategy,
   type VirtualElement,
+  type StrictModifiers,
   type Modifier,
 } from '@popperjs/core/lib';
 import { ManagerReferenceNodeContext } from './Manager';
@@ -13,7 +14,7 @@ import { unwrapArray, setRef } from './utils';
 import { usePopper } from './usePopper';
 
 type ReferenceElement = ?(VirtualElement | HTMLElement);
-type Modifiers = Array<$Shape<Modifier<any>>>;
+type Modifiers = Array<StrictModifiers | $Shape<Modifier<string, {}>>>;
 
 export type PopperArrowProps = {|
   ref: Ref,
