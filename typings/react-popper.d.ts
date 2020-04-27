@@ -77,7 +77,7 @@ export function usePopper<Modifiers>(
 ): {
   styles: { [key: string]: React.CSSProperties };
   attributes: { [key: string]: { [key: string]: string } };
-  state: PopperJS.State;
+  state: PopperJS.State | null;
   update: PopperJS.Instance['update'] | null;
   forceUpdate: PopperJS.Instance['forceUpdate'] | null;
 };
