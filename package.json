@@ -7,7 +7,7 @@
   "contributors": [
     "Federico Zivolo <federico.zivolo@gmail.com> (https://fezvrasta.github.io)"
   ],
-  "homepage": "https://github.com/popperjs/react-popper",
+  "homepage": "https://popper.js.org/react-popper",
   "main": "lib/cjs/index.js",
   "module": "lib/esm/index.js",
   "typings": "typings/react-popper.d.ts",
