@@ -61,10 +61,13 @@ export function Popper({
 
   const [popperElement, setPopperElement] = React.useState(null);
   const [arrowElement, setArrowElement] = React.useState(null);
-
-  React.useEffect(() => {
-    setRef(innerRef, popperElement)
-  }, [innerRef, popperElement]);
+  const popperElementRefHandler = React.useCallback(
+    (element: HTMLElement | null) => {
+      setRef(innerRef, element);
+      setPopperElement(element);
+    },
+    [innerRef, setPopperElement]
+  );
 
   const options = React.useMemo(
     () => ({
@@ -91,7 +94,7 @@ export function Popper({
 
   const childrenProps = React.useMemo(
     () => ({
-      ref: setPopperElement,
+      ref: popperElementRefHandler,
       style: styles.popper,
       placement: state ? state.placement : placement,
       hasPopperEscaped:
@@ -110,7 +113,7 @@ export function Popper({
       update: update || NOOP_PROMISE,
     }),
     [
-      setPopperElement,
+      popperElementRefHandler,
       setArrowElement,
       placement,
       state,
