@@ -9,6 +9,8 @@ interface ManagerProps {
 }
 export class Manager extends React.Component<ManagerProps, {}> {}
 
+type RefHandler = (ref: HTMLElement | null) => void;
+
 interface ReferenceChildrenProps {
   // React refs are supposed to be contravariant (allows a more general type to be passed rather than a more specific one)
   // However, Typescript currently can't infer that fact for refs
