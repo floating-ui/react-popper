@@ -107,6 +107,10 @@ export const usePopper = (
 
   useIsomorphicLayoutEffect(() => {
     if (referenceElement == null || popperElement == null) {
+      if (popperInstanceRef.current) {
+        popperInstanceRef.current.destroy();
+        popperInstanceRef.current = null;
+      }
       return;
     }
 
