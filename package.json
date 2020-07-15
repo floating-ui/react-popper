@@ -58,8 +58,8 @@
     "popover"
   ],
   "peerDependencies": {
-    "@popperjs/core": "^2.0.0",
-    "react": "^16.8.0"
+    "@popperjs/core": ">=2.0.0",
+    "react": ">=16.8.0"
   },
   "dependencies": {
     "react-fast-compare": "^3.0.1",
