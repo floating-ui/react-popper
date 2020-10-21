@@ -59,7 +59,7 @@
   ],
   "peerDependencies": {
     "@popperjs/core": "^2.0.0",
-    "react": "^16.8.0"
+    "react": "^16.8.0 || ^17"
   },
   "dependencies": {
     "react-fast-compare": "^3.0.1",
@@ -101,10 +101,10 @@
     "parcel-bundler": "^1.12.4",
     "prettier": "^2.0.2",
     "pretty-quick": "^2.0.1",
-    "react": "16.13.1",
-    "react-dom": "^16.13.1",
+    "react": "17.0.0",
+    "react-dom": "^17.0.0",
     "react-spring": "^8.0.27",
-    "react-test-renderer": "^16.13.1",
+    "react-test-renderer": "^17.0.0",
     "rimraf": "^3.0.2",
     "rollup": "^2.3.1",
     "rollup-plugin-babel": "^4.4.0",
