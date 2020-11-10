@@ -45,6 +45,9 @@ export const usePopper = (
         left: '0',
         top: '0',
       },
+      arrow: {
+        position: 'absolute', 
+      },
     },
     attributes: {},
   });
