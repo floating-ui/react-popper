@@ -90,4 +90,24 @@ describe('userPopper', () => {
 
     expect(destroy).toHaveBeenCalled();
   });
+
+  it('Initializes the arrow positioning', async () => {
+    const arrowElement = document.createElement('div');
+    const popperElementWithArrow = document.createElement('div');
+    popperElementWithArrow.appendChild(arrowElement);
+
+    const { result, waitForNextUpdate } = renderHook(() =>
+      usePopper(referenceElement, popperElementWithArrow, {
+        placement: "bottom",
+        modifiers: [{ name: "arrow", options: { element: arrowElement } }]
+      })
+    );
+
+    expect(result.current.styles.arrow.position).toBe('absolute');
+    expect(result.current.styles.arrow.transform).toBeUndefined();
+
+    await waitForNextUpdate();
+
+    expect(result.current.styles.arrow.transform).toBeDefined();
+  });
 });
