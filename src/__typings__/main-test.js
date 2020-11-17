@@ -4,7 +4,8 @@
 // be found under `/typings/tests` please. Thanks! 🤗
 
 import React from 'react';
-import { Manager, Reference, Popper } from '..';
+import { Manager, Reference, Popper, usePopper } from '..';
+import type { Modifier, StrictModifiers } from '@popperjs/core';
 
 export const Test = () => (
   <Manager>
@@ -33,7 +34,10 @@ export const Test = () => (
       }) => (
         <div
           ref={ref}
-          style={{ ...style, opacity: (isReferenceHidden || hasPopperEscaped) ? 0 : 1 }}
+          style={{
+            ...style,
+            opacity: isReferenceHidden || hasPopperEscaped ? 0 : 1,
+          }}
           data-placement={placement}
           onClick={() => update()}
         >
@@ -51,3 +55,76 @@ export const Test = () => (
     </Popper>
   </Manager>
 );
+
+export const HookTest = () => {
+  const [referenceElement, setReferenceElement] = React.useState<?Element>(
+    null
+  );
+  const [popperElement, setPopperElement] = React.useState<?HTMLElement>(null);
+  const [arrowElement, setArrowElement] = React.useState<?HTMLElement>(null);
+  const { styles, attributes, update } = usePopper(
+    referenceElement,
+    popperElement,
+    {
+      modifiers: [
+        {
+          name: 'arrow',
+          options: { element: arrowElement },
+        },
+      ],
+    }
+  );
+
+  usePopper(referenceElement, popperElement, {
+    modifiers: [
+      // $FlowExpectError: offset tuple accepts only numbers
+      {
+        name: 'offset',
+        options: { offset: [0, ''] },
+      },
+    ],
+  });
+
+  type CustomModifier = $Shape<Modifier<'custom', { foo: boolean }>>;
+  usePopper<StrictModifiers | CustomModifier>(referenceElement, popperElement, {
+    modifiers: [
+      {
+        name: 'custom',
+        options: { foo: true },
+      },
+    ],
+  });
+
+  usePopper<StrictModifiers | CustomModifier>(
+    referenceElement,
+    popperElement,
+    // $FlowExpectError: foo should be boolean
+    {
+      modifiers: [
+        {
+          name: 'custom',
+          options: { foo: 'str' },
+        },
+      ],
+    }
+  );
+
+  return (
+    <>
+      <button
+        type="button"
+        ref={setReferenceElement}
+        onClick={() => {
+          update && update();
+        }}
+      >
+        Reference element
+      </button>
+
+      <div {...attributes.popper} ref={setPopperElement} style={styles.popper}>
+        Popper element
+        <div ref={setArrowElement} style={styles.arrow} />
+      </div>
+    </>
+  );
+};

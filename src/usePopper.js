@@ -2,14 +2,16 @@
 import * as React from 'react';
 import {
   createPopper as defaultCreatePopper,
-  type Options as PopperOptions,
   type VirtualElement,
+  type Modifier,
+  type OptionsGeneric,
+  type StrictModifiers,
 } from '@popperjs/core';
 import isEqual from 'react-fast-compare';
 import { fromEntries, useIsomorphicLayoutEffect } from './utils';
 
-type Options = $Shape<{
-  ...PopperOptions,
+type Options<TModifiers> = $Shape<{
+  ...OptionsGeneric<TModifiers>,
   createPopper: typeof defaultCreatePopper,
 }>;
 
@@ -22,14 +24,20 @@ type State = {
   },
 };
 
+type UpdateStateModifier = Modifier<'updateState', {||}>;
+
 const EMPTY_MODIFIERS = [];
 
-export const usePopper = (
+type DefaultModifiers = StrictModifiers | $Shape<Modifier<any, any>>;
+
+export const usePopper = <Modifiers: DefaultModifiers = DefaultModifiers>(
   referenceElement: ?(Element | VirtualElement),
   popperElement: ?HTMLElement,
-  options: Options = {}
+  options: Options<Modifiers> = {}
 ) => {
-  const prevOptions = React.useRef<?PopperOptions>(null);
+  type InternalModifiers = Modifiers | $Shape<UpdateStateModifier>;
+
+  const prevOptions = React.useRef<?OptionsGeneric<InternalModifiers>>(null);
 
   const optionsWithDefaults = {
     onFirstUpdate: options.onFirstUpdate,
@@ -52,7 +60,7 @@ export const usePopper = (
     attributes: {},
   });
 
-  const updateStateModifier = React.useMemo(
+  const updateStateModifier = React.useMemo<UpdateStateModifier>(
     () => ({
       name: 'updateState',
       enabled: true,
@@ -74,7 +82,7 @@ export const usePopper = (
     []
   );
 
-  const popperOptions = React.useMemo(() => {
+  const popperOptions = React.useMemo<OptionsGeneric<InternalModifiers>>(() => {
     const newOptions = {
       onFirstUpdate: optionsWithDefaults.onFirstUpdate,
       placement: optionsWithDefaults.placement,
@@ -86,8 +94,11 @@ export const usePopper = (
       ],
     };
 
-    if (isEqual(prevOptions.current, newOptions)) {
-      return prevOptions.current || newOptions;
+    if (
+      prevOptions.current != null &&
+      isEqual(prevOptions.current, newOptions)
+    ) {
+      return prevOptions.current;
     } else {
       prevOptions.current = newOptions;
       return newOptions;
@@ -114,7 +125,7 @@ export const usePopper = (
     }
 
     const createPopper = options.createPopper || defaultCreatePopper;
-    const popperInstance = createPopper(
+    const popperInstance = createPopper<InternalModifiers>(
       referenceElement,
       popperElement,
       popperOptions
