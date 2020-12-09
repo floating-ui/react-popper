@@ -9,7 +9,6 @@
 [lints]
 
 [options]
-suppress_comment=\\(.\\|\n\\)*\\$FlowExpectError
 
 [strict]
 

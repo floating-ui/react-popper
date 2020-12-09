@@ -8,7 +8,7 @@ import { Manager, Reference, Popper } from '..';
 
 export const Test = () => (
   <Manager>
-    {/* $FlowExpectError: empty children */}
+    {/* $FlowExpectedError: empty children */}
     <Reference />
     <Reference>{({ ref }) => <div ref={ref} />}</Reference>
     <Popper
