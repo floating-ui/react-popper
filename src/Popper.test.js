@@ -2,6 +2,7 @@
 import React from 'react';
 import { render, waitFor, act } from '@testing-library/react';
 import * as PopperJs from '@popperjs/core';
+import type { Ref } from './RefTypes';
 
 // Public API
 import { Popper } from '.';
@@ -20,6 +21,14 @@ const renderPopper = async (props): any => {
     );
   });
   return result;
+};
+
+const handleRef = (ref: Ref) => (node: ?HTMLElement) => {
+  if (typeof ref === 'function') {
+    ref(node);
+  } else if (typeof ref === 'function') {
+    ref.current = node;
+  }
 };
 
 describe('Popper component', () => {
@@ -41,11 +50,11 @@ describe('Popper component', () => {
         <Popper referenceElement={referenceElement}>
           {({ ref, style, placement, arrowProps }) => (
             <div
-              ref={(current) => ref(current)}
+              ref={handleRef(ref)}
               style={style}
               data-placement={placement}
             >
-              <div {...arrowProps} ref={(current) => arrowProps.ref(current)} />
+              <div {...arrowProps} ref={handleRef(arrowProps.ref)} />
             </div>
           )}
         </Popper>
