@@ -6,7 +6,7 @@ import {
   type VirtualElement,
 } from '@popperjs/core';
 import isEqual from 'react-fast-compare';
-import { fromEntries, useIsomorphicLayoutEffect, useIsMounted } from './utils';
+import { fromEntries, useIsomorphicLayoutEffect } from './utils';
 
 type Options = $Shape<{
   ...PopperOptions,
@@ -38,8 +38,6 @@ export const usePopper = (
     modifiers: options.modifiers || EMPTY_MODIFIERS,
   };
 
-  const checkIsMounted = useIsMounted();
-
   const [state, setState] = React.useState<State>({
     styles: {
       popper: {
@@ -60,7 +58,7 @@ export const usePopper = (
       enabled: true,
       phase: 'write',
       fn: ({ state }) => {
-        if (!checkIsMounted()) return;
+        if (!popperInstanceRef.current) return;
 
         const elements = Object.keys(state.elements);
 
@@ -75,7 +73,7 @@ export const usePopper = (
       },
       requires: ['computeStyles'],
     }),
-    [checkIsMounted]
+    []
   );
 
   const popperOptions = React.useMemo(() => {

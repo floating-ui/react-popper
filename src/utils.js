@@ -46,26 +46,7 @@ export const fromEntries = (entries: Array<[string, any]>) =>
  */
 export const useIsomorphicLayoutEffect =
   typeof window !== 'undefined' &&
-    window.document &&
-    window.document.createElement
+  window.document &&
+  window.document.createElement
     ? React.useLayoutEffect
     : React.useEffect;
-
-/**
- * Custom React Hook providing a function returning a mutable value
- * indicating if the component is still mounted; 
- */
-export const useIsMounted = () => {
-  const mountedRef = React.useRef(false);
-
-  React.useEffect(() => {
-    mountedRef.current = true;
-
-    return () => {
-      mountedRef.current = false;
-    };
-  }, []);
-
-  return React.useCallback(() => mountedRef.current, []);
-}
-
