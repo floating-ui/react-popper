@@ -1,27 +1,29 @@
 // @flow
 import React from 'react';
-import { render, waitFor, act } from '@testing-library/react';
+import { render, waitFor } from '@testing-library/react';
 import * as PopperJs from '@popperjs/core';
 import type { Ref } from './RefTypes';
 
 // Public API
 import { Popper } from '.';
 
-const renderPopper = async (props): any => {
-  let result;
-  await act(async () => {
-    result = await render(
-      <Popper {...props}>
-        {({ ref, style, placement, arrowProps }) => (
-          <div ref={ref} style={style} data-placement={placement}>
-            <div {...arrowProps} />
-          </div>
-        )}
-      </Popper>
-    );
-  });
-  return result;
-};
+const TEST_ID = 'popper';
+
+const renderPopper = (props): any =>
+  render(
+    <Popper {...props}>
+      {({ ref, style, placement, arrowProps }) => (
+        <div
+          ref={ref}
+          style={style}
+          data-placement={placement}
+          data-testid={TEST_ID}
+        >
+          <div {...arrowProps} />
+        </div>
+      )}
+    </Popper>
+  );
 
 const handleRef = (ref: Ref) => (node: ?HTMLElement) => {
   if (typeof ref === 'function') {
@@ -35,33 +37,41 @@ describe('Popper component', () => {
   it('renders the expected markup', async () => {
     const referenceElement = document.createElement('div');
 
-    const { asFragment } = await renderPopper({ referenceElement });
+    const { findByTestId } = renderPopper({ referenceElement });
 
-    await waitFor(() => {
-      expect(asFragment()).toMatchSnapshot();
-    });
+    expect(await findByTestId(TEST_ID)).toMatchInlineSnapshot(`
+      <div
+        data-placement="bottom"
+        data-testid="popper"
+        style="position: absolute; left: 0px; top: 0px; transform: translate(0px, 0px);"
+      >
+        <div
+          style="position: absolute; left: 0px; transform: translate(0px, 0px);"
+        />
+      </div>
+    `);
   });
 
   it('handles changing refs gracefully', async () => {
     const referenceElement = document.createElement('div');
 
-    expect(() =>
-      render(
-        <Popper referenceElement={referenceElement}>
-          {({ ref, style, placement, arrowProps }) => (
-            <div
-              ref={handleRef(ref)}
-              style={style}
-              data-placement={placement}
-            >
-              <div {...arrowProps} ref={handleRef(arrowProps.ref)} />
-            </div>
-          )}
-        </Popper>
-      )
-    ).not.toThrow();
-
-    await waitFor(() => {});
+    await waitFor(() => {
+      expect(() =>
+        render(
+          <Popper referenceElement={referenceElement}>
+            {({ ref, style, placement, arrowProps }) => (
+              <div
+                ref={handleRef(ref)}
+                style={style}
+                data-placement={placement}
+              >
+                <div {...arrowProps} ref={handleRef(arrowProps.ref)} />
+              </div>
+            )}
+          </Popper>
+        )
+      ).not.toThrow();
+    });
   });
 
   it('accepts a ref function', async () => {
@@ -112,9 +122,11 @@ describe('Popper component', () => {
         };
       },
     };
-    await renderPopper({
+
+    renderPopper({
       referenceElement: virtualReferenceElement,
     });
+
     await waitFor(() => {
       expect(spy.mock.calls[0][0]).toBe(virtualReferenceElement);
     });

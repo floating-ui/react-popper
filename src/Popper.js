@@ -63,7 +63,7 @@ export function Popper({
   const [arrowElement, setArrowElement] = React.useState(null);
 
   React.useEffect(() => {
-    setRef(innerRef, popperElement)
+    setRef(innerRef, popperElement);
   }, [innerRef, popperElement]);
 
   const options = React.useMemo(

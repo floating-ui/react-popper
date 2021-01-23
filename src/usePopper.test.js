@@ -13,28 +13,29 @@ describe('userPopper', () => {
   });
 
   it('initializes the Popper instance', async () => {
-    const { result, wait } = renderHook(() =>
+    const { result, waitFor } = renderHook(() =>
       usePopper(referenceElement, popperElement)
     );
 
-    await wait(() => {
+    await waitFor(() => {
       expect(result.current.state).not.toBe(null);
     });
   });
 
   it("doesn't update Popper instance on props update if not needed by Popper", async () => {
     const spy = jest.spyOn(PopperJs, 'createPopper');
-    const { wait, rerender } = renderHook(
+
+    const { waitFor, rerender } = renderHook(
       ({ referenceElement, popperElement }) =>
         usePopper(referenceElement, popperElement),
       { initialProps: { referenceElement, popperElement } }
     );
 
     await act(async () => {
-      await rerender({ referenceElement, popperElement });
+      rerender({ referenceElement, popperElement });
     });
 
-    await wait(() => {
+    await waitFor(() => {
       expect(spy).toHaveBeenCalledTimes(1);
     });
   });
@@ -42,53 +43,61 @@ describe('userPopper', () => {
   it('updates Popper on explicitly listed props change', async () => {
     const spy = jest.spyOn(PopperJs, 'createPopper');
 
-    const { waitForNextUpdate, rerender } = renderHook(
+    const { waitFor, rerender } = renderHook(
       ({ referenceElement, popperElement }) =>
         usePopper(referenceElement, popperElement),
       { initialProps: { referenceElement, popperElement } }
     );
 
-    rerender({
-      referenceElement,
-      popperElement: document.createElement('div'),
+    await act(async () => {
+      rerender({
+        referenceElement,
+        popperElement: document.createElement('div'),
+      });
     });
 
-    await waitForNextUpdate();
-    expect(spy).toHaveBeenCalledTimes(2);
+    await waitFor(() => {
+      expect(spy).toHaveBeenCalledTimes(2);
+    });
   });
 
   it('does not update Popper on generic props change', async () => {
     const spy = jest.spyOn(PopperJs, 'createPopper');
-    const { waitForNextUpdate, rerender } = renderHook(
+
+    const { waitFor, rerender } = renderHook(
       ({ referenceElement, popperElement, options }) =>
         usePopper(referenceElement, popperElement, options),
       { initialProps: { referenceElement, popperElement } }
     );
 
-    rerender({
-      referenceElement,
-      popperElement,
-      options: { foo: 'bar' },
+    await act(async () => {
+      rerender({
+        referenceElement,
+        popperElement,
+        options: { foo: 'bar' },
+      });
     });
 
-    await waitForNextUpdate();
-
-    expect(spy).not.toHaveBeenCalledTimes(2);
+    await waitFor(() => {
+      expect(spy).not.toHaveBeenCalledTimes(2);
+    });
   });
 
   it('destroys Popper on instance on unmount', async () => {
     const spy = jest.spyOn(PopperJs, 'createPopper');
-    const { waitForNextUpdate, unmount } = renderHook(() =>
+    
+    const { waitFor, unmount } = renderHook(() =>
       usePopper(referenceElement, popperElement)
     );
 
-    await waitForNextUpdate();
     const popperInstance = spy.mock.results[0].value;
     const destroy = jest.spyOn(popperInstance, 'destroy');
 
     await unmount();
 
-    expect(destroy).toHaveBeenCalled();
+    await waitFor(() => {
+      expect(destroy).toHaveBeenCalled();
+    });
   });
 
   it('Initializes the arrow positioning', async () => {
@@ -96,18 +105,18 @@ describe('userPopper', () => {
     const popperElementWithArrow = document.createElement('div');
     popperElementWithArrow.appendChild(arrowElement);
 
-    const { result, waitForNextUpdate } = renderHook(() =>
+    const { result, waitFor } = renderHook(() =>
       usePopper(referenceElement, popperElementWithArrow, {
-        placement: "bottom",
-        modifiers: [{ name: "arrow", options: { element: arrowElement } }]
+        placement: 'bottom',
+        modifiers: [{ name: 'arrow', options: { element: arrowElement } }],
       })
     );
 
     expect(result.current.styles.arrow.position).toBe('absolute');
     expect(result.current.styles.arrow.transform).toBeUndefined();
 
-    await waitForNextUpdate();
-
-    expect(result.current.styles.arrow.transform).toBeDefined();
+    await waitFor(() => {
+      expect(result.current.styles.arrow.transform).toBeDefined();
+    });
   });
 });
