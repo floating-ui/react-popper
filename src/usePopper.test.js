@@ -22,7 +22,7 @@ describe('userPopper', () => {
     });
   });
 
-  it("doesn't update Popper instance on props update if not needed by Popper", () => {
+  it("doesn't update Popper instance on props update if not needed by Popper", async () => {
     const spy = jest.spyOn(PopperJs, 'createPopper');
 
     const { waitForNextUpdate, rerender } = renderHook(
@@ -33,12 +33,12 @@ describe('userPopper', () => {
 
     rerender({ referenceElement, popperElement });
 
-    waitForNextUpdate();
+    await waitForNextUpdate();
 
     expect(spy).toHaveBeenCalledTimes(1);
   });
 
-  it('updates Popper on explicitly listed props change', () => {
+  it('updates Popper on explicitly listed props change', async () => {
     const spy = jest.spyOn(PopperJs, 'createPopper');
 
     const { waitForNextUpdate, rerender } = renderHook(
@@ -52,12 +52,12 @@ describe('userPopper', () => {
       popperElement: document.createElement('div'),
     });
 
-    waitForNextUpdate();
+    await waitForNextUpdate();
 
     expect(spy).toHaveBeenCalledTimes(2);
   });
 
-  it('does not update Popper on generic props change', () => {
+  it('does not update Popper on generic props change', async () => {
     const spy = jest.spyOn(PopperJs, 'createPopper');
 
     const { waitForNextUpdate, rerender } = renderHook(
@@ -72,12 +72,12 @@ describe('userPopper', () => {
       options: { foo: 'bar' },
     });
 
-    waitForNextUpdate();
+    await waitForNextUpdate();
 
     expect(spy).not.toHaveBeenCalledTimes(2);
   });
 
-  it('destroys Popper on instance on unmount', () => {
+  it('destroys Popper on instance on unmount', async () => {
     const spy = jest.spyOn(PopperJs, 'createPopper');
 
     const { unmount } = renderHook(() =>
