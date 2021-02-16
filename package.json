@@ -1,6 +1,6 @@
 {
   "name": "react-popper",
-  "version": "1.3.6",
+  "version": "1.3.8",
   "description": "React wrapper around Popper.js",
   "license": "MIT",
   "author": "Travis Arnold <travis@souporserious.com> (http://souporserious.com)",
@@ -30,8 +30,7 @@
     "test:jest": "jest",
     "test:eslint": "eslint src",
     "prepare": "npm run build",
-    "precommit": "pretty-quick --staged && test",
-    "prepublishOnly": "git-branch-is master"
+    "precommit": "pretty-quick --staged && test"
   },
   "jest": {
     "setupFilesAfterEnv": [
