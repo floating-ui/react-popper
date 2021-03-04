@@ -1,7 +1,6 @@
 // @flow
 import * as React from 'react';
-import createContext, { type Context } from 'create-react-context';
-
+import createContext, { type Context } from '@hypnosphi/create-react-context';
 export const ManagerReferenceNodeContext: Context<?HTMLElement> = createContext();
 export const ManagerReferenceNodeSetterContext: Context<
   void | ((?HTMLElement) => void)
