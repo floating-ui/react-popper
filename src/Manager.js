@@ -13,16 +13,24 @@ export type ManagerProps = {
 export function Manager({ children }: ManagerProps) {
   const [referenceNode, setReferenceNode] = React.useState<?Element>(null);
 
-  React.useEffect(
-    () => () => {
-      setReferenceNode(null);
-    },
-    [setReferenceNode]
-  );
+  const hasUnmounted = React.useRef(false);
+  React.useEffect(() => {
+    return () => {
+      hasUnmounted.current = true;
+    };
+  }, []);
+
+  const handleSetReferenceNode = React.useCallback((node) => {
+    if (!hasUnmounted.current) {
+      setReferenceNode(node);
+    }
+  }, []);
 
   return (
     <ManagerReferenceNodeContext.Provider value={referenceNode}>
-      <ManagerReferenceNodeSetterContext.Provider value={setReferenceNode}>
+      <ManagerReferenceNodeSetterContext.Provider
+        value={handleSetReferenceNode}
+      >
         {children}
       </ManagerReferenceNodeSetterContext.Provider>
     </ManagerReferenceNodeContext.Provider>
