@@ -1,5 +1,5 @@
 [ignore]
-/lib/.*
+<PROJECT_ROOT>/lib/.*
 .*/.cache
 
 [include]
@@ -7,9 +7,12 @@
 [libs]
 
 [lints]
+sketchy-number=error
+sketchy-null=error
 
 [options]
-types_first=false
+react.runtime=automatic
+exact_by_default=true
 
 [strict]
 

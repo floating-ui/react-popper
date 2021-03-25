@@ -1,6 +1,6 @@
 {
   "name": "react-popper",
-  "version": "2.2.3",
+  "version": "2.2.5",
   "description": "Official library to use Popper on React projects",
   "license": "MIT",
   "author": "Travis Arnold <travis@souporserious.com> (http://souporserious.com)",
@@ -93,7 +93,7 @@
     "eslint-plugin-promise": "^4.2.1",
     "eslint-plugin-react": "^7.19.0",
     "eslint-plugin-react-hooks": "^3.0.0",
-    "flow-bin": "^0.139.0",
+    "flow-bin": "^0.147.0",
     "flow-copy-source": "^2.0.9",
     "gh-pages": "^2.2.0",
     "git-branch-is": "^3.1.0",

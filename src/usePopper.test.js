@@ -1,3 +1,4 @@
+// @flow strict
 import { renderHook, act } from '@testing-library/react-hooks';
 import * as PopperJs from '@popperjs/core';
 
@@ -98,8 +99,8 @@ describe('userPopper', () => {
 
     const { result, waitForNextUpdate } = renderHook(() =>
       usePopper(referenceElement, popperElementWithArrow, {
-        placement: "bottom",
-        modifiers: [{ name: "arrow", options: { element: arrowElement } }]
+        placement: 'bottom',
+        modifiers: [{ name: 'arrow', options: { element: arrowElement } }],
       })
     );
 

@@ -1,4 +1,4 @@
-// @flow
+// @flow strict
 import React, { useState } from 'react';
 import ReactDOM from 'react-dom';
 import { Global, css } from '@emotion/core';

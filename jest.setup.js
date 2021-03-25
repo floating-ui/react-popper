@@ -1,2 +1,2 @@
-// @flow
+// @flow strict
 import '@babel/polyfill';

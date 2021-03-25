@@ -1,12 +1,12 @@
-// @flow
+// @flow strict
 
 // Please remember to update also the TypeScript test files that can
 // be found under `/typings/tests` please. Thanks! 🤗
 
-import React from 'react';
+import * as React from 'react';
 import { Manager, Reference, Popper } from '..';
 
-export const Test = () => (
+export const Test = (): React.Node => (
   <Manager>
     {/* $FlowExpectedError: empty children */}
     <Reference />
@@ -33,7 +33,7 @@ export const Test = () => (
       }) => (
         <div
           ref={ref}
-          style={{ ...style, opacity: (isReferenceHidden || hasPopperEscaped) ? 0 : 1 }}
+          style={{ ...style, opacity: (isReferenceHidden === true || hasPopperEscaped === true) ? 0 : 1 }}
           data-placement={placement}
           onClick={() => update()}
         >

@@ -1,17 +1,17 @@
-// @flow
+// @flow strict
 import * as React from 'react';
 import warning from 'warning';
 import { ManagerReferenceNodeSetterContext } from './Manager';
 import { safeInvoke, unwrapArray, setRef } from './utils';
 import { type Ref } from './RefTypes';
 
-export type ReferenceChildrenProps = { ref: Ref };
-export type ReferenceProps = {|
+export type ReferenceChildrenProps = $ReadOnly<{ ref: Ref }>;
+export type ReferenceProps = $ReadOnly<{|
   children: (ReferenceChildrenProps) => React.Node,
   innerRef?: Ref,
-|};
+|}>;
 
-export function Reference({ children, innerRef }: ReferenceProps) {
+export function Reference({ children, innerRef }: ReferenceProps): React.Node {
   const setReferenceNode = React.useContext(ManagerReferenceNodeSetterContext);
 
   const refHandler = React.useCallback(

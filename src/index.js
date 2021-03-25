@@ -1,4 +1,4 @@
-// @flow
+// @flow strict
 
 // Public components
 import { Popper } from './Popper';

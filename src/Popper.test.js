@@ -1,4 +1,4 @@
-// @flow
+// @flow strict
 import React from 'react';
 import { render, waitFor, act } from '@testing-library/react';
 import * as PopperJs from '@popperjs/core';

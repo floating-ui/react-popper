@@ -1,4 +1,4 @@
-// @flow
+// @flow strict
 import React from 'react';
 import warning from 'warning';
 import { render } from '@testing-library/react';

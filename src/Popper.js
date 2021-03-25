@@ -1,4 +1,4 @@
-// @flow
+// @flow strict
 import * as React from 'react';
 import {
   type State,
@@ -34,7 +34,7 @@ export type PopperChildrenProps = {|
 |};
 export type PopperChildren = (PopperChildrenProps) => React.Node;
 
-export type PopperProps = {|
+export type PopperProps = $ReadOnly<{|
   children: PopperChildren,
   innerRef?: Ref,
   modifiers?: Modifiers,
@@ -42,7 +42,7 @@ export type PopperProps = {|
   strategy?: PositioningStrategy,
   referenceElement?: ReferenceElement,
   onFirstUpdate?: ($Shape<State>) => void,
-|};
+|}>;
 
 const NOOP = () => void 0;
 const NOOP_PROMISE = () => Promise.resolve(null);
@@ -56,7 +56,7 @@ export function Popper({
   onFirstUpdate,
   innerRef,
   children,
-}: PopperProps) {
+}: PopperProps): React.Node {
   const referenceNode = React.useContext(ManagerReferenceNodeContext);
 
   const [popperElement, setPopperElement] = React.useState(null);

@@ -1,9 +1,11 @@
-// @flow
+// @flow strict
 import * as React from 'react';
 import {
   createPopper as defaultCreatePopper,
   type Options as PopperOptions,
   type VirtualElement,
+  type State as PopperState,
+  type Instance as PopperInstance,
 } from '@popperjs/core';
 import isEqual from 'react-fast-compare';
 import { fromEntries, useIsomorphicLayoutEffect } from './utils';
@@ -13,22 +15,34 @@ type Options = $Shape<{
   createPopper: typeof defaultCreatePopper,
 }>;
 
+type Styles = {
+  [key: string]: $Shape<CSSStyleDeclaration>,
+};
+
+type Attributes = {
+  [key: string]: { [key: string]: string },
+};
+
 type State = {
-  styles: {
-    [key: string]: $Shape<CSSStyleDeclaration>,
-  },
-  attributes: {
-    [key: string]: { [key: string]: string },
-  },
+  styles: Styles,
+  attributes: Attributes,
 };
 
 const EMPTY_MODIFIERS = [];
+
+type UsePopperResult = $ReadOnly<{
+  state: ?PopperState,
+  styles: Styles,
+  attributes: Attributes,
+  update: ?$PropertyType<PopperInstance, 'update'>,
+  forceUpdate: ?$PropertyType<PopperInstance, 'forceUpdate'>,
+}>;
 
 export const usePopper = (
   referenceElement: ?(Element | VirtualElement),
   popperElement: ?HTMLElement,
   options: Options = {}
-) => {
+): UsePopperResult => {
   const prevOptions = React.useRef<?PopperOptions>(null);
 
   const optionsWithDefaults = {
@@ -46,7 +60,7 @@ export const usePopper = (
         top: '0',
       },
       arrow: {
-        position: 'absolute', 
+        position: 'absolute',
       },
     },
     attributes: {},
@@ -62,10 +76,10 @@ export const usePopper = (
 
         setState({
           styles: fromEntries(
-            elements.map((element) => [element, state.styles[element] || {}])
+            elements.map(element => [element, state.styles[element] || {}])
           ),
           attributes: fromEntries(
-            elements.map((element) => [element, state.attributes[element]])
+            elements.map(element => [element, state.attributes[element]])
           ),
         });
       },

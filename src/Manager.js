@@ -1,16 +1,16 @@
-// @flow
+// @flow strict
 import * as React from 'react';
 
-export const ManagerReferenceNodeContext = React.createContext<?Element>();
-export const ManagerReferenceNodeSetterContext = React.createContext<
+export const ManagerReferenceNodeContext: React.Context<?Element>  = React.createContext();
+export const ManagerReferenceNodeSetterContext: React.Context<
   void | ((?Element) => void)
->();
+> = React.createContext();
 
-export type ManagerProps = {
+export type ManagerProps = $ReadOnly<{
   children: React.Node,
-};
+}>;
 
-export function Manager({ children }: ManagerProps) {
+export function Manager({ children }: ManagerProps): React.Node {
   const [referenceNode, setReferenceNode] = React.useState<?Element>(null);
 
   const hasUnmounted = React.useRef(false);
