@@ -23,7 +23,7 @@ export function Reference({ children, innerRef }: ReferenceProps): React.Node {
   );
 
   // ran on unmount
-  React.useEffect(() => () => setRef(innerRef, null));
+  React.useEffect(() => () => setRef(innerRef, null), []);
 
   React.useEffect(() => {
     warning(
