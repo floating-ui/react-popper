@@ -44,7 +44,7 @@ http://popper.js.org/react-popper
 
 #### clone repo
 
-`git clone git@github.com:FezVrasta/react-popper.git`
+`git clone git@github.com:popperjs/react-popper.git`
 
 #### move into folder
 
