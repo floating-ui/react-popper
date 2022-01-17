@@ -1,11 +1,7 @@
 // @flow
 import * as React from 'react';
-import createContext, { type Context } from 'create-react-context';
-
-export const ManagerReferenceNodeContext: Context<?HTMLElement> = createContext();
-export const ManagerReferenceNodeSetterContext: Context<
-  void | ((?HTMLElement) => void)
-> = createContext();
+export const ManagerReferenceNodeContext= React.createContext();
+export const ManagerReferenceNodeSetterContext = React.createContext();
 
 export type ManagerProps = {
   children: React.Node,
