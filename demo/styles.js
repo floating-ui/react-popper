@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { keyframes } from '@emotion/core';
+import { keyframes } from '@emotion/react';
 
 const gradients = {
   purple: 'linear-gradient(to right, #9d50bb, #6e48aa)',

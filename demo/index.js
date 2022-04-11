@@ -1,7 +1,7 @@
 // @flow strict
 import React, { useState } from 'react';
 import ReactDOM from 'react-dom';
-import { Global, css } from '@emotion/core';
+import { Global, css } from '@emotion/react';
 import { Transition } from 'react-spring/renderprops';
 import { Manager, Reference, Popper } from '../src';
 import {
