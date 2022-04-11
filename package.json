@@ -95,7 +95,7 @@
     "eslint-plugin-react-hooks": "^4.4.0",
     "flow-bin": "^0.176.2",
     "flow-copy-source": "^2.0.9",
-    "gh-pages": "^2.2.0",
+    "gh-pages": "^3.2.3",
     "git-branch-is": "^4.0.0",
     "jest": "^27.5.1",
     "parcel": "^2.4.1",
