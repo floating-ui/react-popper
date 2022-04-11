@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import ReactDOM from 'react-dom';
 import { Global, css } from '@emotion/react';
-import { Transition } from 'react-spring/renderprops';
+import { Transition } from '@react-spring/web';
 import { Manager, Reference, Popper } from '../src';
 import {
   Main,
