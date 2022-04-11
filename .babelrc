@@ -13,7 +13,10 @@
       "ignore": ["**/*.test.js", "**/__mocks__/**"]
     },
     "test": {
-      "plugins": ["@babel/transform-modules-commonjs"]
+      "plugins": [
+        "@babel/transform-modules-commonjs",
+        "@babel/plugin-transform-runtime"
+      ]
     }
   }
 }
