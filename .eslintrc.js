@@ -1,7 +1,7 @@
 module.exports = {
   root: true,
   reportUnusedDisableDirectives: true,
-  parser: 'babel-eslint',
+  parser: '@babel/eslint-parser',
   env: {
     browser: true,
   },
