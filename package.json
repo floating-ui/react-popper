@@ -59,7 +59,7 @@
   ],
   "peerDependencies": {
     "@popperjs/core": "^2.0.0",
-    "react": "^16.8.0 || ^17"
+    "react": "^16.8.0 || ^17 || ^18"
   },
   "dependencies": {
     "react-fast-compare": "^3.0.1",
