@@ -1,6 +1,6 @@
 // @flow strict
 import * as React from 'react';
-import { flushSync } from 'react-dom';
+import * as ReactDOM from 'react-dom';
 import {
   createPopper as defaultCreatePopper,
   type Options as PopperOptions,
@@ -75,13 +75,13 @@ export const usePopper = (
       fn: ({ state }) => {
         const elements = Object.keys(state.elements);
 
-        flushSync(() => {
+        ReactDOM.flushSync(() => {
           setState({
             styles: fromEntries(
-              elements.map(element => [element, state.styles[element] || {}])
+              elements.map((element) => [element, state.styles[element] || {}])
             ),
             attributes: fromEntries(
-              elements.map(element => [element, state.attributes[element]])
+              elements.map((element) => [element, state.attributes[element]])
             ),
           });
         });
