@@ -23,6 +23,7 @@ export function Reference({ children, innerRef }: ReferenceProps): React.Node {
   );
 
   // ran on unmount
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   React.useEffect(() => () => setRef(innerRef, null), []);
 
   React.useEffect(() => {
