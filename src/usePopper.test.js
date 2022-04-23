@@ -14,18 +14,18 @@ describe('userPopper', () => {
   });
 
   it('initializes the Popper instance', async () => {
-    const { result, wait } = renderHook(() =>
+    const { result, waitFor } = renderHook(() =>
       usePopper(referenceElement, popperElement)
     );
 
-    await wait(() => {
+    await waitFor(() => {
       expect(result.current.state).not.toBe(null);
     });
   });
 
   it("doesn't update Popper instance on props update if not needed by Popper", async () => {
     const spy = jest.spyOn(PopperJs, 'createPopper');
-    const { wait, rerender } = renderHook(
+    const { waitFor, rerender } = renderHook(
       ({ referenceElement, popperElement }) =>
         usePopper(referenceElement, popperElement),
       { initialProps: { referenceElement, popperElement } }
@@ -35,7 +35,7 @@ describe('userPopper', () => {
       await rerender({ referenceElement, popperElement });
     });
 
-    await wait(() => {
+    await waitFor(() => {
       expect(spy).toHaveBeenCalledTimes(1);
     });
   });
