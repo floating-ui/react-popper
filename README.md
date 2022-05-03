@@ -1,9 +1,3 @@
-# This library is in maintenance mode!
-
-**Popper has been rebranded to Floating UI and this project has been superseded by the [official Floating UI React bindings](https://floating-ui.com/docs/react-dom).**
-
-***
-
 # React Popper
 
 [![Unit Tests](https://github.com/popperjs/react-popper/workflows/Unit%20Tests/badge.svg)](https://github.com/popperjs/react-popper/actions?query=workflow%3A%22Unit+Tests%22)
@@ -15,8 +9,15 @@
 
 React wrapper around [Popper](https://popper.js.org).
 
-**important note:** Popper is **not** a tooltip library, it's a _positioning
-engine_ to be used to build features such as (but not restricted to) tooltips.
+---
+
+## ⚠️ This library is in maintenance mode!
+
+This library wraps `@popperjs/core`, not `@floating-ui/dom`.
+
+To use the new Floating UI package with React, instead visit https://floating-ui.com/docs/react-dom. 
+
+---
 
 ## Install
 
