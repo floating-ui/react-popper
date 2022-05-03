@@ -1,4 +1,4 @@
-# This library is in maintanence mode!
+# This library is in maintenance mode!
 
 **Popper has been rebranded to Floating UI and this project has been superseded by the [official Floating UI React bindings](https://floating-ui.com/docs/react-dom).**
 
