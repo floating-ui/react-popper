@@ -1,3 +1,9 @@
+# This library is in maintanence mode!
+
+**Popper has been rebranded to Floating UI and this project has been superseded by the [official Floating UI React bindings](https://floating-ui.com/docs/react-dom).**
+
+***
+
 # React Popper
 
 [![Unit Tests](https://github.com/popperjs/react-popper/workflows/Unit%20Tests/badge.svg)](https://github.com/popperjs/react-popper/actions?query=workflow%3A%22Unit+Tests%22)
