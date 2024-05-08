@@ -15,6 +15,7 @@ export function Manager({ children }: ManagerProps): React.Node {
 
   const hasUnmounted = React.useRef(false);
   React.useEffect(() => {
+    hasUnmounted.current = false;
     return () => {
       hasUnmounted.current = true;
     };
