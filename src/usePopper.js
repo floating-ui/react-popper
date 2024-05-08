@@ -127,6 +127,17 @@ export const usePopper = (
 
   useIsomorphicLayoutEffect(() => {
     if (referenceElement == null || popperElement == null) {
+      popperInstanceRef.current = null;
+      setState({
+        styles: {
+          popper: {
+            position: optionsWithDefaults.strategy,
+            left: '0',
+            top: '0',
+          },
+        },
+        attributes: {},
+      });
       return;
     }
 
